@@ -1,0 +1,1199 @@
+/*! HTML5 Boilerplate v9.0.1 | MIT License | https://html5boilerplate.com/ */
+
+/* main.css 3.0.0 | MIT License | https://github.com/h5bp/main.css#readme */
+/*
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+
+html {
+  color: #222;
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+/*
+ * Remove text-shadow in selection highlight:
+ * https://twitter.com/miketaylr/status/12228805301
+ *
+ * Customize the background color to match your design.
+ */
+
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+/*
+ * A better looking default horizontal rule
+ */
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+/*
+ * Remove the gap between audio, canvas, iframes,
+ * images, videos and the bottom of their containers:
+ * https://github.com/h5bp/html5-boilerplate/issues/440
+ */
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+  vertical-align: middle;
+}
+
+/*
+ * Remove default fieldset styles.
+ */
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+
+textarea {
+  resize: vertical;
+}
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+
+/*
+ * Hide visually and from screen readers
+ */
+
+.hidden,
+[hidden] {
+  display: none !important;
+}
+
+/*
+ * Hide only visually, but have it available for screen readers:
+ * https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+ *
+ * 1. For long content, line feeds are not interpreted as spaces and small width
+ *    causes content to wrap 1 word per line:
+ *    https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
+ */
+
+.visually-hidden {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+  /* 1 */
+}
+
+/*
+ * Extends the .visually-hidden class to allow the element
+ * to be focusable when navigated to via the keyboard:
+ * https://www.drupal.org/node/897638
+ */
+
+.visually-hidden.focusable:active,
+.visually-hidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  white-space: inherit;
+  width: auto;
+}
+
+/*
+ * Hide visually and from screen readers, but maintain layout
+ */
+
+.invisible {
+  visibility: hidden;
+}
+
+/*
+ * Clearfix: contain floats
+ *
+ * The use of `table` rather than `block` is only necessary if using
+ * `::before` to contain the top-margins of child elements.
+ */
+
+.clearfix::before,
+.clearfix::after {
+  content: "";
+  display: table;
+}
+
+.clearfix::after {
+  clear: both;
+}
+
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   These examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+
+@media only screen and (min-width: 35em) {
+  /* Style adjustments for viewports that meet the condition */
+}
+
+@media print,
+(-webkit-min-device-pixel-ratio: 1.25),
+(min-resolution: 1.25dppx),
+(min-resolution: 120dpi) {
+  /* Style adjustments for high resolution devices */
+}
+
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid the additional HTTP request:
+   https://www.phpied.com/delay-loading-your-print-css/
+   ========================================================================== */
+
+@media print {
+  *,
+  *::before,
+  *::after {
+    background: #fff !important;
+    color: #000 !important;
+    /* Black prints faster */
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]::after {
+    content: " (" attr(title) ")";
+  }
+
+  /*
+   * Don't show links that are fragment identifiers,
+   * or use the `javascript:` pseudo protocol
+   */
+  a[href^="#"]::after,
+  a[href^="javascript:"]::after {
+    content: "";
+  }
+
+  pre {
+    white-space: pre-wrap !important;
+  }
+
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+}
+
+/* Основной стиль сайта */
+body {
+  font-family: 'Montserrat', sans-serif; /* Используем похожий шрифт */
+  color: #333;
+}
+
+/* гарантирует, что паддинги и бордеры не будут увеличивать размер элемента, что упрощает верстку */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Шапка сайта */
+.site-header {
+  background-color: #f8f8f8;
+  padding: 40px 20px;
+  text-align: center; /* Центрируем содержимое */
+}
+
+/* Брендинг */
+.branding {
+  margin-bottom: 20px; /* Расстояние между названием и меню */
+}
+
+.site-title {
+  text-decoration: none;
+  font-size: 56px; /* Увеличиваем шрифт для названия */
+  font-weight: 700;
+  color: #333;
+  margin-bottom: -5px; /* Расстояние между заголовком и подзаголовком */
+  text-transform: uppercase; /* Заглавные буквы */
+  letter-spacing: 2px; /* Увеличиваем расстояние между буквами */
+}
+
+.site-tagline {
+  font-size: 16px; /* Подзаголовок меньше основного текста */
+  font-weight: 400;
+  color: #666;
+  margin-bottom: 70px; /* Расстояние между подзаголовком и меню */
+  text-transform: uppercase; /* Заглавные буквы */
+  letter-spacing: 1px; /* Увеличиваем расстояние между буквами, меньше чем у основного заголовка */
+}
+
+/* Меню навигации */
+.navigation {
+  margin-top: 10px;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center; /* Центрируем меню */
+  text-transform: uppercase; /* Заглавные буквы */
+  gap: 40px; /* Расстояние между пунктами меню */
+}
+
+.nav-link {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  padding: 5px 10px;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #ED6019; /* Цвет при наведении */
+}
+
+/* Заголовок страницы */
+.page-header {
+  text-align: center; /* Центрируем заголовок */
+  margin-top: 40px;
+  margin-bottom: 40px; /* Отступ снизу перед карточками */
+  position: relative;
+}
+
+.page-title {
+  font-size: 30px; /* Увеличиваем размер шрифта */
+  font-weight: 600; /* Жирный шрифт */
+  color: #f99462; /* Цвет текста */
+  text-transform: uppercase; /* Все буквы заглавные */
+  letter-spacing: 2px; /* Расстояние между буквами */
+  position: relative; /* Для использования псевдо-элемента */
+}
+
+/* Стиль для контейнера поиска */
+.store-search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%; /* Растягиваем на всю ширину */
+  flex-wrap: wrap;
+}
+
+/* Стиль для поля ввода */
+.store-search-input {
+  padding: 8.9px;
+  border: 0.8px solid #666;
+  border-radius: 5px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+  color: #666;
+  width: 492px;
+  background-color: #f8f8f8;
+}
+
+/* Стиль для кнопки поиска */
+.store-search-button {
+  background: #f99462;
+  color: #fff;
+  border: none;
+  font-size: 14px; /* Увеличиваем размер шрифта заголовка */
+  text-align: center; /* Центрируем содержимое карточки */
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s;
+  text-transform: uppercase; /* Заглавные буквы */
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+}
+
+.store-search-button:hover {
+  background-color: #ED6019;
+}
+
+/* Стиль для контейнера поиска в библиотеке*/
+.library-search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Стиль для поля ввода в библиотеке */
+.library-search-input {
+  padding: 8.9px;
+  border: 0.8px solid #666;
+  border-radius: 5px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+  color: #666;
+  width: 492px;
+  background-color: #f8f8f8;
+}
+
+/* Стиль для кнопки поиска в библиотеке */
+.library-search-button {
+  background: #f99462;
+  color: #fff;
+  border: none;
+  font-size: 14px; /* Увеличиваем размер шрифта заголовка */
+  text-align: center; /* Центрируем содержимое карточки */
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s;
+  text-transform: uppercase; /* Заглавные буквы */
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+}
+
+.library-search-button:hover {
+  background-color: #ED6019;
+}
+
+/* Список книг */
+#book-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  justify-content: center; /* Центрируем карточки по горизонтали */
+  align-items: flex-start; /* По вертикали выравниваем по верхнему краю */
+  margin-top: 40px;
+  padding-bottom: 100px; /* Добавляем отступ снизу для прокрутки */
+}
+
+@media (max-width: 768px) {
+  #book-list {
+    gap: 2rem; /* уменьшаем отступ на маленьких экранах */
+    padding-left: 1rem; /* уменьшаем отступы по бокам */
+    padding-right: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #book-list {
+    gap: 1rem; /* еще меньше отступы для очень маленьких экранов */
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+/* Список клиентов */
+#client-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  justify-content: center; /* Центрируем карточки по горизонтали */
+  align-items: flex-start; /* По вертикали выравниваем по верхнему краю */
+  margin-top: 40px;
+  padding-bottom: 100px; /* Добавляем отступ снизу для прокрутки */
+}
+
+@media (max-width: 768px) {
+  #client-list {
+    gap: 2rem; /* уменьшаем отступ на маленьких экранах */
+    padding-left: 1rem; /* уменьшаем отступы по бокам */
+    padding-right: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #client-list {
+    gap: 1rem; /* еще меньше отступы для очень маленьких экранов */
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+/* Карточка клиента */
+.client-card {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 370px;
+  text-align: center; /* Центрируем содержимое карточки */
+  position: relative;
+  overflow: hidden; /* Чтобы изображения не выходили за пределы карточки */
+}
+
+.client-image {
+  width: 100%; /* Ширина изображения на всю ширину карточки */
+  height: 350px; /* Ограничиваем высоту изображения */
+  object-fit: cover; /* Изображение будет заполнять пространство карточки, обрезая лишнее, если нужно */
+  border-radius: 5px; /* Закругление углов */
+}
+
+/* Стили для заглушки изображения (прямоугольник) */
+.client-image-placeholder {
+  width: 100%; /* Ширина прямоугольника на всю ширину карточки */
+  height: 350px; /* Высота прямоугольника */
+  background-color: #f0f0f0; /* Цвет фона прямоугольника */
+  border-radius: 5px; /* Закругление углов прямоугольника */
+}
+
+@media (max-width: 768px) {
+  .client-card {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .client-image {
+    height: 250px; /* Уменьшаем высоту изображений на маленьких экранах */
+  }
+}
+
+.client-card h3 {
+  font-size: 18px; /* Увеличиваем размер шрифта заголовка */
+  font-weight: bold; /* Жирный шрифт */
+  color: #333; /* Цвет заголовка */
+  text-transform: uppercase; /* Все буквы заглавные */
+  letter-spacing: 1px; /* Расстояние между буквами */
+  position: relative; /* Для позиционирования псевдо-элементов */
+  padding-bottom: 5px;
+}
+
+/* Добавим эффект подчеркивания с помощью псевдо-элемента */
+.client-card h3::after {
+  content: ''; /* Пустой контент для псевдо-элемента */
+  position: absolute;
+  bottom: -5px; /* Размещаем под заголовком */
+  left: 0;
+  width: 100%;
+  height: 2.1px; /* Толщина линии */
+  background-color: #ED6019; /* Цвет линии */
+}
+
+/*  Баланс покупателя */
+.client-balance {
+  font-size: 14px; /* Увеличиваем размер шрифта заголовка */
+  font-weight: bold; /* Жирный шрифт */
+  text-transform: uppercase; /* Заглавные буквы */
+  letter-spacing: 1px; /* Расстояние между буквами */
+  padding-bottom: 6px;
+}
+
+/* Список книг клиента */
+#client-book-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  justify-content: center; /* Центрируем карточки по горизонтали */
+  align-items: flex-start; /* По вертикали выравниваем по верхнему краю */
+  margin-top: 40px;
+  padding-bottom: 30px; /* Добавляем отступ снизу для прокрутки */
+}
+
+@media (max-width: 768px) {
+  #client-book-list {
+    gap: 2rem; /* уменьшаем отступ на маленьких экранах */
+    padding-left: 1rem; /* уменьшаем отступы по бокам */
+    padding-right: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #client-book-list {
+    gap: 1rem; /* еще меньше отступы для очень маленьких экранов */
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+/* Карточка книги */
+.book-card {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 370px;
+  text-align: center; /* Центрируем содержимое карточки */
+  position: relative;
+  overflow: hidden; /* Чтобы изображения не выходили за пределы карточки */
+}
+
+.book-image {
+  width: 100%; /* Ширина изображения на всю ширину карточки */
+  height: 350px; /* Ограничиваем высоту изображения */
+  object-fit: cover; /* Изображение будет заполнять пространство карточки, обрезая лишнее, если нужно */
+  border-radius: 5px; /* Закругление углов */
+}
+
+/* Стили для заглушки изображения (прямоугольник) */
+.book-image-placeholder {
+  width: 100%; /* Ширина прямоугольника на всю ширину карточки */
+  height: 350px; /* Высота прямоугольника */
+  background-color: #f0f0f0; /* Цвет фона прямоугольника */
+  border-radius: 5px; /* Закругление углов прямоугольника */
+}
+
+@media (max-width: 768px) {
+  .book-card {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .book-image {
+    height: 250px; /* Уменьшаем высоту изображений на маленьких экранах */
+  }
+}
+
+.book-card h3 {
+  font-size: 18px; /* Увеличиваем размер шрифта заголовка */
+  font-weight: bold; /* Жирный шрифт */
+  color: #333; /* Цвет заголовка */
+  text-transform: uppercase; /* Все буквы заглавные */
+  letter-spacing: 1px; /* Расстояние между буквами */
+  position: relative; /* Для позиционирования псевдо-элементов */
+  padding-bottom: 5px;
+}
+
+/* Добавим эффект подчеркивания с помощью псевдо-элемента */
+.book-card h3::after {
+  content: ''; /* Пустой контент для псевдо-элемента */
+  position: absolute;
+  bottom: -5px; /* Размещаем под заголовком */
+  left: 0;
+  width: 100%;
+  height: 2.1px; /* Толщина линии */
+  background-color: #ED6019; /* Цвет линии */
+}
+
+/* Автор */
+.book-author {
+  font-size: 14px; /* Увеличиваем размер шрифта заголовка */
+  text-transform: uppercase; /* Заглавные буквы */
+  letter-spacing: 1px; /* Расстояние между буквами */
+}
+
+/* Цена */
+.book-price {
+  font-size: 14px; /* Увеличиваем размер шрифта заголовка */
+  font-weight: bold; /* Жирный шрифт */
+  text-transform: uppercase; /* Заглавные буквы */
+  letter-spacing: 1px; /* Расстояние между буквами */
+  padding-bottom: 6px;
+}
+
+.book-author,
+.book-price {
+  margin: 0; /* Убираем отступы */
+  line-height: 2; /* Настраиваем межстрочный интервал */
+}
+
+.book-card button {
+  background: #f99462;
+  color: #fff;
+  border: none;
+  font-size: 14px; /* Увеличиваем размер шрифта заголовка */
+  text-align: center; /* Центрируем содержимое карточки */
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s;
+  text-transform: uppercase; /* Заглавные буквы */
+  letter-spacing: 1px;
+  padding: 6px 24px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+}
+
+.book-card button:hover {
+  background: #ED6019;
+}
+
+.client-balance,
+.client-card button {
+  margin: 0; /* Убираем отступы */
+  line-height: 2; /* Настраиваем межстрочный интервал */
+}
+
+.client-book-list button {
+  margin-top: 6px; /* Отступ сверху для кнопки */
+}
+
+.client-card button {
+  background: #f99462;
+  color: #fff;
+  border: none;
+  font-size: 14px; /* Увеличиваем размер шрифта заголовка */
+  text-align: center; /* Центрируем содержимое карточки */
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s;
+  text-transform: uppercase; /* Заглавные буквы */
+  letter-spacing: 1px;
+  padding: 3px 18px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+}
+
+.client-card button:hover {
+  background: #ED6019;
+}
+
+/* Стили для секции добавления книги */
+.add-book-section {
+  background-color: #f8f8f8; /* светлый фон для секции */
+  padding: 20px;
+  padding-bottom: 38px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto; /* выравнивание по центру */
+  margin-top: 30px;
+  margin-bottom: 60px;
+}
+
+.add-book-section
+.page-title {
+  margin-top: 14px;
+}
+
+/* Стили для формы добавления книги */
+#add-book-form input {
+  padding: 10px;
+  margin-bottom: 17px;
+  border: 0.8px solid #666;
+  border-radius: 5px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+  color: #666;
+  width: 500px;
+  background-color: #f8f8f8;
+}
+
+#add-book-form button {
+  background: #f99462;
+  color: #fff;
+  border: none;
+  font-size: 14px; /* Увеличиваем размер шрифта заголовка */
+  text-align: center; /* Центрируем содержимое карточки */
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s;
+  text-transform: uppercase; /* Заглавные буквы */
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  margin-top: 0;
+}
+
+#add-book-form button:hover {
+  background-color: #ED6019;
+}
+
+/* Контейнер для кнопок */
+.add-book-section .button-container {
+  display: flex; /* Устанавливаем флекс-контейнер */
+  gap: 10px; /* Отступ между кнопками */
+  width: 89%; /* Чтобы контейнер занимал всю доступную ширину */
+  justify-content: space-between; /* Равномерно распределяем кнопки */
+}
+
+/* Для кнопок */
+#book-image-label,
+#add-book-form button,
+#clear-form-button {
+  flex: 1; /* Каждая кнопка будет занимать равную долю пространства */
+  padding: 10px 20px;
+  background-color: #f99462;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+/* При наведении */
+#book-image-label:hover,
+#add-book-form button:hover
+#clear-form-button:hover {
+  background-color: #ED6019;
+}
+
+/* Для того, чтобы кнопки не сливались */
+#book-image-label {
+  margin-bottom: 0; /* Убираем нижний отступ */
+}
+
+/* Нижний колонтитул */
+.site-footer {
+  background-color: #f8f8f8; /* Тот же фон, что и у шапки */
+  padding: 40px 20px; /* Внутренние отступы */
+  text-align: center; /* Центрирование содержимого */
+}
+
+.site-footer .container {
+  max-width: 1200px; /* Ограничение ширины */
+  margin: 0 auto; /* Центрирование контейнера */
+}
+
+.site-footer .branding {
+  margin-bottom: 20px; /* Расстояние между блоками */
+}
+
+.site-footer .site-title {
+  font-size: 46px; /* Размер заголовка меньше, чем в шапке */
+  font-weight: 700;
+  color: #333;
+  margin-bottom: -5px; /* Расстояние между заголовком и подзаголовком */
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.site-footer .site-tagline {
+  font-size: 16px; /* Подзаголовок меньше основного текста */
+  font-weight: 400;
+  color: #666;
+  margin-bottom: 100px; /* Расстояние между подзаголовком и меню */
+  text-transform: uppercase; /* Заглавные буквы */
+  letter-spacing: 1px; /* Увеличиваем расстояние между буквами, меньше чем у основного заголовка */
+}
+
+.site-footer .navigation {
+  margin-top: 100px; /* Отступ сверху для меню */
+}
+
+.site-footer .nav-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center; /* Центрируем меню */
+  text-transform: uppercase; /* Заглавные буквы */
+  gap: 40px; /* Расстояние между пунктами меню */
+}
+
+.site-footer .nav-link {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  padding: 5px 10px;
+  transition: color 0.3s;
+}
+
+.site-footer .nav-link:hover {
+  color: #ED6019; /* Цвет при наведении */
+}
+
+.newsletter {
+  margin-top: 20px;
+}
+
+.newsletter-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+  text-transform: uppercase; /* Заглавные буквы */
+  letter-spacing: 1.5px;
+}
+
+.newsletter-text {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.newsletter-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.newsletter-form input[type="email"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  flex: 1; /* Растягивается на доступное пространство */
+  max-width: 300px;
+}
+
+input::placeholder {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+  color: #666;
+}
+
+.newsletter-form .newsletter-button {
+  background-color: #f99462;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase; /* Заглавные буквы */
+  text-align: center;
+  cursor: pointer;
+}
+
+.newsletter-form .newsletter-button:hover {
+  background-color: #ED6019;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+  .newsletter-form {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .newsletter-form input[type="email"] {
+    max-width: 100%;
+  }
+
+  .newsletter-form .newsletter-button {
+    width: 100%;
+  }
+
+  .site-finish {
+    font-size: 16px; /* Размер текста, как у .newsletter-text */
+    color: #666 !important; /* Принудительно применяем цвет */
+    font-family: 'Montserrat', sans-serif; /* Шрифт, как у .newsletter-text */
+    margin-bottom: 20px; /* Отступ снизу для гармонии с другим контентом */
+  }}
+
+/* Картинка для открытия фильтра */
+.open-filter-img {
+  margin-left: 30px;
+  flex-wrap: wrap;
+  transform: translateY(0%);
+  width: 29px;  /* Размер иконки */
+  height: 29px;  /* Размер иконки */
+  cursor: pointer;  /* Курсор как указатель */
+  transition: transform 0.3s ease;  /* Плавное изменение размера */
+  fill: #333;  /* Задаем цвет для SVG */
+  filter: brightness(0) saturate(20%) invert(70%) sepia(10%) hue-rotate(40deg);
+  rotate: 90deg;
+}
+
+/* При наведении увеличиваем картинку */
+.open-filter-img:hover {
+  transform: scale(1.1);
+}
+
+/* Боковая панель с фильтром */
+.filter-panel {
+  position: fixed;
+  top: 0;
+  right: -400px; /* Панель скрыта справа */
+  width: 400px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  transition: right 0.3s ease;
+  z-index: 999;
+  padding: 25px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.filter-panel.open {
+  right: 0; /* Панель выезжает */
+}
+
+/* Контент внутри панели */
+.filter-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-panel h2 {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #333;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.filter-group {
+  position: relative;
+}
+
+/* Диапазон цен над бегунком */
+.price-range-label{
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 30px;
+  margin-bottom: 40px;
+  color: #333;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.year-range-label {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  color: #333;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.price-range-output, .price-range-max {
+  font-size: 15px;
+  color: #333;
+}
+
+.price-range-output {
+  position: absolute;
+  top: 60%;
+  left: 0;
+}
+
+.price-range-max {
+  position: absolute;
+  top: 60%;
+  right: 0;
+}
+
+.year-range-output, .year-range-max {
+  font-size: 15px;
+  color: #333;
+}
+
+.year-range-output {
+  position: absolute;
+  top: 60%;
+  left: 0;
+}
+
+.year-range-max {
+  position: absolute;
+  top: 60%;
+  right: 0;
+}
+
+/* Стили для ползунка */
+.price-range {
+  position: relative;
+  width: 100%; /* Уменьшаем ширину ползунка */
+  height: 8px; /* Высота полоски ползунка */
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-appearance: none; /* Для webkit-браузеров */
+  appearance: none; /* Для других браузеров */
+}
+
+/* Ползунок (thumb) */
+.price-range::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  background: #f99462; /* Цвет ползунка */
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #ED6019; /* Бордер вокруг ползунка */
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-appearance: none; /* Для webkit-браузеров */
+  appearance: none; /* Для других браузеров */
+}
+
+
+/* Дорожка ползунка (треки) */
+.price-range::-webkit-slider-runnable-track {
+  height: 8px;
+  background: #ccc; /* Цвет дорожки */
+  border-radius: 5px;
+}
+
+/* Стили для ползунка */
+.year-range {
+  position: relative;
+  width: 100%; /* Уменьшаем ширину ползунка */
+  height: 8px; /* Высота полоски ползунка */
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-appearance: none; /* Для webkit-браузеров */
+  appearance: none; /* Для других браузеров */
+}
+
+/* Ползунок (thumb) */
+.year-range::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  background: #f99462; /* Цвет ползунка */
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #ED6019; /* Бордер вокруг ползунка */
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-appearance: none; /* Для webkit-браузеров */
+  appearance: none; /* Для других браузеров */
+}
+
+
+/* Дорожка ползунка (треки) */
+.year-range::-webkit-slider-runnable-track {
+  height: 8px;
+  background: #ccc; /* Цвет дорожки */
+  border-radius: 5px;
+}
+
+
+.filter-select, .filter-input {
+  width: 100%;
+  padding: 8.9px;
+  border: 0.8px solid #666;
+  border-radius: 5px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+  color: #666;
+  background-color: #f8f8f8;
+}
+
+.filter-section .filter-button-container {
+  display: flex; /* Устанавливаем флекс-контейнер */
+  gap: 10px; /* Отступ между кнопками */
+  width: 100%; /* Чтобы контейнер занимал всю доступную ширину */
+  justify-content: space-between; /* Равномерно распределяем кнопки */
+}
+
+.close-filters-button {
+  margin-top: 50px;
+  flex: 1; /* Каждая кнопка будет занимать равную долю пространства */
+  padding: 10px 20px;
+  background-color: #999;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.apply-filters-button {
+  margin-top: 50px;
+  flex: 1; /* Каждая кнопка будет занимать равную долю пространства */
+  padding: 10px 20px;
+  background-color: #f99462;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.close-filters-button:hover {
+  background-color: #ccc;
+}
+
+.apply-filters-button:hover {
+  background-color: #ED6019;
+}
+
+/* Кнопка закрытия панели */
+.close-filter-btn {
+  position: absolute;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #ccc;
+  margin-left: auto;
+}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KNIGBOOM Store</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="branding">
+      <a href="index.html" id="site-title" class="site-title">KNIGBOOM</a>
+      <p class="site-tagline">МАГАЗИНЧИК ЗА УГЛОМ</p>
+    </div>
+    <nav class="navigation">
+      <ul class="nav-list">
+        <li class="nav-item"><a href="#index" class="nav-link">Магазин</a></li>
+        <li class="nav-item"><a href="client.html" class="nav-link">Покупатель</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-header">
+    <div class="store-search-container">
+      <input type="text" id="store-search-input" class="store-search-input" placeholder="Название книги, автор, жанр">
+      <button id="store-search-button" class="store-search-button">Поиск</button>
+      <img id="open-filter" src="icon/filter_book_icon.svg" alt="Открыть фильтр" class="open-filter-img">
+    </div>
+  </section>
+
+  <section id="filter-section" class="filter-section">
+    <div id="filter-panel" class="filter-panel">
+
+      <button id="close-filter" class="close-filter-btn">X</button>
+
+      <div class="filter-content">
+        <h2>Фильтровать</h2>
+
+        <div class="filter-group">
+          <label for="price-range" class="price-range-label">Цена книги</label>
+          <span id="price-range-output" class="price-range-output">10 €</span>
+          <span id="price-range-max" class="price-range-max">30 €</span>
+          <input type="range" id="price-range" min="10" max="30" value="0" step="1" class="price-range">
+        </div>
+
+        <div class="filter-group">
+          <label for="year-range" class="year-range-label">Год издания</label>
+          <span id="year-range-output" class="year-range-output">1800</span>
+          <span id="year-range-max" class="year-range-max">2025</span>
+          <input type="range" id="year-range" min="1800" max="2025" value="2025" step="1" class="year-range">
+        </div>
+
+        <div class="filter-button-container">
+          <button id="close-filters" class="close-filters-button">Отменить</button>
+          <button id="apply-filters" class="apply-filters-button">Применить</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="book-list"></section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="branding">
+      <h1 class="site-title">KNIGBOOM</h1>
+      <p class="site-tagline">МАГАЗИНЧИК ЗА УГЛОМ</p>
+    </div>
+
+    <div class="newsletter">
+      <h2 class="newsletter-title">ПОДПИСКА НА НОВОСТИ</h2>
+      <p class="newsletter-text">Получайте информацию о скидках, новинках и эксклюзивных предложениях прямо на ваш
+        email.</p>
+
+      <form action="#" method="post" class="newsletter-form" id="newsletter-form">
+        <input
+          type="email"
+          name="email"
+          id="newsletter-email"
+          placeholder="Введите ваш email"
+          required>
+        <button type="submit" class="newsletter-button">Подписаться</button>
+      </form>
+
+      <h2 id="confirmation-message" class="newsletter-title" style="display: none;"></h2>
+
+      <nav class="navigation">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="payment.html" class="nav-link">ОПЛАТА</a></li>
+          <li class="nav-item"><a href="delivery.html" class="nav-link">ДОСТАВКА</a></li>
+          <li class="nav-item"><a href="conditions.html" class="nav-link">УСЛОВИЯ</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <p class="site-finish">© 2025 KNIGBOOM BookStore</p>
+  </div>
+</footer>
+
+<script src="./dist/index.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KNIGBOOM Library</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<header class="site-header">
+  <div class="container">
+    <div class="branding">
+      <a href="index.html" id="site-title" class="site-title">KNIGBOOM</a>
+      <p class="site-tagline">МАГАЗИНЧИК ЗА УГЛОМ</p>
+    </div>
+    <nav class="navigation">
+      <ul class="nav-list">
+        <li class="nav-item"><a href="index.html" class="nav-link">Магазин</a></li>
+        <li class="nav-item"><a href="#client" class="nav-link">Покупатель</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-header">
+    <h2 class="page-title">Покупатель</h2>
+  </section>
+  <section id="client-list"></section>
+</main>
+
+<hr>
+
+<main>
+  <section class="page-header">
+    <h2 class="page-title">Библиотека</h2>
+    <div class="library-search-container">
+      <input type="text" id="library-search-input" class="library-search-input" placeholder="Название книги, автор, жанр">
+      <button id="library-search-button" class="library-search-button">Поиск</button>
+    </div>
+  </section>
+
+  <section id="client-book-list" class="client-book-list"></section>
+
+  <section class="add-book-section">
+    <h2 class="page-title">Добавить книгу в библиотеку</h2>
+    <div id="add-book-form">
+      <input type="text" id="book-title" placeholder="Название" required>
+      <input type="text" id="book-author" placeholder="Автор" required>
+      <div class="button-container">
+        <label for="book-image" id="book-image-label">Обложка</label>
+        <input type="file" id="book-image" accept="image/*" required style="display:none;">
+        <button id="add-book-button">Добавить</button>
+        <button type="button" id="clear-form-button">Очистить</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="branding">
+      <h1 class="site-title">KNIGBOOM</h1>
+      <p class="site-tagline">МАГАЗИНЧИК ЗА УГЛОМ</p>
+    </div>
+
+    <div class="newsletter">
+      <h2 class="newsletter-title">ПОДПИСКА НА НОВОСТИ</h2>
+      <p class="newsletter-text">Получайте информацию о скидках, новинках и эксклюзивных предложениях прямо на ваш
+        email.</p>
+
+      <form action="#" method="post" class="newsletter-form" id="newsletter-form">
+        <input
+          type="email"
+          name="email"
+          id="newsletter-email"
+          placeholder="Введите ваш email"
+          required>
+        <button type="submit" class="newsletter-button">Подписаться</button>
+      </form>
+
+      <h2 id="confirmation-message" class="newsletter-title" style="display: none;"></h2>
+
+      <nav class="navigation">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="payment.html" class="nav-link">ОПЛАТА</a></li>
+          <li class="nav-item"><a href="delivery.html" class="nav-link">ДОСТАВКА</a></li>
+          <li class="nav-item"><a href="conditions.html" class="nav-link">УСЛОВИЯ</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <p class="site-finish">© 2025 KNIGBOOM BookStore</p>
+  </div>
+</footer>
+
+<script src="./dist/index.js" type="module"></script>
+</body>
+</html>

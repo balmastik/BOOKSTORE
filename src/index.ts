@@ -1,9 +1,6 @@
 import {Book, StoreBook, Store, Client, SearchBookDetails} from './store';
 
 // Получение DOM элементов
-const bookList = document.getElementById('book-list') as HTMLElement;
-const clientList = document.getElementById('client-list') as HTMLElement;
-const clientBookList = document.getElementById('client-book-list') as HTMLElement;
 const storeSearchInput = document.getElementById('store-search-input') as HTMLInputElement;
 const storeSearchButton = document.getElementById('store-search-button') as HTMLButtonElement;
 const librarySearchInput = document.getElementById('library-search-input') as HTMLInputElement;
@@ -15,9 +12,9 @@ const newsLetterForm = document.getElementById('newsletter-form') as HTMLFormEle
 const openFilter = document.getElementById('open-filter') as HTMLImageElement;
 const closeFilter = document.getElementById('close-filter') as HTMLButtonElement;
 const applyFilters = document.getElementById('apply-filters') as HTMLButtonElement;
+const clearFilters = document.getElementById('close-filters') as HTMLButtonElement;
 const priceRange = document.getElementById('price-range') as HTMLInputElement;
 const yearRange = document.getElementById('year-range') as HTMLInputElement;
-const clearFilters = document.getElementById('close-filters') as HTMLButtonElement;
 
 // Создание покупателя
 const client = new Client({name: 'Иван Иванов', balance: 40, image: 'img/first_client.jpeg'});
@@ -123,6 +120,7 @@ function createBookCard(storeBook: StoreBook, handleBook: () => void): HTMLEleme
 
 // Отображение покупателя
 function displayClients(): void {
+  const clientList = document.getElementById('client-list') as HTMLElement;
   if (!clientList) return;
   clientList.innerHTML = '';
   const clientCard = createClientCard(client, () => addClientFund(client));
@@ -131,6 +129,7 @@ function displayClients(): void {
 
 // Отображение книг магазина
 function displayBooks(): void {
+  const bookList = document.getElementById('book-list') as HTMLElement;
   if (!bookList) return;
   bookList.innerHTML = '';
   Array.from(store.catalogue.values()).forEach(storeBook => {
@@ -141,6 +140,7 @@ function displayBooks(): void {
 
 // Отображения книг библиотеки
 function displayClientBooks(): void {
+  const clientBookList = document.getElementById('client-book-list') as HTMLElement;
   if (!clientBookList) {
     console.error('Элемент clientBookList не найден!');
     return;
@@ -228,6 +228,7 @@ function searchStoreBooks(): void {
 
 // Отображение результатов поиска книг в магазине
 function displayStoreSearchResults(foundBooks: StoreBook[]): void {
+  const bookList = document.getElementById('book-list') as HTMLElement;
   if (!bookList) return;
   bookList.innerHTML = '';
 
@@ -259,6 +260,7 @@ function searchLibraryBooks(): void {
 
 // Отображение результатов поиска книг в библиотеке
 function displayLibrarySearchResults(foundBooks: StoreBook[]): void {
+  const clientBookList = document.getElementById('client-book-list') as HTMLElement;
   if (!clientBookList) return;
   clientBookList.innerHTML = '';
 
@@ -478,31 +480,15 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error('Элементы поиска библиотеки не найдены!');
   }
 
-  // Обработчик загрузки обложки книги
-  if (fileInput) {
-    console.log('Элементы загрузки обложки книги успешно найдены!');
+  // Обработчик загрузки книги покупателем
+  if (fileInput && addBookButton && clearFormButton) {
+    console.log('Элементы загрузки книги успешно найдены!');
 
     fileInput.addEventListener('change', handleFileChange);
-  } else {
-    console.error('Элементы загрузки обложки книги не найдены!');
-  }
-
-  // Обработчик кнопки добавления книги пользователем в библиотеку
-  if (addBookButton) {
-    console.log('Элементы кнопки загрузки книги успешно найдены!');
-
     addBookButton.addEventListener('click', addBookToLibrary);
-  } else {
-    console.error('Элементы кнопки загрузки книги не найдены!');
-  }
-
-  // Обработчик кнопки очистки формы добавления книги пользователем в библиотеку
-  if (clearFormButton) {
-    console.log('Элементы кнопки очистки формы успешно найдены!');
-
     clearFormButton.addEventListener('click', clearLibraryForm);
   } else {
-    console.error('Элементы кнопки очистки формы не найдены!');
+    console.error('Элементы загрузки книги не найдены!');
   }
 
   // Обработчик подписки на новости
@@ -514,57 +500,18 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error('Элементы формы рассылки не найдены!');
   }
 
-  // Обработчик открытия панели фильтра
-  if (openFilter) {
-    console.log('Элемент панели фильтра успешно найден');
+  // Обработчик панели фильтра
+  if (openFilter && closeFilter && clearFilters && priceRange && yearRange && applyFilters) {
+    console.log('Элементы панели фильтра успешно найден');
 
     openFilter.addEventListener('click', openFilterPanel);
-  } else {
-    console.error('Элемент панели фильтра не найден');
-  }
-
-  // Обработчик закрытия панели фильтра
-  if (closeFilter) {
-    console.log('Элемент кнопки закрытия панели фильтра успешно найден');
-
     closeFilter.addEventListener('click', closeFilterPanel);
-  } else {
-    console.error('Элемент кнопки закрытия панели фильтра не найден');
-  }
-
-  // Обработчик движения бегунка на панели фильтра
-  if (priceRange) {
-    console.log('Элементы диапазона цены успешно найдены');
-
+    clearFilters.addEventListener('click', clearBooksFilter);
     priceRange.addEventListener('input', showPriceRange);
-  } else {
-    console.error('Элементы диапазона цены не найдены');
-  }
-
-  if (yearRange) {
-    console.log('Элементы диапазона года издания успешно найдены');
-
     yearRange.addEventListener('input', showYearRange);
-  } else {
-    console.error('Элементы диапазона года издания не найдены');
-  }
-
-  // Обработчик кнопки применения фильтров
-  if (applyFilters) {
-    console.log('Элемент кнопки применения фильтров успешно найден');
-
     applyFilters.addEventListener('click', applyBooksFilter);
   } else {
-    console.error('Элемент кнопки применения фильтров не найден');
-  }
-
-  // Обработчик кнопки очистки фильтра
-  if (clearFilters) {
-    console.log('Элемент кнопки очистки фильтров успешно найден');
-
-    clearFilters.addEventListener('click', clearBooksFilter);
-  } else {
-    console.error('Элемент кнопки очистки фильтров не найден');
+    console.error('Элементы панели фильтра не найден');
   }
 
 });

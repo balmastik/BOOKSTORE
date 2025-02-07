@@ -591,6 +591,14 @@ body {
   border-radius: 5px; /* Закругление углов */
 }
 
+.book-video {
+  width: 100%; /* Ширина изображения на всю ширину карточки */
+  height: 350px; /* Ограничиваем высоту изображения */
+  object-fit: cover; /* Изображение будет заполнять пространство карточки, обрезая лишнее, если нужно */
+  object-position: top;
+  border-radius: 5px; /* Закругление углов */
+}
+
 /* Стили для заглушки изображения (прямоугольник) */
 .book-image-placeholder {
   width: 100%; /* Ширина прямоугольника на всю ширину карточки */
@@ -607,6 +615,10 @@ body {
 
   .book-image {
     height: 250px; /* Уменьшаем высоту изображений на маленьких экранах */
+  }
+
+  .book-video {
+    height: 250px;
   }
 }
 
@@ -1223,8 +1235,11 @@ input::placeholder {
 }
 
 .popup-text {
-  font-size: 17px;
+  font-size: 16px;
   color: #666;
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  font-weight: 500;
   margin-bottom: 30px;
 }
 

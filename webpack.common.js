@@ -17,7 +17,19 @@ module.exports = {
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.mp4$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'video/casino-royale.mp4',
+        },
+      }
     ],
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
   },
 };
 

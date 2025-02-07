@@ -69,6 +69,13 @@ const books = [
     year: 1934,
     image: 'img/goodbye_mr_chips.jpeg'
   }), 12.99),
+  new StoreBook(new Book({
+    title: 'Казино Рояль',
+    author: 'Ян Флеминг',
+    genre: 'Роман',
+    year: 1953,
+    image: 'video/casino_royale.mp4'
+  }), 28.00),
 ];
 books.forEach(book => store.addBook(book));
 
@@ -101,12 +108,15 @@ function createBookCard(storeBook: StoreBook, handleBook: () => void): HTMLEleme
   const bookCard = document.createElement('div');
   bookCard.className = 'book-card';
 
-  const bookImage = storeBook.book.image
-    ? `<img src="${storeBook.book.image}" alt="${storeBook.book.title}" class="book-image">`
-    : `<div class="book-image-placeholder"></div>`;
+  const bookMedia = storeBook.book.image.endsWith('.mp4')
+    ? `<video class="book-video" autoplay muted loop>
+         <source src="${storeBook.book.image}" type="video/mp4">
+         Ваш браузер не поддерживает видео.
+       </video>`
+    : `<img src="${storeBook.book.image}" alt="${storeBook.book.title}" class="book-image">`;
 
   bookCard.innerHTML = `
-    ${bookImage}
+    ${bookMedia}
     <h3>${storeBook.book.title}</h3>
     <div class="book-details">
       <p class="book-author">${storeBook.book.author}</p>
@@ -436,103 +446,101 @@ function saveData(): void {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Загрузка данных клиента из localStorage
-    const savedClientData = localStorage.getItem('clientData');
-    if (savedClientData) {
-      try {
-        client.importClientData(savedClientData);
-        console.log('Данные клиента загружены.');
-      } catch (error) {
-        console.error('Ошибка при загрузке данных клиента:', error);
-      }
+  // Загрузка данных клиента из localStorage
+  const savedClientData = localStorage.getItem('clientData');
+  if (savedClientData) {
+    try {
+      client.importClientData(savedClientData);
+      console.log('Данные клиента загружены.');
+    } catch (error) {
+      console.error('Ошибка при загрузке данных клиента:', error);
     }
-
-    // Загрузка данных магазина из localStorage
-    const savedCatalogueData = localStorage.getItem('catalogueData');
-    if (savedCatalogueData) {
-      try {
-        store.importCatalogue(savedCatalogueData);
-        console.log('Данные каталога загружены.');
-      } catch (error) {
-        console.error('Ошибка при загрузке данных каталога:', error);
-      }
-    }
-
-    // Отображение клиентов и книг при загрузке страницы
-    displayClients();
-    displayBooks();
-    displayClientBooks();
-
-    // Обработчик popup
-    if (popup && denyPopup && confirmPopup) {
-      console.log('Элементы попап успешно найдены!');
-
-      popup.style.display = "flex";
-      denyPopup.addEventListener("click", function () {
-        popup.style.display = "none";
-      });
-      confirmPopup.addEventListener("click", function () {
-        popup.style.display = "none";
-      });
-    } else {
-      console.error('Элементы попап не найдены!');
-    }
-
-    // Обработчик поиска в магазине
-    if (storeSearchInput && storeSearchButton) {
-      console.log('Элементы поиска магазина успешно найдены!');
-
-      storeSearchInput.addEventListener('change', searchStoreBooks);
-      storeSearchButton.addEventListener('click', searchStoreBooks);
-    } else {
-      console.error('Элементы поиска магазина не найдены!');
-    }
-
-    // Обработчик поиска в библиотеке
-    if (librarySearchInput && librarySearchButton) {
-      console.log('Элементы поиска библиотеки успешно найдены!');
-
-      librarySearchInput.addEventListener('change', searchLibraryBooks);
-      librarySearchButton.addEventListener('click', searchLibraryBooks);
-    } else {
-      console.error('Элементы поиска библиотеки не найдены!');
-    }
-
-    // Обработчик загрузки книги покупателем
-    if (fileInput && addBookButton && clearFormButton) {
-      console.log('Элементы загрузки книги успешно найдены!');
-
-      fileInput.addEventListener('change', handleFileChange);
-      addBookButton.addEventListener('click', addBookToLibrary);
-      clearFormButton.addEventListener('click', clearLibraryForm);
-    } else {
-      console.error('Элементы загрузки книги не найдены!');
-    }
-
-    // Обработчик подписки на новости
-    if (newsLetterForm) {
-      console.log('Элементы формы рассылки успешно найдены!');
-
-      newsLetterForm.addEventListener('submit', confirmNewsLetterForm);
-    } else {
-      console.error('Элементы формы рассылки не найдены!');
-    }
-
-    // Обработчик панели фильтра
-    if (openFilter && closeFilter && clearFilters && priceRange && yearRange && applyFilters) {
-      console.log('Элементы панели фильтра успешно найден');
-
-      openFilter.addEventListener('click', openFilterPanel);
-      closeFilter.addEventListener('click', closeFilterPanel);
-      clearFilters.addEventListener('click', clearBooksFilter);
-      priceRange.addEventListener('input', showPriceRange);
-      yearRange.addEventListener('input', showYearRange);
-      applyFilters.addEventListener('click', applyBooksFilter);
-    } else {
-      console.error('Элементы панели фильтра не найден');
-    }
-
   }
-)
-;
+
+  // Загрузка данных магазина из localStorage
+  const savedCatalogueData = localStorage.getItem('catalogueData');
+  if (savedCatalogueData) {
+    try {
+      store.importCatalogue(savedCatalogueData);
+      console.log('Данные каталога загружены.');
+    } catch (error) {
+      console.error('Ошибка при загрузке данных каталога:', error);
+    }
+  }
+
+  // Отображение клиентов и книг при загрузке страницы
+  displayClients();
+  displayBooks();
+  displayClientBooks();
+
+  // Обработчик popup
+  if (popup && denyPopup && confirmPopup) {
+    console.log('Элементы попап успешно найдены!');
+
+    popup.style.display = "flex";
+    denyPopup.addEventListener("click", function () {
+      popup.style.display = "none";
+    });
+    confirmPopup.addEventListener("click", function () {
+      popup.style.display = "none";
+    });
+  } else {
+    console.error('Элементы попап не найдены!');
+  }
+
+  // Обработчик поиска в магазине
+  if (storeSearchInput && storeSearchButton) {
+    console.log('Элементы поиска магазина успешно найдены!');
+
+    storeSearchInput.addEventListener('change', searchStoreBooks);
+    storeSearchButton.addEventListener('click', searchStoreBooks);
+  } else {
+    console.error('Элементы поиска магазина не найдены!');
+  }
+
+  // Обработчик поиска в библиотеке
+  if (librarySearchInput && librarySearchButton) {
+    console.log('Элементы поиска библиотеки успешно найдены!');
+
+    librarySearchInput.addEventListener('change', searchLibraryBooks);
+    librarySearchButton.addEventListener('click', searchLibraryBooks);
+  } else {
+    console.error('Элементы поиска библиотеки не найдены!');
+  }
+
+  // Обработчик загрузки книги покупателем
+  if (fileInput && addBookButton && clearFormButton) {
+    console.log('Элементы загрузки книги успешно найдены!');
+
+    fileInput.addEventListener('change', handleFileChange);
+    addBookButton.addEventListener('click', addBookToLibrary);
+    clearFormButton.addEventListener('click', clearLibraryForm);
+  } else {
+    console.error('Элементы загрузки книги не найдены!');
+  }
+
+  // Обработчик подписки на новости
+  if (newsLetterForm) {
+    console.log('Элементы формы рассылки успешно найдены!');
+
+    newsLetterForm.addEventListener('submit', confirmNewsLetterForm);
+  } else {
+    console.error('Элементы формы рассылки не найдены!');
+  }
+
+  // Обработчик панели фильтра
+  if (openFilter && closeFilter && clearFilters && priceRange && yearRange && applyFilters) {
+    console.log('Элементы панели фильтра успешно найден');
+
+    openFilter.addEventListener('click', openFilterPanel);
+    closeFilter.addEventListener('click', closeFilterPanel);
+    clearFilters.addEventListener('click', clearBooksFilter);
+    priceRange.addEventListener('input', showPriceRange);
+    yearRange.addEventListener('input', showYearRange);
+    applyFilters.addEventListener('click', applyBooksFilter);
+  } else {
+    console.error('Элементы панели фильтра не найден');
+  }
+
+});
 

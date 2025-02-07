@@ -1,26 +1,11 @@
 import {Book, StoreBook, Store, Client, SearchBookDetails} from './store';
 
-// Получение DOM элементов
-const storeSearchInput = document.getElementById('store-search-input') as HTMLInputElement;
-const storeSearchButton = document.getElementById('store-search-button') as HTMLButtonElement;
-const librarySearchInput = document.getElementById('library-search-input') as HTMLInputElement;
-const librarySearchButton = document.getElementById('library-search-button') as HTMLButtonElement;
-const fileInput = document.getElementById('book-image') as HTMLInputElement;
-const addBookButton = document.getElementById('add-book-button') as HTMLButtonElement;
-const clearFormButton = document.getElementById('clear-form-button') as HTMLButtonElement;
-const newsLetterForm = document.getElementById('newsletter-form') as HTMLFormElement;
-const openFilter = document.getElementById('open-filter') as HTMLImageElement;
-const closeFilter = document.getElementById('close-filter') as HTMLButtonElement;
-const applyFilters = document.getElementById('apply-filters') as HTMLButtonElement;
-const clearFilters = document.getElementById('close-filters') as HTMLButtonElement;
-const priceRange = document.getElementById('price-range') as HTMLInputElement;
-const yearRange = document.getElementById('year-range') as HTMLInputElement;
-const popup = document.getElementById("popup") as HTMLElement;
-const denyPopup = document.getElementById("deny-popup") as HTMLButtonElement;
-const confirmPopup = document.getElementById("confirm-popup") as HTMLButtonElement;
-
 // Создание покупателя
-const client = new Client({name: 'Иван Иванов', balance: 40, image: 'img/first_client.jpeg'});
+const client = new Client({
+  name: 'Иван Иванов',
+  balance: 40,
+  image: 'img/first_client.jpeg'
+});
 
 // Создание магазина
 const store = new Store();
@@ -218,15 +203,14 @@ function handleBuyBook(storeBook: StoreBook, bookCard: HTMLElement): void {
   } else {
     alert('Эта книга недоступна.');
   }
-
-  console.log('Текущий список книг клиента:', client.purchasedBooks);
-  console.log('Текущий список книг в каталоге:', Array.from(store.catalogue.values()));
 }
 
 // Поиск книг в магазине по названию, автору и жанру
+const storeSearchInput = document.getElementById('store-search-input') as HTMLInputElement;
+const storeSearchButton = document.getElementById('store-search-button') as HTMLButtonElement;
+
 function searchStoreBooks(): void {
   let query = storeSearchInput.value.toLowerCase().trim();
-  console.log('Поиск по запросу:', query);
 
   let book: SearchBookDetails = {
     title: query,
@@ -235,7 +219,6 @@ function searchStoreBooks(): void {
   }
 
   let foundBooks: StoreBook[] = store.searchBook(book);
-  console.log(foundBooks);
   displayStoreSearchResults(foundBooks);
 }
 
@@ -256,9 +239,11 @@ function displayStoreSearchResults(foundBooks: StoreBook[]): void {
 }
 
 // Поиск книг в библиотеке по названию, автору и жанру
+const librarySearchInput = document.getElementById('library-search-input') as HTMLInputElement;
+const librarySearchButton = document.getElementById('library-search-button') as HTMLButtonElement;
+
 function searchLibraryBooks(): void {
   let query = librarySearchInput.value.toLowerCase().trim();
-  console.log('Поиск по запросу:', query);
 
   let book: SearchBookDetails = {
     title: query,
@@ -267,7 +252,6 @@ function searchLibraryBooks(): void {
   }
 
   let foundBooks: StoreBook[] = client.searchBook(book);
-  console.log(foundBooks);
   displayLibrarySearchResults(foundBooks);
 }
 
@@ -296,8 +280,9 @@ function displayLibrarySearchResults(foundBooks: StoreBook[]): void {
 }
 
 // Изменение наименования Обложка при загрузке картинки
+const fileInput = document.getElementById('book-image') as HTMLInputElement;
+
 function handleFileChange(): void {
-  const fileInput = document.getElementById('book-image') as HTMLInputElement;
   const label = document.getElementById('book-image-label') as HTMLLabelElement;
 
   const file = fileInput.files?.[0];
@@ -307,11 +292,13 @@ function handleFileChange(): void {
 }
 
 // Добавление книги покупателем в библиотеку
+const addBookButton = document.getElementById('add-book-button') as HTMLButtonElement;
+const clearFormButton = document.getElementById('clear-form-button') as HTMLButtonElement;
+const applyFilters = document.getElementById('apply-filters') as HTMLButtonElement;
+
 function addBookToLibrary(event: MouseEvent): void {
   event.preventDefault();
-  console.log('Кнопка нажата, обрабатываем добавление книги');
 
-  const fileInput = document.getElementById('book-image') as HTMLInputElement;
   const title = (document.getElementById('book-title') as HTMLInputElement).value.trim().toLowerCase();
   const author = (document.getElementById('book-author') as HTMLInputElement).value.trim().toLowerCase();
 
@@ -349,7 +336,9 @@ function addBookToLibrary(event: MouseEvent): void {
   reader.readAsDataURL(file);
 }
 
-// Очитка формы добавления книги покупателем в библиотеку
+// Очистка формы добавления книги покупателем в библиотеку
+const clearFilters = document.getElementById('close-filters') as HTMLButtonElement;
+
 function clearLibraryForm(): void {
   (document.getElementById('book-title') as HTMLInputElement).value = '';
   (document.getElementById('book-author') as HTMLInputElement).value = '';
@@ -358,7 +347,9 @@ function clearLibraryForm(): void {
   label.textContent = 'Обложка';
 }
 
-// Обработка события формы рассылки и подтверждение подписки
+// Подписка на рассылку
+const newsLetterForm = document.getElementById('newsletter-form') as HTMLFormElement;
+
 function confirmNewsLetterForm(event: SubmitEvent) {
   event.preventDefault();
 
@@ -382,7 +373,12 @@ function confirmNewsLetterForm(event: SubmitEvent) {
 }
 
 // Фильтрация книг по цене и году издания
-function openFilterPanel() {
+const openFilter = document.getElementById('open-filter') as HTMLImageElement;
+const closeFilter = document.getElementById('close-filter') as HTMLButtonElement;
+const priceRange = document.getElementById('price-range') as HTMLInputElement;
+const yearRange = document.getElementById('year-range') as HTMLInputElement;
+
+function openFilterPanel(): void {
   const filterPanel = document.getElementById('filter-panel') as HTMLElement;
 
   if (filterPanel) {
@@ -432,6 +428,12 @@ function clearBooksFilter() {
   displayBooks();
 }
 
+// Получение элементов DOM для всплывающего окна
+const popup = document.getElementById("popup") as HTMLElement;
+const denyPopup = document.getElementById("deny-popup") as HTMLButtonElement;
+const confirmPopup = document.getElementById("confirm-popup") as HTMLButtonElement;
+
+
 // Сохранение данных в localStorage
 function saveData(): void {
   const clientData = client.exportClientData();
@@ -478,7 +480,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!popupShown) {
     if (popup && denyPopup && confirmPopup) {
-      console.log('Элементы попап успешно найдены!');
 
       popup.style.display = "flex";
       denyPopup.addEventListener("click", function () {
@@ -490,56 +491,39 @@ document.addEventListener('DOMContentLoaded', () => {
         popup.style.display = "none";
         localStorage.setItem('popupShown', 'true');
       });
-    } else {
-      console.error('Элементы попап не найдены!');
     }
-  } else {
-    console.log('Попап уже показывался, не отображаем его.');
   }
 
   // Обработчик поиска в магазине
   if (storeSearchInput && storeSearchButton) {
-    console.log('Элементы поиска магазина успешно найдены!');
 
     storeSearchInput.addEventListener('change', searchStoreBooks);
     storeSearchButton.addEventListener('click', searchStoreBooks);
-  } else {
-    console.error('Элементы поиска магазина не найдены!');
   }
 
   // Обработчик поиска в библиотеке
   if (librarySearchInput && librarySearchButton) {
-    console.log('Элементы поиска библиотеки успешно найдены!');
 
     librarySearchInput.addEventListener('change', searchLibraryBooks);
     librarySearchButton.addEventListener('click', searchLibraryBooks);
-  } else {
-    console.error('Элементы поиска библиотеки не найдены!');
   }
 
   // Обработчик загрузки книги покупателем
   if (fileInput && addBookButton && clearFormButton) {
-    console.log('Элементы загрузки книги успешно найдены!');
 
     fileInput.addEventListener('change', handleFileChange);
     addBookButton.addEventListener('click', addBookToLibrary);
     clearFormButton.addEventListener('click', clearLibraryForm);
-  } else {
-    console.error('Элементы загрузки книги не найдены!');
   }
 
   // Обработчик подписки на новости
   if (newsLetterForm) {
-    console.log('Элементы формы рассылки успешно найдены!');
 
     newsLetterForm.addEventListener('submit', confirmNewsLetterForm);
-  } else {
-    console.error('Элементы формы рассылки не найдены!');
   }
 
   // Обработчик панели фильтра
   if (openFilter && closeFilter && clearFilters && priceRange && yearRange && applyFilters) {
-    console.log('Элементы панели фильтра успешно найден');
 
     openFilter.addEventListener('click', openFilterPanel);
     closeFilter.addEventListener('click', closeFilterPanel);
@@ -547,8 +531,5 @@ document.addEventListener('DOMContentLoaded', () => {
     priceRange.addEventListener('input', showPriceRange);
     yearRange.addEventListener('input', showYearRange);
     applyFilters.addEventListener('click', applyBooksFilter);
-  } else {
-    console.error('Элементы панели фильтра не найден');
   }
-
 });

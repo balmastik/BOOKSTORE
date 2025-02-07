@@ -474,18 +474,27 @@ document.addEventListener('DOMContentLoaded', () => {
   displayClientBooks();
 
   // Обработчик popup
-  if (popup && denyPopup && confirmPopup) {
-    console.log('Элементы попап успешно найдены!');
+  const popupShown = localStorage.getItem('popupShown');
 
-    popup.style.display = "flex";
-    denyPopup.addEventListener("click", function () {
-      popup.style.display = "none";
-    });
-    confirmPopup.addEventListener("click", function () {
-      popup.style.display = "none";
-    });
+  if (!popupShown) {
+    if (popup && denyPopup && confirmPopup) {
+      console.log('Элементы попап успешно найдены!');
+
+      popup.style.display = "flex";
+      denyPopup.addEventListener("click", function () {
+        popup.style.display = "none";
+        localStorage.setItem('popupShown', 'true');
+      });
+
+      confirmPopup.addEventListener("click", function () {
+        popup.style.display = "none";
+        localStorage.setItem('popupShown', 'true');
+      });
+    } else {
+      console.error('Элементы попап не найдены!');
+    }
   } else {
-    console.error('Элементы попап не найдены!');
+    console.log('Попап уже показывался, не отображаем его.');
   }
 
   // Обработчик поиска в магазине

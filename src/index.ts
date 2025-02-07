@@ -15,6 +15,9 @@ const applyFilters = document.getElementById('apply-filters') as HTMLButtonEleme
 const clearFilters = document.getElementById('close-filters') as HTMLButtonElement;
 const priceRange = document.getElementById('price-range') as HTMLInputElement;
 const yearRange = document.getElementById('year-range') as HTMLInputElement;
+const popup = document.getElementById("popup") as HTMLElement;
+const denyPopup = document.getElementById("deny-popup") as HTMLButtonElement;
+const confirmPopup = document.getElementById("confirm-popup") as HTMLButtonElement;
 
 // Создание покупателя
 const client = new Client({name: 'Иван Иванов', balance: 40, image: 'img/first_client.jpeg'});
@@ -433,86 +436,103 @@ function saveData(): void {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Загрузка данных клиента из localStorage
-  const savedClientData = localStorage.getItem('clientData');
-  if (savedClientData) {
-    try {
-      client.importClientData(savedClientData);
-      console.log('Данные клиента загружены.');
-    } catch (error) {
-      console.error('Ошибка при загрузке данных клиента:', error);
+    // Загрузка данных клиента из localStorage
+    const savedClientData = localStorage.getItem('clientData');
+    if (savedClientData) {
+      try {
+        client.importClientData(savedClientData);
+        console.log('Данные клиента загружены.');
+      } catch (error) {
+        console.error('Ошибка при загрузке данных клиента:', error);
+      }
     }
-  }
 
-  // Загрузка данных магазина из localStorage
-  const savedCatalogueData = localStorage.getItem('catalogueData');
-  if (savedCatalogueData) {
-    try {
-      store.importCatalogue(savedCatalogueData);
-      console.log('Данные каталога загружены.');
-    } catch (error) {
-      console.error('Ошибка при загрузке данных каталога:', error);
+    // Загрузка данных магазина из localStorage
+    const savedCatalogueData = localStorage.getItem('catalogueData');
+    if (savedCatalogueData) {
+      try {
+        store.importCatalogue(savedCatalogueData);
+        console.log('Данные каталога загружены.');
+      } catch (error) {
+        console.error('Ошибка при загрузке данных каталога:', error);
+      }
     }
+
+    // Отображение клиентов и книг при загрузке страницы
+    displayClients();
+    displayBooks();
+    displayClientBooks();
+
+    // Обработчик popup
+    if (popup && denyPopup && confirmPopup) {
+      console.log('Элементы попап успешно найдены!');
+
+      popup.style.display = "flex";
+      denyPopup.addEventListener("click", function () {
+        popup.style.display = "none";
+      });
+      confirmPopup.addEventListener("click", function () {
+        popup.style.display = "none";
+      });
+    } else {
+      console.error('Элементы попап не найдены!');
+    }
+
+    // Обработчик поиска в магазине
+    if (storeSearchInput && storeSearchButton) {
+      console.log('Элементы поиска магазина успешно найдены!');
+
+      storeSearchInput.addEventListener('change', searchStoreBooks);
+      storeSearchButton.addEventListener('click', searchStoreBooks);
+    } else {
+      console.error('Элементы поиска магазина не найдены!');
+    }
+
+    // Обработчик поиска в библиотеке
+    if (librarySearchInput && librarySearchButton) {
+      console.log('Элементы поиска библиотеки успешно найдены!');
+
+      librarySearchInput.addEventListener('change', searchLibraryBooks);
+      librarySearchButton.addEventListener('click', searchLibraryBooks);
+    } else {
+      console.error('Элементы поиска библиотеки не найдены!');
+    }
+
+    // Обработчик загрузки книги покупателем
+    if (fileInput && addBookButton && clearFormButton) {
+      console.log('Элементы загрузки книги успешно найдены!');
+
+      fileInput.addEventListener('change', handleFileChange);
+      addBookButton.addEventListener('click', addBookToLibrary);
+      clearFormButton.addEventListener('click', clearLibraryForm);
+    } else {
+      console.error('Элементы загрузки книги не найдены!');
+    }
+
+    // Обработчик подписки на новости
+    if (newsLetterForm) {
+      console.log('Элементы формы рассылки успешно найдены!');
+
+      newsLetterForm.addEventListener('submit', confirmNewsLetterForm);
+    } else {
+      console.error('Элементы формы рассылки не найдены!');
+    }
+
+    // Обработчик панели фильтра
+    if (openFilter && closeFilter && clearFilters && priceRange && yearRange && applyFilters) {
+      console.log('Элементы панели фильтра успешно найден');
+
+      openFilter.addEventListener('click', openFilterPanel);
+      closeFilter.addEventListener('click', closeFilterPanel);
+      clearFilters.addEventListener('click', clearBooksFilter);
+      priceRange.addEventListener('input', showPriceRange);
+      yearRange.addEventListener('input', showYearRange);
+      applyFilters.addEventListener('click', applyBooksFilter);
+    } else {
+      console.error('Элементы панели фильтра не найден');
+    }
+
   }
-
-  // Отображение клиентов и книг при загрузке страницы
-  displayClients();
-  displayBooks();
-  displayClientBooks();
-
-  // Обработчик поиска в магазине
-  if (storeSearchInput && storeSearchButton) {
-    console.log('Элементы поиска магазина успешно найдены!');
-
-    storeSearchInput.addEventListener('change', searchStoreBooks);
-    storeSearchButton.addEventListener('click', searchStoreBooks);
-  } else {
-    console.error('Элементы поиска магазина не найдены!');
-  }
-
-  // Обработчик поиска в библиотеке
-  if (librarySearchInput && librarySearchButton) {
-    console.log('Элементы поиска библиотеки успешно найдены!');
-
-    librarySearchInput.addEventListener('change', searchLibraryBooks);
-    librarySearchButton.addEventListener('click', searchLibraryBooks);
-  } else {
-    console.error('Элементы поиска библиотеки не найдены!');
-  }
-
-  // Обработчик загрузки книги покупателем
-  if (fileInput && addBookButton && clearFormButton) {
-    console.log('Элементы загрузки книги успешно найдены!');
-
-    fileInput.addEventListener('change', handleFileChange);
-    addBookButton.addEventListener('click', addBookToLibrary);
-    clearFormButton.addEventListener('click', clearLibraryForm);
-  } else {
-    console.error('Элементы загрузки книги не найдены!');
-  }
-
-  // Обработчик подписки на новости
-  if (newsLetterForm) {
-    console.log('Элементы формы рассылки успешно найдены!');
-
-    newsLetterForm.addEventListener('submit', confirmNewsLetterForm);
-  } else {
-    console.error('Элементы формы рассылки не найдены!');
-  }
-
-  // Обработчик панели фильтра
-  if (openFilter && closeFilter && clearFilters && priceRange && yearRange && applyFilters) {
-    console.log('Элементы панели фильтра успешно найден');
-
-    openFilter.addEventListener('click', openFilterPanel);
-    closeFilter.addEventListener('click', closeFilterPanel);
-    clearFilters.addEventListener('click', clearBooksFilter);
-    priceRange.addEventListener('input', showPriceRange);
-    yearRange.addEventListener('input', showYearRange);
-    applyFilters.addEventListener('click', applyBooksFilter);
-  } else {
-    console.error('Элементы панели фильтра не найден');
-  }
-
-});
+)
+;
 

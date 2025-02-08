@@ -372,17 +372,16 @@ function confirmNewsLetterForm(event: SubmitEvent) {
   }
 }
 
-// Фильтрация книг по цене и году издания
+// Открытие и закрытие панели фильтра
 const openFilter = document.getElementById('open-filter') as HTMLImageElement;
 const closeFilter = document.getElementById('close-filter') as HTMLButtonElement;
-const priceRange = document.getElementById('price-range') as HTMLInputElement;
-const yearRange = document.getElementById('year-range') as HTMLInputElement;
 
 function openFilterPanel(): void {
   const filterPanel = document.getElementById('filter-panel') as HTMLElement;
 
   if (filterPanel) {
     filterPanel.classList.add('open');
+    fillColor();
   }
 }
 
@@ -394,37 +393,136 @@ function closeFilterPanel(): void {
   }
 }
 
-function showPriceRange() {
-  const priceRange = document.getElementById('price-range') as HTMLInputElement;
-  const priceRangeOutput = document.getElementById('price-range-output') as HTMLElement;
-  if (priceRange && priceRangeOutput) {
-    priceRangeOutput.textContent = priceRange.value + `€`;
+// Фильтрация книг по цене и году издания
+const priceSlider1 = document.getElementById('price-slider-1') as HTMLInputElement;
+const priceSlider2 = document.getElementById('price-slider-2') as HTMLInputElement;
+const yearSlider1 = document.getElementById('year-slider-1') as HTMLInputElement;
+const yearSlider2 = document.getElementById('year-slider-2') as HTMLInputElement;
+let minGap = 2;
+
+function priceSlideOne() {
+  const displayPriceMin = document.getElementById('price-range-min') as HTMLElement;
+
+  if (priceSlider1 && priceSlider2 && displayPriceMin) {
+
+    let sliderValue1 = +priceSlider1.value;
+    let sliderValue2 = +priceSlider2.value;
+
+    if ((sliderValue2 - sliderValue1) <= minGap) {
+      sliderValue1 = sliderValue2 - minGap;
+      priceSlider1.value = String(sliderValue1);
+    }
+
+    displayPriceMin.textContent = sliderValue1 + ` €`;
+    fillColor();
   }
 }
 
-function showYearRange() {
-  const yearRange = document.getElementById('year-range') as HTMLInputElement;
-  const yearRangeOutput = document.getElementById('year-range-max') as HTMLElement;
-  if (yearRange && yearRangeOutput) {
-    yearRangeOutput.textContent = yearRange.value;
+function priceSlideTwo() {
+  const displayPriceMax = document.getElementById('price-range-max') as HTMLElement;
+
+  if (priceSlider1 && priceSlider2 && displayPriceMax) {
+
+    let sliderValue1 = +priceSlider1.value;
+    let sliderValue2 = +priceSlider2.value;
+
+
+    if ((sliderValue2 - sliderValue1) <= minGap) {
+      sliderValue2 = sliderValue1 + minGap;
+      priceSlider2.value = String(sliderValue2);
+    }
+
+    displayPriceMax.textContent = sliderValue2 + ` €`;
+    fillColor();
+  }
+}
+
+function slideOne() {
+  const displayYearMin = document.getElementById('year-range-min') as HTMLElement;
+
+  if (yearSlider1 && yearSlider2 && displayYearMin) {
+
+    let sliderValue1 = +yearSlider1.value;
+    let sliderValue2 = +yearSlider2.value;
+
+    if ((sliderValue2 - sliderValue1) <= minGap) {
+      sliderValue1 = sliderValue2 - minGap;
+      yearSlider1.value = String(sliderValue1);
+    }
+
+    displayYearMin.textContent = String(sliderValue1);
+    fillColor();
+  }
+}
+
+function slideTwo() {
+  const displayYearMax = document.getElementById('year-range-max') as HTMLElement;
+
+  if (yearSlider1 && yearSlider2 && displayYearMax) {
+
+    let sliderValue1 = +yearSlider1.value;
+    let sliderValue2 = +yearSlider2.value;
+
+
+    if ((sliderValue2 - sliderValue1) <= minGap) {
+      sliderValue2 = sliderValue1 + minGap;
+      yearSlider2.value = String(sliderValue2);
+    }
+
+    displayYearMax.textContent = String(sliderValue2);
+    fillColor();
+  }
+}
+
+function fillColor() {
+  const priceTrack = document.querySelector('.price-track') as HTMLElement;
+  const yearTrack = document.querySelector('.year-track') as HTMLElement;
+
+  if (yearSlider1 && yearSlider2 && priceTrack && yearTrack) {
+
+    const priceSliderMin = +priceSlider1.min;
+    const priceSliderMax = +priceSlider1.max;
+    const sliderPriceValue1 = +priceSlider1.value;
+    const sliderPriceValue2 = +priceSlider2.value;
+
+    const yearSliderMin = +yearSlider1.min;
+    const yearSliderMax = +yearSlider1.max;
+    const sliderValue1 = +yearSlider1.value;
+    const sliderValue2 = +yearSlider2.value;
+
+    let percent1 = ((sliderPriceValue1 - priceSliderMin) / (priceSliderMax - priceSliderMin)) * 100;
+    let percent2 = ((sliderPriceValue2 - priceSliderMin) / (priceSliderMax - priceSliderMin)) * 100;
+    let percent3 = ((sliderValue1 - yearSliderMin) / (yearSliderMax - yearSliderMin)) * 100;
+    let percent4 = ((sliderValue2 - yearSliderMin) / (yearSliderMax - yearSliderMin)) * 100;
+
+    priceTrack.style.background = `linear-gradient(to right, #ccc ${percent1}%, #f99462 ${percent1}%,
+     #f99462 ${percent2}%, #ccc ${percent2}%)`;
+    yearTrack.style.background = `linear-gradient(to right, #ccc ${percent3}%, #f99462 ${percent3}%,
+     #f99462 ${percent4}%, #ccc ${percent4}%)`;
   }
 }
 
 function applyBooksFilter(event: MouseEvent) {
   event.preventDefault();
-  console.log('Кнопка нажата, фильтруем книги');
 
-  const price = +priceRange.value;
-  const year = +yearRange.value;
+  if (priceSlider1 && priceSlider2 && yearSlider1 && yearSlider2) {
+    const priceMin = +priceSlider1.value;
+    const priceMax = +priceSlider2.value;
+    const yearMin = +yearSlider1.value;
+    const yearMax = +yearSlider2.value;
 
-  let foundBooks: StoreBook[] = store.filterBooks(price, year);
-  console.log(foundBooks);
-  displayStoreSearchResults(foundBooks);
+    let foundBooks: StoreBook[] = store.filterBooks(priceMin, priceMax, yearMin, yearMax);
+    console.log(foundBooks);
+    displayStoreSearchResults(foundBooks);
+  }
 }
 
 function clearBooksFilter() {
-  priceRange.value = priceRange.min;
-  yearRange.value = yearRange.max;
+  priceSlider1.value = '30';
+  priceSlider2.value = '60';
+  yearSlider1.value = '1945';
+  yearSlider2.value = '1975';
+  fillColor();
   displayBooks();
 }
 
@@ -496,21 +594,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Обработчик поиска в магазине
   if (storeSearchInput && storeSearchButton) {
-
     storeSearchInput.addEventListener('change', searchStoreBooks);
     storeSearchButton.addEventListener('click', searchStoreBooks);
   }
 
   // Обработчик поиска в библиотеке
   if (librarySearchInput && librarySearchButton) {
-
     librarySearchInput.addEventListener('change', searchLibraryBooks);
     librarySearchButton.addEventListener('click', searchLibraryBooks);
   }
 
   // Обработчик загрузки книги покупателем
   if (fileInput && addBookButton && clearFormButton) {
-
     fileInput.addEventListener('change', handleFileChange);
     addBookButton.addEventListener('click', addBookToLibrary);
     clearFormButton.addEventListener('click', clearLibraryForm);
@@ -518,18 +613,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Обработчик подписки на новости
   if (newsLetterForm) {
-
     newsLetterForm.addEventListener('submit', confirmNewsLetterForm);
   }
 
-  // Обработчик панели фильтра
-  if (openFilter && closeFilter && clearFilters && priceRange && yearRange && applyFilters) {
-
+  //
+  if (openFilter && closeFilter && clearFilters && priceSlider1 && priceSlider2 && yearSlider1 && yearSlider2) {
     openFilter.addEventListener('click', openFilterPanel);
     closeFilter.addEventListener('click', closeFilterPanel);
     clearFilters.addEventListener('click', clearBooksFilter);
-    priceRange.addEventListener('input', showPriceRange);
-    yearRange.addEventListener('input', showYearRange);
+    priceSlider1.addEventListener('input', priceSlideOne);
+    priceSlider2.addEventListener('input', priceSlideTwo);
+    yearSlider1.addEventListener('input', slideOne);
+    yearSlider2.addEventListener('input', slideTwo);
     applyFilters.addEventListener('click', applyBooksFilter);
   }
+
 });

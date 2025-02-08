@@ -128,12 +128,14 @@ export class Store {
     return foundBooks;
   }
 
-  filterBooks(price: number, year: number) {
+  filterBooks(priceMin: number, priceMax: number, yearMin: number, yearMax: number): StoreBook[] {
     const foundBooks: StoreBook[] = Array.from(this.catalogue.values())
       .filter((item: StoreBook) => {
         return (
-          item.book.price <= +price &&
-          item.book.year <= +year
+          item.book.price >= +priceMin &&
+          item.book.price <= +priceMax &&
+          item.book.year >= +yearMin &&
+          item.book.year <= +yearMax
         );
       });
     return foundBooks;

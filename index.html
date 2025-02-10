@@ -6,14 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KNIGBOOM Store</title>
   <link rel="stylesheet" href="./css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap">
 </head>
 
 <body>
 <header class="site-header">
   <div class="container">
     <div class="branding">
-      <a href="index.html" id="site-title" class="site-title">KNIGBOOM</a>
+      <a href="index.html" class="site-title">KNIGBOOM</a>
       <p class="site-tagline">МАГАЗИНЧИК ЗА УГЛОМ</p>
     </div>
     <nav class="navigation">
@@ -27,6 +27,7 @@
 
 <main>
   <section class="page-header">
+    <h2 class="page-title">Магазин</h2>
     <div class="store-search-container">
       <input type="text" id="store-search-input" class="store-search-input" placeholder="Название книги, автор, жанр">
       <button id="store-search-button" class="store-search-button">Поиск</button>
@@ -34,9 +35,9 @@
     </div>
   </section>
 
-  <section id="filter-section" class="filter-section">
+  <section class="filter-section">
     <div id="filter-panel" class="filter-panel">
-      <button id="close-filter" class="close-filter-btn">X</button>
+      <button id="close-filter" class="close-filter-button">X</button>
       <div class="filter-content">
         <h2>Фильтровать</h2>
 
@@ -67,8 +68,8 @@
         </div>
 
         <div class="filter-button-container">
-          <button id="close-filters" class="close-filters-button">Отменить</button>
-          <button id="apply-filters" class="apply-filters-button">Применить</button>
+          <button id="clear-filter" class="clear-filter-button">Отменить</button>
+          <button id="apply-filter" class="apply-filter-button">Применить</button>
         </div>
       </div>
     </div>
@@ -89,13 +90,8 @@
       <p class="newsletter-text">Получайте информацию о скидках, новинках и эксклюзивных предложениях прямо на ваш
         email.</p>
 
-      <form action="#" method="post" class="newsletter-form" id="newsletter-form">
-        <input
-          type="email"
-          name="email"
-          id="newsletter-email"
-          placeholder="Введите ваш email"
-          required>
+      <form action="#" method="post" id="newsletter-form" class="newsletter-form-container" >
+        <input type="email" name="email" id="newsletter-email" placeholder="Введите ваш email" required>
         <button type="submit" class="newsletter-button">Подписаться</button>
       </form>
 
@@ -116,7 +112,7 @@
 
 <div id="popup" class="popup">
   <div class="popup-content">
-    <h1 id="site-title" class="site-title">KNIGBOOM</h1>
+    <h1 class="site-title">KNIGBOOM</h1>
     <p class="site-tagline">МАГАЗИНЧИК ЗА УГЛОМ</p>
     <p class="popup-text">Книга с чашечкой кофе всегда интереснее, правда?</p>
 

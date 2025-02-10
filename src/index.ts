@@ -293,8 +293,6 @@ function handleFileChange(): void {
 
 // Добавление книги покупателем в библиотеку
 const addBookButton = document.getElementById('add-book-button') as HTMLButtonElement;
-const clearFormButton = document.getElementById('clear-form-button') as HTMLButtonElement;
-const applyFilters = document.getElementById('apply-filters') as HTMLButtonElement;
 
 function addBookToLibrary(event: MouseEvent): void {
   event.preventDefault();
@@ -337,7 +335,7 @@ function addBookToLibrary(event: MouseEvent): void {
 }
 
 // Очистка формы добавления книги покупателем в библиотеку
-const clearFilters = document.getElementById('close-filters') as HTMLButtonElement;
+const clearFormButton = document.getElementById('clear-form-button') as HTMLButtonElement;
 
 function clearLibraryForm(): void {
   (document.getElementById('book-title') as HTMLInputElement).value = '';
@@ -375,6 +373,8 @@ function confirmNewsLetterForm(event: SubmitEvent) {
 // Открытие и закрытие панели фильтра
 const openFilter = document.getElementById('open-filter') as HTMLImageElement;
 const closeFilter = document.getElementById('close-filter') as HTMLButtonElement;
+const clearFilter = document.getElementById('clear-filter') as HTMLButtonElement;
+const applyFilter = document.getElementById('apply-filter') as HTMLButtonElement;
 
 function openFilterPanel(): void {
   const filterPanel = document.getElementById('filter-panel') as HTMLElement;
@@ -617,15 +617,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   //
-  if (openFilter && closeFilter && clearFilters && priceSlider1 && priceSlider2 && yearSlider1 && yearSlider2) {
+  if (openFilter && closeFilter && priceSlider1 && priceSlider2 && yearSlider1 &&
+    yearSlider2 && clearFilter && applyFilter) {
     openFilter.addEventListener('click', openFilterPanel);
     closeFilter.addEventListener('click', closeFilterPanel);
-    clearFilters.addEventListener('click', clearBooksFilter);
     priceSlider1.addEventListener('input', priceSlideOne);
     priceSlider2.addEventListener('input', priceSlideTwo);
     yearSlider1.addEventListener('input', slideOne);
     yearSlider2.addEventListener('input', slideTwo);
-    applyFilters.addEventListener('click', applyBooksFilter);
+    clearFilter.addEventListener('click', clearBooksFilter);
+    applyFilter.addEventListener('click', applyBooksFilter);
   }
 
 });

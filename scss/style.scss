@@ -1,0 +1,582 @@
+// Переменные
+$primary-color: #f99462;
+$secondary-color: #ED6019;
+$dark-text-color: #333;
+$light-text-color: #666;
+$border-color: #ccc;
+$white-color: #fff;
+$background-color: #f8f8f8;
+
+$font-size-button: 14px;
+$font-size-input: 15px;
+$font-size-tagline: 16px;
+$font-size-name: 18px;
+$font-size-title: 24px;
+
+$font-weight-light: 400;
+$font-weight-normal: 500;
+$font-weight-bold: 700;
+
+$letter-spacing-small: 1px;
+$letter-spacing-big: 2px;
+
+$main-text-align: center;
+$main-border-radius: 5px;
+$main-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+
+// Миксин для кнопок
+@mixin button-style($bg-color, $hover-bg-color) {
+  padding: 10px 20px;
+  font-size: $font-size-button;
+  font-weight: $font-weight-normal;
+  letter-spacing: $letter-spacing-small;
+  text-transform: uppercase;
+  text-align: $main-text-align;
+  color: $white-color;
+  border: none;
+  border-radius: $main-border-radius;
+  cursor: pointer;
+  transition: background 0.3s;
+  background-color: $bg-color;
+
+  &:hover {
+    background-color: $hover-bg-color;
+  }
+}
+
+// Шрифт сайта
+body, input, button {
+  font-family: 'Montserrat', sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+// Верхний и нижний колонтитулы
+.site-header, .site-footer {
+  padding: 35px 20px;
+  text-align: $main-text-align;
+  background-color: $background-color;
+}
+
+.title {
+  margin-bottom: -5px;
+  text-decoration: none;
+  font-weight: $font-weight-bold;
+  color: $dark-text-color;
+  text-transform: uppercase;
+}
+.site-header .site-title {
+  @extend .title;
+  text-decoration: none;
+  font-size: 56px;
+  letter-spacing: $letter-spacing-big;
+}
+
+.site-footer .site-title {
+  @extend .title;
+  font-size: 46px;
+  letter-spacing: $letter-spacing-small;
+}
+
+.site-tagline {
+  margin-bottom: 80px;
+  font-size: $font-size-tagline;
+  font-weight: $font-weight-light;
+  letter-spacing: $letter-spacing-small;
+  color: $light-text-color;
+  text-transform: uppercase;
+}
+
+// Меню навигации
+.nav-list {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  justify-content: center;
+  text-transform: uppercase;
+  gap: 40px;
+}
+
+.nav-link {
+  padding: 5px 10px;
+  text-decoration: none;
+  font-size: $font-size-tagline;
+  font-weight: $font-weight-normal;
+  color: $dark-text-color;
+  transition: color 0.3s;
+
+  &:hover {
+    color: $secondary-color;
+  }
+}
+
+// Заголовок страницы
+.page-header {
+  position: relative;
+  margin: 40px auto;
+  text-align: $main-text-align;
+
+  .page-title {
+    font-size: $font-size-title;
+    font-weight: $font-weight-bold;
+    letter-spacing: $letter-spacing-big;
+    color: $primary-color;
+    text-transform: uppercase;
+  }
+}
+
+// Контейнер поиска
+.store-search-container, .library-search-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+// Поле ввода
+.store-search-input, .library-search-input {
+  max-width: 400px;
+  width: 100%;
+  padding: 9px;
+  font-size: $font-size-input;
+  color: $light-text-color;
+  border: 1px solid $border-color;
+  border-radius: $main-border-radius;
+  outline: none;
+  background-color: $background-color;
+}
+
+// Кнопка поиска
+.store-search-button, .library-search-button {
+  @include button-style($primary-color, $secondary-color);
+}
+
+// Боковая панель фильтра
+.open-filter-img {
+  width: 29px;
+  height: 29px;
+  margin-left: 20px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  fill: $dark-text-color;
+  filter: brightness(0) saturate(20%) invert(70%) sepia(10%) hue-rotate(40deg);
+  transform: translateY(0%);
+  rotate: 90deg;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.filter-panel {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 400px;
+  height: 100%;
+  z-index: 999;
+  padding: 30px;
+  box-sizing: border-box;
+  background-color: $white-color;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  transition: right 0.3s ease;
+
+  &.open {
+    right: 0;
+  }
+
+  .filter-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  h2 {
+    margin-top: 50px;
+    font-size: 22px;
+    font-weight: $font-weight-bold;
+    text-align: $main-text-align;
+    letter-spacing: $letter-spacing-small;
+    color: $dark-text-color;
+    text-transform: uppercase;
+  }
+
+  .range-label {
+    display: block;
+    margin-top: 50px;
+    margin-bottom: 65px;
+    font-size: $font-size-tagline;
+    font-weight: $font-weight-light;
+    letter-spacing: $letter-spacing-small;
+    color: $light-text-color;
+    text-transform: uppercase;
+  }
+
+  .wrapper {
+    position: relative;
+  }
+
+  .range-values {
+    position: absolute;
+    top: 66%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: $font-size-input;
+    font-weight: $font-weight-light;
+    color: $dark-text-color;
+    letter-spacing: $letter-spacing-small;
+  }
+
+  .range-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  input[type="range"] {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    margin: auto;
+    background: transparent;
+    outline: none;
+    appearance: none;
+    pointer-events: none;
+  }
+
+  .price-track, .year-track {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 100%;
+    height: 8px;
+    background: $border-color;
+    border-radius: $main-border-radius;
+  }
+
+  input[type="range"]::-webkit-slider-runnable-track,
+  input[type="range"]::-moz-range-track,
+  input[type="range"]::-ms-track {
+    appearance: none;
+    height: 8px;
+  }
+
+  input[type="range"]::-webkit-slider-thumb,
+  input[type="range"]::-moz-range-thumb,
+  input[type="range"]::-ms-thumb {
+    width: 20px;
+    height: 20px;
+    margin-top: -6.2px;
+    border: 2px solid $secondary-color;
+    border-radius: 50%;
+    background: $primary-color;
+    cursor: pointer;
+    appearance: none;
+    pointer-events: auto;
+  }
+
+  .filter-button-container {
+    display: flex;
+    width: 100%;
+    margin-top: 70px;
+    justify-content: space-between;
+    gap: 10px;
+
+    .clear-filter-button, {
+      flex: 1;
+      @include button-style(#999, $border-color);
+    }
+
+    .apply-filter-button {
+      flex: 1;
+      @include button-style($primary-color, $secondary-color);
+    }
+  }
+
+  .close-filter-button {
+    position: absolute;
+    right: 20px;
+    font-size: $font-size-title;
+    color: $border-color;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+}
+
+// Список книг и клиентов
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3rem;
+
+  @media (max-width: 768px) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    gap: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    padding-left: 10px;
+    padding-right: 10px;
+    gap: 1rem;
+  }
+}
+
+.book-list {
+  @extend .list;
+  padding-bottom: 80px;
+}
+
+.client-list {
+  @extend .list;
+  margin-top: -10px;
+  padding-bottom: 50px;
+}
+
+.client-book-list {
+  @extend .list;
+  padding-bottom: 30px;
+}
+
+// Карточки клиента и книги
+.client-card, .book-card {
+  position: relative;
+  width: 370px;
+  padding: 20px;
+  text-align: $main-text-align;
+  border: 1px solid $border-color;
+  border-radius: $main-border-radius;
+  box-shadow: $main-box-shadow;
+  background-color: $white-color;
+  overflow: hidden;
+}
+
+.client-image, .client-image-placeholder, .book-image, .book-video {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: $main-border-radius;
+}
+
+.book-video {
+  object-position: top;
+}
+
+@media (max-width: 768px) {
+  .client-card, .book-card {
+    width: 100%;
+    padding: 20px;
+  }
+    .client-image, .book-image, .book-video {
+      height: 250px;
+    }
+  }
+
+@media (max-width: 480px) {
+  .client-card, .book-card {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .client-image, .book-image, .book-video {
+    height: 250px;
+  }
+}
+
+// Эффект подчеркивания для заголовков
+h3 {
+  position: relative;
+  padding-bottom: 5px;
+  font-size: $font-size-name;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-small;
+  color: $dark-text-color;
+  text-transform: uppercase;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: $secondary-color;
+  }
+}
+
+// Кнопка книги
+.book-button {
+  @include button-style($primary-color, $secondary-color);
+  padding: 8px 20px !important;
+}
+
+// Форма добавления книги
+.add-book-section {
+  width: 100%;
+  max-width: 600px;
+  margin: 30px auto 60px;
+  padding: 12px 20px 38px;
+  text-align: $main-text-align;
+  border-radius: $main-border-radius;
+  box-shadow: $main-box-shadow;
+  background-color: $background-color;
+
+  .add-book-title {
+    font-size: $font-size-title;
+    font-weight: $font-weight-bold;
+    letter-spacing: $letter-spacing-big;
+    color: $primary-color;
+    text-transform: uppercase;
+  }
+
+  .add-book-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    input {
+      max-width: 500px;
+      width: 100%;
+      margin-bottom: 17px;
+      padding: 10px;
+      font-size: $font-size-input;
+      color: $light-text-color;
+      border: 1px solid $border-color;
+      border-radius: $main-border-radius;
+    }
+  }
+
+  .add-book-button-container {
+    display: flex;
+    max-width: 500px;
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .add-image, .add-book-button, .clear-form-button {
+    flex: 1;
+    width: 150px;
+    @include button-style($primary-color, $secondary-color);
+  }
+
+  .add-image:hover,
+  .add-book-button:hover,
+  .clear-form-button:hover {
+    background-color: $secondary-color;
+  }
+}
+
+// Подписка на рассылку
+.newsletter {
+  &-title {
+    margin-bottom: 10px;
+    font-size: $font-size-title;
+    font-weight: $font-weight-bold;
+    letter-spacing: $letter-spacing-small;
+    text-transform: uppercase;
+    color: $dark-text-color;
+  }
+
+  &-text {
+    margin-bottom: 20px;
+    font-size: $font-size-tagline;
+    color: $light-text-color;
+  }
+
+  &-form-container {
+    margin-bottom: 80px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+      margin-bottom: 60px;
+      gap: 8px;
+    }
+  }
+
+  & input {
+    max-width: 400px;
+    width: 100%;
+    padding: 9px;
+    font-size: $font-size-input;
+    color: $light-text-color;
+    border: 1px solid $border-color;
+    border-radius: $main-border-radius;
+  }
+
+  &-button {
+    @include button-style($primary-color, $secondary-color);
+  }
+
+  &-message {
+    margin-top: -60px;
+    font-size: $font-size-title;
+    font-weight: $font-weight-bold;
+    letter-spacing: $letter-spacing-small;
+    text-transform: uppercase;
+    color: $dark-text-color;
+
+  }
+}
+
+.site-finish {
+  font-size: $font-size-tagline;
+  color: $light-text-color;
+}
+
+// Стили всплывающего окна
+.popup-content {
+  width: 580px;
+  height: 370px;
+  padding: 10px 30px;
+  text-align: $main-text-align;
+  border-radius: $main-border-radius;
+  background-color: $background-color;
+
+  .popup-text {
+    margin-bottom: 30px;
+    font-size: $font-size-tagline;
+    font-weight: $font-weight-normal;
+    color: $light-text-color;
+  }
+
+  .popup-button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+
+    .deny-popup-button{
+      flex: 1;
+      @include button-style( #999, $border-color);
+      }
+
+    .confirm-popup-button{
+      flex: 1;
+      @include button-style($primary-color, $secondary-color);
+    }
+  }
+}

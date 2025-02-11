@@ -280,7 +280,7 @@ function displayLibrarySearchResults(foundBooks: StoreBook[]): void {
 }
 
 // Изменение наименования Обложка при загрузке картинки
-const fileInput = document.getElementById('book-image') as HTMLInputElement;
+const fileInput = document.getElementById('add-image') as HTMLInputElement;
 
 function handleFileChange(): void {
   const label = document.getElementById('book-image-label') as HTMLLabelElement;
@@ -340,7 +340,7 @@ const clearFormButton = document.getElementById('clear-form-button') as HTMLButt
 function clearLibraryForm(): void {
   (document.getElementById('book-title') as HTMLInputElement).value = '';
   (document.getElementById('book-author') as HTMLInputElement).value = '';
-  (document.getElementById('book-image') as HTMLInputElement).value = '';
+  (document.getElementById('add-image') as HTMLInputElement).value = '';
   const label = document.getElementById('book-image-label') as HTMLLabelElement;
   label.textContent = 'Обложка';
 }
@@ -352,17 +352,17 @@ function confirmNewsLetterForm(event: SubmitEvent) {
   event.preventDefault();
 
   const newsLetterEmail = document.getElementById('newsletter-email') as HTMLInputElement;
-  const confirmationMessage = document.getElementById('confirmation-message') as HTMLElement;
+  const newsletterMessage = document.getElementById('newsletter-message') as HTMLElement;
   const email = newsLetterEmail.value.trim();
 
   if (email) {
     console.log('Email для подписки:', email);
 
-    confirmationMessage.textContent = 'ВЫ ПОДПИСАЛИСЬ НА НОВОСТИ';
-    confirmationMessage.style.display = 'block';
+    newsletterMessage.textContent = 'Вы подписались на новости';
+    newsletterMessage.style.display = 'block';
     setTimeout(() => {
-      confirmationMessage.remove();
-    }, 4000);
+      newsletterMessage.remove();
+    }, 5000);
     newsLetterEmail.value = '';
 
   } else {
@@ -522,7 +522,10 @@ function clearBooksFilter() {
   priceSlider2.value = '60';
   yearSlider1.value = '1945';
   yearSlider2.value = '1975';
-  fillColor();
+  priceSlideOne();
+  priceSlideTwo();
+  slideOne();
+  slideTwo();
   displayBooks();
 }
 
@@ -616,7 +619,7 @@ document.addEventListener('DOMContentLoaded', () => {
     newsLetterForm.addEventListener('submit', confirmNewsLetterForm);
   }
 
-  //
+  // Обработчик событий фильтра
   if (openFilter && closeFilter && priceSlider1 && priceSlider2 && yearSlider1 &&
     yearSlider2 && clearFilter && applyFilter) {
     openFilter.addEventListener('click', openFilterPanel);

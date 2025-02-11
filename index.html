@@ -41,26 +41,26 @@
       <div class="filter-content">
         <h2>Фильтровать</h2>
 
-        <div class="price-wrapper">
-          <label for="price-range-container" class="price-range-label">ЦЕНА КНИГИ</label>
-          <div class="price-range-values">
-            <span id="price-range-min" class="price-range-min">10 €</span>
-            <span id="price-range-max" class="price-range-max">90 €</span>
+        <div class="wrapper">
+          <label for="price-range-container" class="range-label">ЦЕНА КНИГИ</label>
+          <div class="range-values">
+            <span id="price-range-min" class="price-range-min">30 €</span>
+            <span id="price-range-max" class="price-range-max">60 €</span>
           </div>
-          <div id="price-range-container" class="price-range-container">
+          <div id="price-range-container" class="range-container">
             <div class="price-track"></div>
             <input type="range" id="price-slider-1" min="10" max="90" value="30" step="1">
             <input type="range" id="price-slider-2" min="10" max="90" value="60" step="1">
           </div>
         </div>
 
-        <div class="year-wrapper">
-          <label for="year-range-container" class="year-range-label">ГОД ИЗДАНИЯ</label>
-          <div class="year-range-values">
-            <span id="year-range-min" class="year-range-min">1910</span>
-            <span id="year-range-max" class="year-range-max">1990</span>
+        <div class="wrapper">
+          <label for="year-range-container" class="range-label">ГОД ИЗДАНИЯ</label>
+          <div class="range-values">
+            <span id="year-range-min" class="year-range-min">1945</span>
+            <span id="year-range-max" class="year-range-max">1975</span>
           </div>
-          <div id="year-range-container" class="year-range-container">
+          <div id="year-range-container" class="range-container">
             <div class="year-track"></div>
             <input type="range" id="year-slider-1" min="1910" max="1990" value="1945" step="1">
             <input type="range" id="year-slider-2" min="1910" max="1990" value="1975" step="1">
@@ -95,7 +95,7 @@
         <button type="submit" class="newsletter-button">Подписаться</button>
       </form>
 
-      <h2 id="confirmation-message" class="newsletter-title" style="display: none;"></h2>
+      <h2 id="newsletter-message" class="newsletter-message" style="display: none;"></h2>
 
       <nav class="navigation">
         <ul class="nav-list">

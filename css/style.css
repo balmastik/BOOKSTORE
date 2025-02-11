@@ -306,14 +306,13 @@ body, input, button {
 /* Заголовок страницы */
 .page-header {
   position: relative;
-  margin: 50px auto;
+  margin: 40px auto;
   text-align: center;
 }
 
 .page-title {
-  position: relative;
-  font-size: 30px;
-  font-weight: 600;
+  font-size: 24px;
+  font-weight: 700;
   letter-spacing: 2px;
   color: #f99462;
   text-transform: uppercase;
@@ -331,13 +330,14 @@ body, input, button {
 
 /* Стиль для поля ввода */
 .store-search-input {
-  max-width: 450px;
+  max-width: 400px;
   width: 100%;
   padding: 9px;
   font-size: 15px;
   color: #666;
   border: 1px solid #ccc;
   border-radius: 5px;
+  outline: none;
   background-color: #f8f8f8;
 }
 
@@ -373,13 +373,14 @@ body, input, button {
 
 /* Стиль для поля ввода в библиотеке */
 .library-search-input {
-  max-width: 450px;
+  max-width: 400px;
   width: 100%;
   padding: 9px;
   font-size: 15px;
   color: #666;
   border: 1px solid #ccc;
   border-radius: 5px;
+  outline: none;
   background-color: #f8f8f8;
 }
 
@@ -462,30 +463,30 @@ body, input, button {
 
 /* Карточка клиента */
 .client-card {
-  background: #fff;
+  position: relative;
+  width: 370px;
+  padding: 20px;
+  text-align: center;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 370px;
-  text-align: center; /* Центрируем содержимое карточки */
-  position: relative;
-  overflow: hidden; /* Чтобы изображения не выходили за пределы карточки */
+  background-color: #fff;
+  overflow: hidden;
 }
 
 .client-image {
-  width: 100%; /* Ширина изображения на всю ширину карточки */
-  height: 350px; /* Ограничиваем высоту изображения */
-  object-fit: cover; /* Изображение будет заполнять пространство карточки, обрезая лишнее, если нужно */
-  border-radius: 5px; /* Закругление углов */
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 5px;
 }
 
 /* Стили для заглушки изображения (прямоугольник) */
 .client-image-placeholder {
-  width: 100%; /* Ширина прямоугольника на всю ширину карточки */
-  height: 350px; /* Высота прямоугольника */
-  background-color: #f0f0f0; /* Цвет фона прямоугольника */
-  border-radius: 5px; /* Закругление углов прямоугольника */
+  width: 100%;
+  height: 350px;
+  border-radius: 5px;
+  background-color: #fff;
 }
 
 @media (max-width: 768px) {
@@ -495,7 +496,7 @@ body, input, button {
   }
 
   .client-image {
-    height: 250px; /* Уменьшаем высоту изображений на маленьких экранах */
+    height: 250px;
   }
 }
 
@@ -582,20 +583,20 @@ h3 {
   position: relative;
   padding-bottom: 5px;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 700;
   letter-spacing: 1px;
   color: #333;
   text-transform: uppercase;
 }
 
-/* Добавим эффект подчеркивания с помощью псевдо-элемента */
+/* Эффект подчеркивания с помощью псевдо-элемента */
 h3::after {
   content: '';
   position: absolute;
   bottom: -5px;
   left: 0;
   width: 100%;
-  height: 2.1px;
+  height: 2px;
   background-color: #ED6019;
 }
 
@@ -607,16 +608,12 @@ h3::after {
 }
 
 /* Цена */
-.book-price, .client-balance {
+.book-price {
   padding-bottom: 6px;
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
-}
-
-.client-card .client-balance {
-  margin-bottom: 0;
 }
 
 .book-author, .book-price {
@@ -624,8 +621,16 @@ h3::after {
   line-height: 2;
 }
 
+/* Баланс покупателя */
+.client-balance {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
 .client-book-list .book-author {
-  margin-bottom: 5px;
+  padding-bottom: 7px;
 }
 
 .book-button {
@@ -649,15 +654,33 @@ h3::after {
 
 /* Стили для секции добавления книги */
 .add-book-section {
+  width: 100%;
   max-width: 600px;
   margin: 30px auto 60px;
   padding: 12px 20px 38px;
+  text-align: center;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   background-color: #f8f8f8;
 }
 
+/* Контейнер для заголовка */
+.add-book-title {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #f99462;
+  text-transform: uppercase;
+}
+
 /* Стили для формы добавления книги */
+.add-book-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 .add-book-form input {
   max-width: 500px;
   width: 100%;
@@ -683,12 +706,16 @@ h3::after {
 .add-book-button,
 .clear-form-button {
   flex: 1;
+  width: 150px;
   padding: 10px 20px;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -709,7 +736,7 @@ h3::after {
   margin-bottom: -5px;
   font-size: 46px;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   color: #333;
   text-transform: uppercase;
 }
@@ -725,9 +752,9 @@ h3::after {
 
 .newsletter-title {
   margin-bottom: 10px;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   text-transform: uppercase;
   color: #333;
 }
@@ -777,6 +804,15 @@ h3::after {
   background-color: #ED6019;
 }
 
+.newsletter-message {
+  margin-top: -60px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #333;
+}
+
 /* Мобильная адаптация */
 @media (max-width: 768px) {
   .newsletter-form-container {
@@ -795,11 +831,11 @@ h3::after {
   width: 29px;
   height: 29px;
   margin-left: 20px;
-  transform: translateY(0%);
-  cursor: pointer;  /* Курсор как указатель */
+  cursor: pointer;
   transition: transform 0.3s;
-  fill: #333;  /* Задаем цвет для SVG */
+  fill: #333;
   filter: brightness(0) saturate(20%) invert(70%) sepia(10%) hue-rotate(40deg);
+  transform: translateY(0%);
   rotate: 90deg;
 }
 
@@ -812,20 +848,20 @@ h3::after {
 .filter-panel {
   position: fixed;
   top: 0;
-  right: -400px; /* Панель скрыта справа */
+  right: -400px;
   width: 400px;
   height: 100%;
-  background-color: #fff;
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-  transition: right 0.3s ease;
   z-index: 999;
   padding: 30px;
   box-sizing: border-box;
+  background-color: #fff;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
+  transition: right 0.3s ease;
 }
 
 .filter-panel.open {
-  right: 0; /* Панель выезжает */
+  right: 0;
 }
 
 /* Контент внутри панели */
@@ -835,124 +871,82 @@ h3::after {
 }
 
 .filter-panel h2 {
-  text-align: center;
+  margin-top: 50px;
   font-size: 22px;
   font-weight: 700;
+  text-align: center;
+  letter-spacing: 1px;
   color: #333;
-  margin-top: 50px;
-  margin-bottom: 20px;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
 }
 
-.price-range-label{
+.range-label{
   display: block;
+  margin-top: 50px;
+  margin-bottom: 65px;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.wrapper {
+  position: relative;
+}
+
+.range-values {
+  position: absolute;
+  top: 66%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
   font-size: 15px;
   font-weight: 400;
-  margin-top: 35px;
-  margin-bottom: 65px;
-  color: #666;
+  color: #333;
   letter-spacing: 1px;
 }
 
-.year-range-label {
-  display: block;
-  font-size: 15px;
-  font-weight: 400;
-  margin-top: 45px;
-  margin-bottom: 65px;
-  color: #666;
-  letter-spacing: 1px;
-}
-
-.price-wrapper {
-  position: relative;
-}
-
-.year-wrapper {
-  position: relative;
-}
-
-.price-wrapper .price-range-values {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-
-.year-wrapper .year-range-values {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-
-.price-range-values {
-  position: absolute;
-  top: 66%;
-  font-size: 15px;
-  letter-spacing: 0.3px;
-  font-weight: 400;
-  color: #333;
-}
-
-.year-range-values {
-  position: absolute;
-  top: 66%;
-  font-size: 15px;
-  letter-spacing: 0.3px;
-  font-weight: 400;
-  color: #333;
-}
-
-.price-range-container {
+.range-container {
   position: relative;
   width: 100%;
   height: 100%;
-  margin-top: 20px;
-  margin-bottom: 30px;
-}
-
-.year-range-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  margin-top: 20px;
-  margin-bottom: 30px;
 }
 
 input[type="range"] {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  margin: auto;
+  background: transparent;
+  outline: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  position: absolute;
-  width: 100%;
-  outline: none;
-  margin: auto;
-  top: 0;
-  bottom: 0;
-  background: transparent;
   pointer-events: none;
 }
 
 .price-track {
-  width: 100%;
-  height: 8px;
-  background: #ccc;
-  border-radius: 5px;
   position: absolute;
   top: 0;
   bottom: 0;
   margin: auto;
+  width: 100%;
+  height: 8px;
+  background: #ccc;
+  border-radius: 5px;
 }
 
 .year-track {
-  width: 100%;
-  height: 8px;
-  background: #ccc;
-  border-radius: 5px;
   position: absolute;
   top: 0;
   bottom: 0;
   margin: auto;
+  width: 100%;
+  height: 8px;
+  background: #ccc;
+  border-radius: 5px;
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
@@ -971,83 +965,77 @@ input[type="range"]::-ms-track {
 }
 
 input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none; /* Для webkit-браузеров */
   width: 20px;
   height: 20px;
-  background: #f99462; /* Цвет ползунка */
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid #ED6019; /* Бордер вокруг ползунка */
   margin-top: -6.2px;
+  border: 2px solid #ED6019;
+  border-radius: 50%;
+  background: #f99462;
+  cursor: pointer;
+  -webkit-appearance: none;
   pointer-events: auto;
 }
 
 input[type="range"]::-moz-range-thumb {
-  -webkit-appearance: none;
   width: 20px;
   height: 20px;
-  background: #f99462; /* Цвет ползунка */
+  border: 2px solid #ED6019;
   border-radius: 50%;
+  background: #f99462;
   cursor: pointer;
-  border: 2px solid #ED6019; /* Бордер вокруг ползунка */
+  -webkit-appearance: none;
   pointer-events: auto;
 }
 
 input[type="range"]::-ms-thumb {
-  appearance: none;
   width: 20px;
   height: 20px;
-  background: #f99462;
-  border-radius: 50%;
-  cursor: pointer;
   border: 2px solid #ED6019;
+  border-radius: 50%;
+  background: #f99462;
+  cursor: pointer;
+  appearance: none;
   pointer-events: auto;
 }
 
-input[type="range"]:active::-webkit-slider-thumb{
-  background: #f99462;
-  border: 2px solid #ED6019;
-}
-
-.filter-section .filter-button-container {
+.filter-button-container {
   display: flex;
   width: 100%;
+  margin-top: 70px;
   justify-content: space-between;
   gap: 10px;
 }
 
 .clear-filter-button {
-  margin-top: 80px;
-  flex: 1; /* Каждая кнопка будет занимать равную долю пространства */
+  flex: 1;
   padding: 10px 20px;
-  background-color: #999;
-  color: #fff;
   font-size: 14px;
-  cursor: pointer;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  color: #fff;
   border: none;
   border-radius: 5px;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 500;
+  cursor: pointer;
   transition: background 0.3s;
+  background-color: #999;
 }
 
 .apply-filter-button {
-  margin-top: 80px;
-  flex: 1; /* Каждая кнопка будет занимать равную долю пространства */
+  flex: 1;
   padding: 10px 20px;
-  background-color: #f99462;
-  color: #fff;
   font-size: 14px;
-  cursor: pointer;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  color: #fff;
   border: none;
   border-radius: 5px;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 500;
+  cursor: pointer;
   transition: background 0.3s;
+  background-color: #f99462;
 }
 
 .clear-filter-button:hover {
@@ -1062,68 +1050,65 @@ input[type="range"]:active::-webkit-slider-thumb{
 .close-filter-button {
   position: absolute;
   right: 20px;
-  background: transparent;
-  border: none;
   font-size: 24px;
-  cursor: pointer;
   color: #ccc;
-  margin-left: auto;
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }
 
 /* Стили для попапа */
 .popup {
-  display: none; /* Скрыть попап по умолчанию */
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+  background-color: rgba(0, 0, 0, 0.5);
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* На передний план */
+  z-index: 9999;
 }
 
 /* Стили для содержимого попапа */
 .popup-content {
-  background-color: #f8f8f8;
-  padding: 10px 30px;
-  border-radius: 5px;
   width: 580px;
   height: 370px;
+  padding: 10px 30px;
   text-align: center;
+  border-radius: 5px;
+  background-color: #f8f8f8;
 }
 
 .popup-text {
-  font-size: 16px;
-  color: #666;
-  text-align: center;
-  font-weight: 500;
   margin-bottom: 30px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
 }
 
-.popup .popup-button-container {
+.popup-button-container {
   display: flex;
   justify-content: space-between;
   gap: 15px;
 }
 
-
 /* Кнопка для закрытия попапа */
 .deny-popup-button {
-  flex: 1; /* Каждая кнопка будет занимать равную долю пространства */
+  flex: 1;
   padding: 10px 20px;
-  background-color: #999;
-  color: #fff;
   font-size: 14px;
-  cursor: pointer;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  color: #fff;
   border: none;
   border-radius: 5px;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 500;
+  cursor: pointer;
   transition: background 0.3s;
+  background-color: #999;
 }
 
 .deny-popup-button:hover {
@@ -1131,19 +1116,19 @@ input[type="range"]:active::-webkit-slider-thumb{
 }
 
 .confirm-popup-button {
-  flex: 1; /* Каждая кнопка будет занимать равную долю пространства */
+  flex: 1;
   padding: 10px 20px;
-  background-color: #f99462;
-  color: #fff;
   font-size: 14px;
-  cursor: pointer;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  color: #fff;
   border: none;
   border-radius: 5px;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 500;
+  cursor: pointer;
   transition: background 0.3s;
+  background-color: #f99462;
 }
 
 .confirm-popup-button:hover {

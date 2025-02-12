@@ -1,28 +1,8 @@
-/*! HTML5 Boilerplate v9.0.1 | MIT License | https://html5boilerplate.com/ */
-
-/* main.css 3.0.0 | MIT License | https://github.com/h5bp/main.css#readme */
-/*
- * What follows is the result of much research on cross-browser styling.
- * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
- * Kroc Camen, and the H5BP dev community and team.
- */
-
-/* ==========================================================================
-   Base styles: opinionated defaults
-   ========================================================================== */
-
 html {
   color: #222;
   font-size: 1em;
   line-height: 1.4;
 }
-
-/*
- * Remove text-shadow in selection highlight:
- * https://twitter.com/miketaylr/status/12228805301
- *
- * Customize the background color to match your design.
- */
 
 ::-moz-selection {
   background: #b3d4fc;
@@ -34,10 +14,6 @@ html {
   text-shadow: none;
 }
 
-/*
- * A better looking default horizontal rule
- */
-
 hr {
   display: block;
   height: 1px;
@@ -46,12 +22,6 @@ hr {
   margin: 1em 0;
   padding: 0;
 }
-
-/*
- * Remove the gap between audio, canvas, iframes,
- * images, videos and the bottom of their containers:
- * https://github.com/h5bp/html5-boilerplate/issues/440
- */
 
 audio,
 canvas,
@@ -62,49 +32,20 @@ video {
   vertical-align: middle;
 }
 
-/*
- * Remove default fieldset styles.
- */
-
 fieldset {
   border: 0;
   margin: 0;
   padding: 0;
 }
 
-/*
- * Allow only vertical resizing of textareas.
- */
-
 textarea {
   resize: vertical;
 }
-
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
-
-/* ==========================================================================
-   Helper classes
-   ========================================================================== */
-
-/*
- * Hide visually and from screen readers
- */
 
 .hidden,
 [hidden] {
   display: none !important;
 }
-
-/*
- * Hide only visually, but have it available for screen readers:
- * https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
- *
- * 1. For long content, line feeds are not interpreted as spaces and small width
- *    causes content to wrap 1 word per line:
- *    https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
- */
 
 .visually-hidden {
   border: 0;
@@ -116,14 +57,7 @@ textarea {
   position: absolute;
   white-space: nowrap;
   width: 1px;
-  /* 1 */
 }
-
-/*
- * Extends the .visually-hidden class to allow the element
- * to be focusable when navigated to via the keyboard:
- * https://www.drupal.org/node/897638
- */
 
 .visually-hidden.focusable:active,
 .visually-hidden.focusable:focus {
@@ -136,20 +70,9 @@ textarea {
   width: auto;
 }
 
-/*
- * Hide visually and from screen readers, but maintain layout
- */
-
 .invisible {
   visibility: hidden;
 }
-
-/*
- * Clearfix: contain floats
- *
- * The use of `table` rather than `block` is only necessary if using
- * `::before` to contain the top-margins of child elements.
- */
 
 .clearfix::before,
 .clearfix::after {
@@ -161,29 +84,6 @@ textarea {
   clear: both;
 }
 
-/* ==========================================================================
-   EXAMPLE Media Queries for Responsive Design.
-   These examples override the primary ('mobile first') styles.
-   Modify as content requires.
-   ========================================================================== */
-
-@media only screen and (min-width: 35em) {
-  /* Style adjustments for viewports that meet the condition */
-}
-
-@media print,
-(-webkit-min-device-pixel-ratio: 1.25),
-(min-resolution: 1.25dppx),
-(min-resolution: 120dpi) {
-  /* Style adjustments for high resolution devices */
-}
-
-/* ==========================================================================
-   Print styles.
-   Inlined to avoid the additional HTTP request:
-   https://www.phpied.com/delay-loading-your-print-css/
-   ========================================================================== */
-
 @media print {
   *,
   *::before,
@@ -194,74 +94,54 @@ textarea {
     box-shadow: none !important;
     text-shadow: none !important;
   }
-
   a,
   a:visited {
     text-decoration: underline;
   }
-
   a[href]::after {
     content: " (" attr(href) ")";
   }
-
   abbr[title]::after {
     content: " (" attr(title) ")";
   }
-
-  /*
-   * Don't show links that are fragment identifiers,
-   * or use the `javascript:` pseudo protocol
-   */
   a[href^="#"]::after,
   a[href^="javascript:"]::after {
     content: "";
   }
-
   pre {
     white-space: pre-wrap !important;
   }
-
   pre,
   blockquote {
     border: 1px solid #999;
     page-break-inside: avoid;
   }
-
   tr,
   img {
     page-break-inside: avoid;
   }
-
   p,
   h2,
   h3 {
     orphans: 3;
     widows: 3;
   }
-
   h2,
   h3 {
     page-break-after: avoid;
   }
 }
-
-/* Основной стиль сайта */
-body, input, button {
-  font-family: 'Montserrat', sans-serif;
-}
-
 *, *::before, *::after {
   box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
 }
 
-/* Шапки сайта */
-.site-header, .site-footer {
+.header {
   padding: 35px 20px;
   text-align: center;
   background-color: #f8f8f8;
 }
-
-.site-title {
+.header-title {
   margin-bottom: -5px;
   text-decoration: none;
   font-size: 56px;
@@ -270,8 +150,7 @@ body, input, button {
   color: #333;
   text-transform: uppercase;
 }
-
-.site-tagline {
+.header-tagline {
   margin-bottom: 80px;
   font-size: 16px;
   font-weight: 400;
@@ -280,17 +159,15 @@ body, input, button {
   text-transform: uppercase;
 }
 
-/* Меню навигации */
 .nav-list {
   list-style: none;
   display: flex;
-  padding: 0;
   justify-content: center;
-  text-transform: uppercase;
   gap: 40px;
+  padding: 0;
+  text-transform: uppercase;
 }
-
-.nav-link {
+.nav-list-link {
   padding: 5px 10px;
   text-decoration: none;
   font-size: 16px;
@@ -298,19 +175,16 @@ body, input, button {
   color: #333;
   transition: color 0.3s;
 }
-
-.nav-link:hover {
+.nav-list-link:hover {
   color: #ED6019;
 }
 
-/* Заголовок страницы */
 .page-header {
   position: relative;
   margin: 40px auto;
   text-align: center;
 }
-
-.page-title {
+.page-header-title {
   font-size: 24px;
   font-weight: 700;
   letter-spacing: 2px;
@@ -318,8 +192,7 @@ body, input, button {
   text-transform: uppercase;
 }
 
-/* Стиль для контейнера поиска */
-.store-search-container {
+.store-search-container, .library-search-container {
   display: flex;
   width: 100%;
   justify-content: center;
@@ -328,8 +201,7 @@ body, input, button {
   gap: 10px;
 }
 
-/* Стиль для поля ввода */
-.store-search-input {
+.store-search-input, .library-search-input {
   max-width: 400px;
   width: 100%;
   padding: 9px;
@@ -341,14 +213,13 @@ body, input, button {
   background-color: #f8f8f8;
 }
 
-/* Стиль для кнопки поиска */
-.store-search-button {
+.store-search-button, .library-search-button {
   padding: 10px 20px;
+  text-align: center;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
-  text-align: center;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -356,42 +227,207 @@ body, input, button {
   transition: background 0.3s;
   background-color: #f99462;
 }
-
-.store-search-button:hover {
+.store-search-button:hover, .library-search-button:hover {
   background-color: #ED6019;
 }
 
-/* Стиль для контейнера поиска в библиотеке*/
-.library-search-container {
+.open-filter-img {
+  width: 29px;
+  height: 29px;
+  margin-left: 20px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  fill: #333;
+  filter: brightness(0) saturate(20%) invert(70%) sepia(10%) hue-rotate(40deg);
+  transform: translateY(0%);
+  rotate: 90deg;
+}
+.open-filter-img:hover {
+  transform: scale(1.1);
+}
+
+.filter-panel {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 400px;
+  height: 100%;
+  z-index: 999;
+  padding: 30px;
+  background-color: #fff;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  transition: right 0.3s ease;
+}
+.filter-panel.open {
+  right: 0;
+}
+.filter-panel-close {
+  position: absolute;
+  right: 20px;
+  font-size: 24px;
+  color: #ccc;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.filter-content {
+  display: flex;
+  flex-direction: column;
+}
+.filter-content h2 {
+  margin-top: 50px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-align: center;
+  color: #333;
+  text-transform: uppercase;
+}
+
+.range {
+  position: relative;
+}
+.range-label {
+  display: block;
+  margin-top: 50px;
+  margin-bottom: 65px;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: #666;
+  text-transform: uppercase;
+}
+.range-values {
+  position: absolute;
+  top: 66%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  font-weight: 400;
+  color: #333;
+  letter-spacing: 1px;
+}
+.range-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.range-container input {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  margin: auto;
+  background: transparent;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  pointer-events: none;
+}
+
+.price-track, .year-track {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  background: #ccc;
+}
+
+.range-container input::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  height: 8px;
+}
+
+.range-container input::-moz-range-track {
+  -moz-appearance: none;
+  height: 8px;
+}
+
+.range-container input::-ms-track {
+  appearance: none;
+  height: 8px;
+}
+
+.range-container input::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  margin-top: -6.2px;
+  border: 2px solid #ED6019;
+  border-radius: 50%;
+  background: #f99462;
+  cursor: pointer;
+  -webkit-appearance: none;
+  pointer-events: auto;
+}
+
+.range-container input::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ED6019;
+  border-radius: 50%;
+  background: #f99462;
+  cursor: pointer;
+  -webkit-appearance: none;
+  pointer-events: auto;
+}
+
+.range-container input::-ms-thumb {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ED6019;
+  border-radius: 50%;
+  background: #f99462;
+  cursor: pointer;
+  appearance: none;
+  pointer-events: auto;
+}
+
+.range-container input:active::-webkit-slider-thumb {
+  background: #f99462;
+  border: 2px solid #ED6019;
+}
+
+.filter-button {
   display: flex;
   width: 100%;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
+  margin-top: 70px;
+  justify-content: space-between;
   gap: 10px;
 }
-
-/* Стиль для поля ввода в библиотеке */
-.library-search-input {
-  max-width: 400px;
-  width: 100%;
-  padding: 9px;
-  font-size: 15px;
-  color: #666;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  outline: none;
-  background-color: #f8f8f8;
-}
-
-/* Стиль для кнопки поиска в библиотеке */
-.library-search-button {
+.filter-button-clear {
+  flex: 1;
   padding: 10px 20px;
+  text-align: center;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  background-color: #999;
+}
+.filter-button-clear:hover {
+  background-color: #ccc;
+}
+.filter-button-apply {
+  flex: 1;
+  padding: 10px 20px;
   text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -399,148 +435,38 @@ body, input, button {
   transition: background 0.3s;
   background-color: #f99462;
 }
-
-.library-search-button:hover {
+.filter-button-apply:hover {
   background-color: #ED6019;
 }
 
-/* Список книг */
-.book-list {
+.list, .client-book-list, .book-list, .client-list {
   display: flex;
   flex-wrap: wrap;
   padding-left: 3rem;
   padding-right: 3rem;
-  padding-bottom: 80px;
   justify-content: center;
   align-items: flex-start;
   gap: 3rem;
 }
 
-@media (max-width: 768px) {
-  .book-list {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    gap: 2rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .book-list {
-    padding-left: 10px;
-    padding-right: 10px;
-    gap: 1rem;
-  }
-}
-
-/* Список клиентов */
 .client-list {
-  display: flex;
-  flex-wrap: wrap;
   margin-top: -10px;
-  padding-left: 3rem;
-  padding-right: 3rem;
   padding-bottom: 50px;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 3rem;
 }
 
-@media (max-width: 768px) {
-  .client-list {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    gap: 2rem;
-  }
+.book-list {
+  padding-bottom: 80px;
 }
 
-@media (max-width: 480px) {
-  .client-list {
-    padding-left: 10px;
-    padding-right: 10px;
-    gap: 1rem;
-  }
-}
-
-/* Карточка клиента */
-.client-card {
-  position: relative;
-  width: 370px;
-  padding: 20px;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  overflow: hidden;
-}
-
-.client-image {
-  width: 100%;
-  height: 350px;
-  object-fit: cover;
-  border-radius: 5px;
-}
-
-/* Стили для заглушки изображения (прямоугольник) */
-.client-image-placeholder {
-  width: 100%;
-  height: 350px;
-  border-radius: 5px;
-  background-color: #fff;
-}
-
-@media (max-width: 768px) {
-  .client-card {
-    width: 100%;
-    padding: 20px;
-  }
-
-  .client-image {
-    height: 250px;
-  }
-}
-
-@media (max-width: 480px) {
-  .client-card {
-    width: 100%;
-    padding: 20px;
-  }
-
-  .client-image {
-    height: 250px;
-  }
-}
-
-/* Список книг клиента */
 .client-book-list {
-  display: flex;
-  flex-wrap: wrap;
-  padding-left: 3rem;
-  padding-right: 3rem;
   padding-bottom: 30px;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 3rem;
 }
 
-@media (max-width: 768px) {
-  .client-book-list {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    gap: 2rem;
-  }
+.client-book-list .author {
+  padding-bottom: 7px;
 }
 
-@media (max-width: 480px) {
-  .client-book-list {
-    padding-left: 10px;
-    padding-right: 10px;
-    gap: 1rem;
-  }
-}
-
-/* Карточка книги */
-.book-card {
+.card {
   position: relative;
   width: 370px;
   padding: 20px;
@@ -551,53 +477,19 @@ body, input, button {
   background-color: #fff;
   overflow: hidden;
 }
-
-.book-image {
+.card .image, .card .image-placeholder, .card .video {
   width: 100%;
   height: 350px;
   object-fit: cover;
   border-radius: 5px;
 }
-
-.book-video {
-  width: 100%;
-  height: 350px;
+.card .image-placeholder {
+  background-color: #fff;
+}
+.card .video {
   object-position: top;
-  object-fit: cover;
-  border-radius: 5px;
 }
-
-@media (max-width: 768px) {
-  .book-card {
-    width: 100%;
-    padding: 20px;
-  }
-
-  .book-image {
-    height: 250px;
-  }
-
-  .book-video {
-    height: 250px;
-  }
-}
-
-@media (max-width: 480px) {
-  .book-card {
-    width: 100%;
-    padding: 20px;
-  }
-
-  .book-image {
-    height: 250px;
-  }
-
-  .book-video {
-    height: 250px;
-  }
-}
-
-h3 {
+.card h3 {
   position: relative;
   padding-bottom: 5px;
   font-size: 18px;
@@ -606,10 +498,8 @@ h3 {
   color: #333;
   text-transform: uppercase;
 }
-
-/* Эффект подчеркивания с помощью псевдо-элемента */
-h3::after {
-  content: '';
+.card h3::after {
+  content: "";
   position: absolute;
   bottom: -5px;
   left: 0;
@@ -617,61 +507,37 @@ h3::after {
   height: 2px;
   background-color: #ED6019;
 }
-
-/* Автор */
-.book-author {
-  font-size: 14px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-/* Цена */
-.book-price {
-  padding-bottom: 6px;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.book-author, .book-price {
+.card .author, .card .price, .card .balance {
   margin: 0;
   line-height: 2;
-}
-
-/* Баланс покупателя */
-.client-balance {
   font-size: 14px;
-  font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
 }
-
-.client-book-list .book-author {
-  padding-bottom: 7px;
+.card .price, .card .balance {
+  padding-bottom: 6px;
+  font-weight: 700;
 }
-
-.book-button {
-  padding: 8px 20px;
+.card .book-button, .card .client-button {
+  padding: 10px 20px;
+  text-align: center;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
-  text-align: center;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background 0.3s;
-  background: #f99462;
+  background-color: #f99462;
+  padding: 8px 20px !important;
+}
+.card .book-button:hover, .card .client-button:hover {
+  background-color: #ED6019;
 }
 
-.book-button:hover {
-  background: #ED6019;
-}
-
-/* Стили для секции добавления книги */
-.add-book-section {
+.add-book {
   width: 100%;
   max-width: 600px;
   margin: 30px auto 60px;
@@ -681,8 +547,6 @@ h3::after {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   background-color: #f8f8f8;
 }
-
-/* Контейнер для заголовка */
 .add-book-title {
   font-size: 24px;
   font-weight: 700;
@@ -690,8 +554,6 @@ h3::after {
   color: #f99462;
   text-transform: uppercase;
 }
-
-/* Стили для формы добавления книги */
 .add-book-form {
   display: flex;
   flex-direction: column;
@@ -710,30 +572,25 @@ h3::after {
   border-radius: 5px;
 }
 
-/* Контейнер для кнопок */
-.add-book-button-container {
+.add-container {
   display: flex;
   max-width: 500px;
   width: 100%;
   justify-content: space-between;
   gap: 10px;
 }
-
-/* Для кнопок */
-.add-image,
-.add-book-button,
-.clear-form-button {
+.add-container .add-image, .add-container .add-book, .add-container .clear-form {
   flex: 1;
   width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   padding: 10px 20px;
+  text-align: center;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -741,21 +598,29 @@ h3::after {
   transition: background 0.3s;
   background-color: #f99462;
 }
-
-/* При наведении */
-.add-image:hover,
-.add-book-button:hover,
-.clear-form-button:hover {
+.add-container .add-image:hover, .add-container .add-book:hover, .add-container .clear-form:hover {
   background-color: #ED6019;
 }
 
-/* Нижний колонтитул */
-.site-footer .site-title {
+.footer {
+  padding: 35px 20px;
+  text-align: center;
+  background-color: #f8f8f8;
+}
+.footer-title {
   margin-bottom: -5px;
   font-size: 46px;
   font-weight: 700;
   letter-spacing: 1px;
   color: #333;
+  text-transform: uppercase;
+}
+.footer-tagline {
+  margin-bottom: 80px;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: #666;
   text-transform: uppercase;
 }
 
@@ -764,16 +629,14 @@ h3::after {
   font-size: 24px;
   font-weight: 700;
   letter-spacing: 1px;
-  text-transform: uppercase;
   color: #333;
+  text-transform: uppercase;
 }
-
 .newsletter-text {
   margin-bottom: 20px;
   font-size: 16px;
   color: #666;
 }
-
 .newsletter-form-container {
   margin-bottom: 80px;
   display: flex;
@@ -783,7 +646,6 @@ h3::after {
   flex-wrap: wrap;
   gap: 10px;
 }
-
 .newsletter input {
   max-width: 400px;
   width: 100%;
@@ -793,14 +655,13 @@ h3::after {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-
 .newsletter-button {
   padding: 10px 20px;
+  text-align: center;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
-  text-align: center;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -808,26 +669,16 @@ h3::after {
   transition: background 0.3s;
   background-color: #f99462;
 }
-
 .newsletter-button:hover {
   background-color: #ED6019;
 }
-
 .newsletter-message {
   margin-top: -60px;
   font-size: 24px;
   font-weight: 700;
   letter-spacing: 1px;
-  text-transform: uppercase;
   color: #333;
-}
-
-/* Мобильная адаптация */
-@media (max-width: 768px) {
-  .newsletter-form-container {
-    flex-direction: column;
-    gap: 10px;
-  }
+  text-transform: uppercase;
 }
 
 .site-finish {
@@ -835,238 +686,6 @@ h3::after {
   color: #666;
 }
 
-/* Картинка для открытия фильтра */
-.open-filter-img {
-  width: 29px;
-  height: 29px;
-  margin-left: 20px;
-  cursor: pointer;
-  transition: transform 0.3s;
-  fill: #333;
-  filter: brightness(0) saturate(20%) invert(70%) sepia(10%) hue-rotate(40deg);
-  transform: translateY(0%);
-  rotate: 90deg;
-}
-
-/* При наведении увеличиваем картинку */
-.open-filter-img:hover {
-  transform: scale(1.1);
-}
-
-/* Боковая панель с фильтром */
-.filter-panel {
-  position: fixed;
-  top: 0;
-  right: -400px;
-  width: 400px;
-  height: 100%;
-  z-index: 999;
-  padding: 30px;
-  box-sizing: border-box;
-  background-color: #fff;
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
-  transition: right 0.3s ease;
-}
-
-.filter-panel.open {
-  right: 0;
-}
-
-/* Контент внутри панели */
-.filter-content {
-  display: flex;
-  flex-direction: column;
-}
-
-.filter-panel h2 {
-  margin-top: 50px;
-  font-size: 22px;
-  font-weight: 700;
-  text-align: center;
-  letter-spacing: 1px;
-  color: #333;
-  text-transform: uppercase;
-}
-
-.range-label{
-  display: block;
-  margin-top: 50px;
-  margin-bottom: 65px;
-  font-size: 16px;
-  font-weight: 400;
-  letter-spacing: 1px;
-  color: #666;
-  text-transform: uppercase;
-}
-
-.wrapper {
-  position: relative;
-}
-
-.range-values {
-  position: absolute;
-  top: 66%;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  font-size: 15px;
-  font-weight: 400;
-  color: #333;
-  letter-spacing: 1px;
-}
-
-.range-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-input[type="range"] {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  margin: auto;
-  background: transparent;
-  outline: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  pointer-events: none;
-}
-
-.price-track {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  width: 100%;
-  height: 8px;
-  background: #ccc;
-  border-radius: 5px;
-}
-
-.year-track {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  width: 100%;
-  height: 8px;
-  background: #ccc;
-  border-radius: 5px;
-}
-
-input[type="range"]::-webkit-slider-runnable-track {
-  -webkit-appearance: none;
-  height: 8px;
-}
-
-input[type="range"]::-moz-range-track {
-  -moz-appearance: none;
-  height: 8px;
-}
-
-input[type="range"]::-ms-track {
-  appearance: none;
-  height: 8px;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-  width: 20px;
-  height: 20px;
-  margin-top: -6.2px;
-  border: 2px solid #ED6019;
-  border-radius: 50%;
-  background: #f99462;
-  cursor: pointer;
-  -webkit-appearance: none;
-  pointer-events: auto;
-}
-
-input[type="range"]::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #ED6019;
-  border-radius: 50%;
-  background: #f99462;
-  cursor: pointer;
-  -webkit-appearance: none;
-  pointer-events: auto;
-}
-
-input[type="range"]::-ms-thumb {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #ED6019;
-  border-radius: 50%;
-  background: #f99462;
-  cursor: pointer;
-  appearance: none;
-  pointer-events: auto;
-}
-
-.filter-button-container {
-  display: flex;
-  width: 100%;
-  margin-top: 70px;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.clear-filter-button {
-  flex: 1;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  text-align: center;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
-  background-color: #999;
-}
-
-.apply-filter-button {
-  flex: 1;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  text-align: center;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
-  background-color: #f99462;
-}
-
-.clear-filter-button:hover {
-  background-color: #ccc;
-}
-
-.apply-filter-button:hover {
-  background-color: #ED6019;
-}
-
-/* Кнопка закрытия панели */
-.close-filter-button {
-  position: absolute;
-  right: 20px;
-  font-size: 24px;
-  color: #ccc;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-}
-
-/* Стили для попапа */
 .popup {
   display: none;
   position: fixed;
@@ -1079,8 +698,6 @@ input[type="range"]::-ms-thumb {
   align-items: center;
   z-index: 9999;
 }
-
-/* Стили для содержимого попапа */
 .popup-content {
   width: 580px;
   height: 370px;
@@ -1089,29 +706,26 @@ input[type="range"]::-ms-thumb {
   border-radius: 5px;
   background-color: #f8f8f8;
 }
-
 .popup-text {
   margin-bottom: 30px;
   font-size: 16px;
   font-weight: 500;
   color: #666;
 }
-
-.popup-button-container {
+.popup-container {
   display: flex;
   justify-content: space-between;
   gap: 15px;
 }
 
-/* Кнопка для закрытия попапа */
-.deny-popup-button {
+.deny-popup {
   flex: 1;
   padding: 10px 20px;
+  text-align: center;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
-  text-align: center;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -1119,19 +733,18 @@ input[type="range"]::-ms-thumb {
   transition: background 0.3s;
   background-color: #999;
 }
-
-.deny-popup-button:hover {
+.deny-popup:hover {
   background-color: #ccc;
 }
 
-.confirm-popup-button {
+.confirm-popup {
   flex: 1;
   padding: 10px 20px;
+  text-align: center;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
-  text-align: center;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -1139,7 +752,8 @@ input[type="range"]::-ms-thumb {
   transition: background 0.3s;
   background-color: #f99462;
 }
-
-.confirm-popup-button:hover {
+.confirm-popup:hover {
   background-color: #ED6019;
 }
+
+/*# sourceMappingURL=style.css.map */

@@ -67,23 +67,21 @@ books.forEach(book => store.addBook(book));
 // Создание карточки покупателя
 function createClientCard(client: Client, addClientFund: () => void): HTMLElement {
   const clientCard = document.createElement('div');
-  clientCard.className = 'client-card';
+  clientCard.className = 'card';
 
   const clientImage = client.image
-    ? `<img src="${client.image}" alt="${client.name}" class="client-image">`
-    : `<div class="client-image-placeholder"></div>`;
+    ? `<img src="${client.image}" alt="${client.name}" class="image">`
+    : `<div class="image-placeholder"></div>`;
 
   clientCard.innerHTML = `
     ${clientImage}
     <h3>${client.name}</h3>
-    <div class="client-details">
-      <p class="client-balance">${client.balance.toFixed(2)} €</p>
-      <button class="book-button">Увеличить баланс</button>
-    </div>
+    <p class="balance">${client.balance.toFixed(2)} €</p>
+    <button class="client-button">Увеличить баланс</button>
   `;
 
-  const bookButton = clientCard.querySelector('.book-button') as HTMLElement;
-  bookButton.addEventListener('click', addClientFund);
+  const clientButton = clientCard.querySelector('.client-button') as HTMLElement;
+  clientButton.addEventListener('click', addClientFund);
 
   return clientCard;
 }
@@ -91,23 +89,21 @@ function createClientCard(client: Client, addClientFund: () => void): HTMLElemen
 // Создание карточки книги
 function createBookCard(storeBook: StoreBook, handleBook: () => void): HTMLElement {
   const bookCard = document.createElement('div');
-  bookCard.className = 'book-card';
+  bookCard.className = 'card';
 
   const bookMedia = storeBook.book.image.endsWith('.mp4')
-    ? `<video class="book-video" autoplay muted loop>
+    ? `<video class="video" autoplay muted loop>
          <source src="${storeBook.book.image}" type="video/mp4">
          Ваш браузер не поддерживает видео.
        </video>`
-    : `<img src="${storeBook.book.image}" alt="${storeBook.book.title}" class="book-image">`;
+    : `<img src="${storeBook.book.image}" alt="${storeBook.book.title}" class="image">`;
 
   bookCard.innerHTML = `
     ${bookMedia}
     <h3>${storeBook.book.title}</h3>
-    <div class="book-details">
-      <p class="book-author">${storeBook.book.author}</p>
-      <p class="book-price">${storeBook.book.price.toFixed(2)} €</p>
-    </div>
-    <button class="book-button">Купить</button>
+   <p class="author">${storeBook.book.author}</p>
+   <p class="price">${storeBook.book.price.toFixed(2)} €</p>
+   <button class="book-button">Купить</button>
   `;
 
   const bookButton = bookCard.querySelector('.book-button') as HTMLElement;
@@ -147,7 +143,7 @@ function displayClientBooks(): void {
   clientBookList.innerHTML = '';
   client.purchasedBooks.forEach(storeBook => {
     const bookCard = createBookCard(storeBook, () => removeClientBook(storeBook, bookCard));
-    const priceElement = bookCard.querySelector('.book-price');
+    const priceElement = bookCard.querySelector('.price');
     if (priceElement) {
       priceElement.remove();
     }

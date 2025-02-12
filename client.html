@@ -10,16 +10,16 @@
 </head>
 
 <body>
-<header class="site-header">
+<header class="header">
   <div class="container">
     <div class="branding">
-      <a href="index.html" class="site-title">KNIGBOOM</a>
-      <p class="site-tagline">МАГАЗИНЧИК ЗА УГЛОМ</p>
+      <a href="index.html" class="header-title">KNIGBOOM</a>
+      <p class="header-tagline">МАГАЗИНЧИК ЗА УГЛОМ</p>
     </div>
     <nav class="navigation">
       <ul class="nav-list">
-        <li class="nav-item"><a href="index.html" class="nav-link">Магазин</a></li>
-        <li class="nav-item"><a href="#client" class="nav-link">Покупатель</a></li>
+        <li><a href="index.html" class="nav-list-link">Магазин</a></li>
+        <li><a href="#client" class="nav-list-link">Покупатель</a></li>
       </ul>
     </nav>
   </div>
@@ -27,7 +27,7 @@
 
 <main>
   <section class="page-header">
-    <h2 class="page-title">Покупатель</h2>
+    <h2 class="page-header-title">Покупатель</h2>
   </section>
   <section id="client-list" class="client-list"></section>
 </main>
@@ -36,7 +36,7 @@
 
 <main>
   <section class="page-header">
-    <h2 class="page-title">Библиотека</h2>
+    <h2 class="page-header-title">Библиотека</h2>
     <div class="library-search-container">
       <input type="text" id="library-search-input" class="library-search-input" placeholder="Название книги, автор, жанр">
       <button id="library-search-button" class="library-search-button">Поиск</button>
@@ -45,48 +45,47 @@
 
   <section id="client-book-list" class="client-book-list"></section>
 
-  <section class="add-book-section">
-      <h2 class="add-book-title">Добавить книгу в библиотеку</h2>
+  <section class="add-book">
+    <h2 class="add-book-title">Добавить книгу в библиотеку</h2>
     <div id="add-book-form" class="add-book-form">
       <input type="text" id="book-title" placeholder="Название" required>
       <input type="text" id="book-author" placeholder="Автор" required>
-      <div class="add-book-button-container">
+      <div class="add-container">
         <label for="add-image" id="book-image-label" class="add-image">Обложка</label>
         <input type="file" id="add-image" accept="image/*" required style="display:none;">
-        <button id="add-book-button" class="add-book-button">Добавить</button>
-        <button id="clear-form-button" class="clear-form-button">Очистить</button>
+        <button id="add-book-button" class="add-book">Добавить</button>
+        <button id="clear-form-button" class="clear-form">Очистить</button>
       </div>
     </div>
   </section>
 </main>
 
-<footer class="site-footer">
+<footer class="footer">
   <div class="container">
     <div class="branding">
-      <h1 class="site-title">KNIGBOOM</h1>
-      <p class="site-tagline">МАГАЗИНЧИК ЗА УГЛОМ</p>
+      <h1 class="footer-title">KNIGBOOM</h1>
+      <p class="footer-tagline">МАГАЗИНЧИК ЗА УГЛОМ</p>
     </div>
-
     <div class="newsletter">
       <h2 class="newsletter-title">ПОДПИСКА НА НОВОСТИ</h2>
       <p class="newsletter-text">Получайте информацию о скидках, новинках и эксклюзивных предложениях прямо на ваш
         email.</p>
 
-      <form action="#" method="post" id="newsletter-form" class="newsletter-form-container">
+      <form action="#" method="post" id="newsletter-form" class="newsletter-form-container" >
         <input type="email" name="email" id="newsletter-email" placeholder="Введите ваш email" required>
         <button type="submit" class="newsletter-button">Подписаться</button>
       </form>
 
       <h2 id="newsletter-message" class="newsletter-message" style="display: none;"></h2>
-
-      <nav class="navigation">
-        <ul class="nav-list">
-          <li class="nav-item"><a href="payment.html" class="nav-link">ОПЛАТА</a></li>
-          <li class="nav-item"><a href="delivery.html" class="nav-link">ДОСТАВКА</a></li>
-          <li class="nav-item"><a href="conditions.html" class="nav-link">УСЛОВИЯ</a></li>
-        </ul>
-      </nav>
     </div>
+
+    <nav class="navigation">
+      <ul class="nav-list">
+        <li><a href="payment.html" class="nav-list-link">ОПЛАТА</a></li>
+        <li><a href="delivery.html" class="nav-list-link">ДОСТАВКА</a></li>
+        <li><a href="conditions.html" class="nav-list-link">УСЛОВИЯ</a></li>
+      </ul>
+    </nav>
 
     <p class="site-finish">© 2025 KNIGBOOM BookStore</p>
   </div>

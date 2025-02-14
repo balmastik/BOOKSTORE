@@ -1,5 +1,5 @@
 {
-  "name": " ",
+  "name": "KNIGBOOM",
   "version": "0.0.1",
   "description": "",
   "private": true,
@@ -7,12 +7,13 @@
     ""
   ],
   "license": "",
-  "author": "",
+  "author": "BALMASTIK",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve --config webpack.config.dev.js",
     "build": "webpack --config webpack.config.prod.js",
-    "sass": "sass --watch ./scss/style.scss:./css/style.css"
+    "buildServer": "webpack --config webpack.config.server.js",
+    "sass": "sass ./scss/style.scss:./dist/css/style.css",
+    "server": "node ./dist/server.js"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^11.0.0",
@@ -25,5 +26,20 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.2.0",
     "webpack-merge": "^5.10.0"
+  },
+  "dependencies": {
+    "assert": "^2.1.0",
+    "async_hooks": "^1.0.0",
+    "browserify-zlib": "^0.2.0",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.1",
+    "express": "^4.21.2",
+    "path-browserify": "^1.0.1",
+    "querystring-es3": "^0.2.1",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.4",
+    "util": "^0.12.5",
+    "vm-browserify": "^1.1.2"
   }
 }

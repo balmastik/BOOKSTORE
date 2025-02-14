@@ -1,14 +1,33 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: {
+    index: './src/index.ts',
+    store: './src/store.ts',
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
     clean: true,
-    filename: 'index.js',
+    filename: '[name].js',
   },
   resolve: {
     extensions: ['.ts', '.js'],
+    fallback: {
+      "zlib": require.resolve("browserify-zlib"),
+      "http": require.resolve("stream-http"),
+      "crypto": require.resolve("crypto-browserify"),
+      "path": require.resolve("path-browserify"),
+      "stream": require.resolve("stream-browserify"),
+      "buffer": require.resolve("buffer/"),
+      "fs": false,
+      "querystring": require.resolve("querystring-es3"),
+      "util": require.resolve("util/"),
+      "url": require.resolve("url/"),
+      "assert": require.resolve("assert/"),
+      "net": false,
+      "async_hooks": false,
+      "vm": require.resolve("vm-browserify"),
+    }
   },
   module: {
     rules: [
@@ -18,10 +37,18 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader',
+        ],
+      },
+      {
         test: /\.mp4$/,
         type: 'asset/resource',
         generator: {
-          filename: 'video/casino-royale.mp4',
+          filename: './video/casino-royale.mp4',
         },
       }
     ],

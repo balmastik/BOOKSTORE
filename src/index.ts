@@ -4,7 +4,7 @@ import {Book, StoreBook, Store, Client, SearchBookDetails} from './store';
 const client = new Client({
   name: 'Иван Иванов',
   balance: 40,
-  image: 'img/first_client.jpeg'
+  image: '/first_client.jpeg'
 });
 
 // Создание магазина
@@ -17,49 +17,49 @@ const books = [
     author: 'Айн Ренд',
     genre: 'Роман',
     year: 1957,
-    image: 'img/atlas_shrugged.jpeg'
+    image: '/atlas_shrugged.jpeg'
   }), 24.99),
   new StoreBook(new Book({
     title: 'Сага о Форсайтах',
     author: 'Джон Голсуорси',
     genre: 'Роман',
     year: 1906,
-    image: 'img/the_forsyte_saga.jpeg'
+    image: '/the_forsyte_saga.jpeg'
   }), 22.99),
   new StoreBook(new Book({
     title: 'Потерянный горизонт',
     author: 'Джеймс Хилтон',
     genre: 'Приключения',
     year: 1933,
-    image: 'img/lost_horizon.jpeg'
+    image: '/lost_horizon.jpeg'
   }), 17.50),
   new StoreBook(new Book({
     title: 'Острие бритвы',
     author: 'Сомерсет Моэм',
     genre: 'Роман',
     year: 1944,
-    image: 'img/the_razors_edge.jpeg'
+    image: '/the_razors_edge.jpeg'
   }), 20.00),
   new StoreBook(new Book({
     title: 'Нетерпение сердца',
     author: 'Стефан Цвейг',
     genre: 'Роман',
     year: 1939,
-    image: 'img/beware_of_pity.jpeg'
+    image: '/beware_of_pity.jpeg'
   }), 14.99),
   new StoreBook(new Book({
     title: 'Прощайте, мистер Чипс',
     author: 'Джеймс Хилтон',
     genre: 'Приключения',
     year: 1934,
-    image: 'img/goodbye_mr_chips.jpeg'
+    image: '/goodbye_mr_chips.jpeg'
   }), 12.99),
   new StoreBook(new Book({
     title: 'Казино Рояль',
     author: 'Ян Флеминг',
     genre: 'Роман',
     year: 1953,
-    image: 'video/casino_royale.mp4'
+    image: '/casino_royale.mp4'
   }), 28.00),
 ];
 books.forEach(book => store.addBook(book));

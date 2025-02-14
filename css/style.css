@@ -579,7 +579,7 @@ textarea {
   justify-content: space-between;
   gap: 10px;
 }
-.add-container .add-image, .add-container .add-book, .add-container .clear-form {
+.add-container .add-image, .add-container .add-button, .add-container .clear-form {
   flex: 1;
   width: 150px;
   white-space: nowrap;
@@ -598,7 +598,7 @@ textarea {
   transition: background 0.3s;
   background-color: #f99462;
 }
-.add-container .add-image:hover, .add-container .add-book:hover, .add-container .clear-form:hover {
+.add-container .add-image:hover, .add-container .add-button:hover, .add-container .clear-form:hover {
   background-color: #ED6019;
 }
 

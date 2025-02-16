@@ -1,68 +1,26 @@
 import {Book, StoreBook, Store, Client, SearchBookDetails} from './store';
 
-// Создание покупателя
+// Создание клиента
 const client = new Client({
-  name: 'Иван Иванов',
-  balance: 40,
-  image: '/first_client.jpeg'
-});
+    name: 'Иван Иванов',
+    balance: 40,
+    image: './dist/img/first_client.jpeg'
+  });
 
 // Создание магазина
 const store = new Store();
 
-// Добавление книг в магазин
-const books = [
-  new StoreBook(new Book({
-    title: 'Атлант расправил плечи',
-    author: 'Айн Ренд',
-    genre: 'Роман',
-    year: 1957,
-    image: '/atlas_shrugged.jpeg'
-  }), 24.99),
-  new StoreBook(new Book({
-    title: 'Сага о Форсайтах',
-    author: 'Джон Голсуорси',
-    genre: 'Роман',
-    year: 1906,
-    image: '/the_forsyte_saga.jpeg'
-  }), 22.99),
-  new StoreBook(new Book({
-    title: 'Потерянный горизонт',
-    author: 'Джеймс Хилтон',
-    genre: 'Приключения',
-    year: 1933,
-    image: '/lost_horizon.jpeg'
-  }), 17.50),
-  new StoreBook(new Book({
-    title: 'Острие бритвы',
-    author: 'Сомерсет Моэм',
-    genre: 'Роман',
-    year: 1944,
-    image: '/the_razors_edge.jpeg'
-  }), 20.00),
-  new StoreBook(new Book({
-    title: 'Нетерпение сердца',
-    author: 'Стефан Цвейг',
-    genre: 'Роман',
-    year: 1939,
-    image: '/beware_of_pity.jpeg'
-  }), 14.99),
-  new StoreBook(new Book({
-    title: 'Прощайте, мистер Чипс',
-    author: 'Джеймс Хилтон',
-    genre: 'Приключения',
-    year: 1934,
-    image: '/goodbye_mr_chips.jpeg'
-  }), 12.99),
-  new StoreBook(new Book({
-    title: 'Казино Рояль',
-    author: 'Ян Флеминг',
-    genre: 'Роман',
-    year: 1953,
-    image: '/casino_royale.mp4'
-  }), 28.00),
-];
-books.forEach(book => store.addBook(book));
+// Запрос базы книг с сервера
+async function fetchBooks() {
+  try {
+    const booksResponse = await fetch('http://localhost:3000/api/books');
+    const books: StoreBook[] = await booksResponse.json();
+    console.log(books);
+    books.forEach(book => store.addBook(book));
+  } catch (error) {
+    console.error('Error fetching books', error);
+  }
+}
 
 // Создание карточки покупателя
 function createClientCard(client: Client, addClientFund: () => void): HTMLElement {
@@ -525,11 +483,17 @@ function clearBooksFilter() {
   displayBooks();
 }
 
-// Получение элементов DOM для всплывающего окна
+// Закрытие всплывающего окна
 const popup = document.getElementById("popup") as HTMLElement;
 const denyPopup = document.getElementById("deny-popup") as HTMLButtonElement;
 const confirmPopup = document.getElementById("confirm-popup") as HTMLButtonElement;
 
+function hidePopup() {
+  if (popup) {
+    popup.style.display = "none";
+    localStorage.setItem('popupShown', 'true');
+  }
+}
 
 // Сохранение данных в localStorage
 function saveData(): void {
@@ -543,7 +507,7 @@ function saveData(): void {
   localStorage.setItem('catalogueData', catalogueData);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
 
   // Загрузка данных клиента из localStorage
   const savedClientData = localStorage.getItem('clientData');
@@ -568,27 +532,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Отображение клиентов и книг при загрузке страницы
+  await fetchBooks();
   displayClients();
   displayBooks();
   displayClientBooks();
 
   // Обработчик popup
   const popupShown = localStorage.getItem('popupShown');
+  if (!popupShown && popup && denyPopup && confirmPopup) {
+    popup.style.display = "flex";
 
-  if (!popupShown) {
-    if (popup && denyPopup && confirmPopup) {
-
-      popup.style.display = "flex";
-      denyPopup.addEventListener("click", function () {
-        popup.style.display = "none";
-        localStorage.setItem('popupShown', 'true');
-      });
-
-      confirmPopup.addEventListener("click", function () {
-        popup.style.display = "none";
-        localStorage.setItem('popupShown', 'true');
-      });
-    }
+    denyPopup.addEventListener("click", hidePopup);
+    confirmPopup.addEventListener("click", hidePopup);
   }
 
   // Обработчик поиска в магазине
@@ -627,5 +582,4 @@ document.addEventListener('DOMContentLoaded', () => {
     clearFilter.addEventListener('click', clearBooksFilter);
     applyFilter.addEventListener('click', applyBooksFilter);
   }
-
 });

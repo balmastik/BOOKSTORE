@@ -42,21 +42,34 @@ module.exports = {
           'style-loader',
           'css-loader',
           'sass-loader',
-        ],
+        ]
       },
       {
         test: /\.mp4$/,
         type: 'asset/resource',
         generator: {
-          filename: './video/casino-royale.mp4',
-        },
+          filename: '[name].[ext]',
+          outputPath: 'video/',
+        }
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'img/',
+            }
+          }
+        ]
       }
-    ],
+    ]
   },
   optimization: {
     splitChunks: {
       chunks: 'all',
-    },
-  },
-};
+    }
+  }
+}
 

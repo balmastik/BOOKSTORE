@@ -9,6 +9,9 @@ module.exports = merge(common, {
     hot: true,
     open: true,
     static: ['./dist'],
+    proxy: {
+      '/api': 'http://localhost:3000',
+    }
   },
 });
 

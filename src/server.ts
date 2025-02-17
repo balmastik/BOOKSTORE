@@ -54,6 +54,13 @@ const books = [
     year: 1934,
     image: '/img/goodbye_mr_chips.jpeg'
   }), 12.99),
+     new StoreBook(new Book({
+    title: 'Грозовой перевал',
+    author: 'Эмили Бронте',
+    genre: 'Трагедия',
+    year: 1847,
+    image: '/img/wuthering_heights.jpeg'
+  }), 17.50),
   new StoreBook(new Book({
     title: 'Казино Рояль',
     author: 'Ян Флеминг',
@@ -61,6 +68,13 @@ const books = [
     year: 1953,
     image: '/video/casino_royale.mp4'
   }), 28.00),
+    new StoreBook(new Book({
+    title: 'Уловка-22',
+    author: 'Джозеф Хеллер',
+    genre: 'Сатира',
+    year: 1961,
+    image: '/img/catch_22.jpeg'
+  }), 24.00),
 ];
 
 app.get('/api/books', (req: Request, res: Response) => {

@@ -503,12 +503,7 @@ $main-text-transform: uppercase;
   padding-bottom: 50px;
 }
 
-.book-list {
-  @extend .list;
-  padding-bottom: 80px;
-}
-
-.client-book-list {
+.book-list, .client-book-list {
   @extend .list;
   padding-bottom: 30px;
 }
@@ -581,6 +576,19 @@ $main-text-transform: uppercase;
     @include button-style($primary-color, $secondary-color);
     padding: 8px 20px !important;
   }
+}
+
+// Секция загрузки каталога
+.download-catalogue {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin: 30px auto 60px;
+}
+
+.catalogueButton {
+  @include button-style($primary-color, $secondary-color);
 }
 
 // Форма добавления книги

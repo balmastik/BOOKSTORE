@@ -439,7 +439,7 @@ textarea {
   background-color: #ED6019;
 }
 
-.list, .client-book-list, .book-list, .client-list {
+.list, .book-list, .client-book-list, .client-list {
   display: flex;
   flex-wrap: wrap;
   padding-left: 3rem;
@@ -454,11 +454,7 @@ textarea {
   padding-bottom: 50px;
 }
 
-.book-list {
-  padding-bottom: 80px;
-}
-
-.client-book-list {
+.book-list, .client-book-list {
   padding-bottom: 30px;
 }
 
@@ -534,6 +530,32 @@ textarea {
   padding: 8px 20px !important;
 }
 .card .book-button:hover, .card .client-button:hover {
+  background-color: #ED6019;
+}
+
+.download-catalogue {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin: 30px auto 60px;
+}
+
+.catalogueButton {
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  background-color: #f99462;
+}
+.catalogueButton:hover {
   background-color: #ED6019;
 }
 

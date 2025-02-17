@@ -2,10 +2,10 @@ import {Book, StoreBook, Store, Client, SearchBookDetails} from './store';
 
 // Создание клиента
 const client = new Client({
-    name: 'Иван Иванов',
-    balance: 40,
-    image: './dist/img/first_client.jpeg'
-  });
+  name: 'Иван Иванов',
+  balance: 40,
+  image: './dist/img/first_client.jpeg'
+});
 
 // Создание магазина
 const store = new Store();
@@ -230,6 +230,38 @@ function displayLibrarySearchResults(foundBooks: StoreBook[]): void {
     });
   } else {
     clientBookList.innerHTML = '<p>По вашему запросу ничего не найдено.</p>';
+  }
+}
+
+// Скачать каталог книг
+const catalogueButton = document.getElementById("catalogueButton") as HTMLButtonElement;
+const downloadLink = document.getElementById("downloadLink") as HTMLAnchorElement;
+
+function downloadCatalogue() {
+  if(window.jspdf) {
+    const {jsPDF} = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(16);
+    doc.setFont("Helvetica", "normal");
+    doc.setTextColor(0, 0, 0);
+    doc.text("Каталог KNIGBOOM", 150, 10, {align: "center"});
+
+    doc.setFontSize(12);
+    doc.text(store.toString(), 10, 10, {align: "left"});
+
+    const pdfBlob = doc.output("blob");
+    const url = URL.createObjectURL(pdfBlob);
+
+    downloadLink.href = url;
+    downloadLink.download = "Каталог KNIGBOOM.pdf";
+    downloadLink.style.display = "inline";
+
+    downloadLink.addEventListener('click', () => {
+      URL.revokeObjectURL(url);
+    });
+  } else {
+    console.log('ERROR');
   }
 }
 
@@ -556,6 +588,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (librarySearchInput && librarySearchButton) {
     librarySearchInput.addEventListener('change', searchLibraryBooks);
     librarySearchButton.addEventListener('click', searchLibraryBooks);
+  }
+
+  // Обработчик загрузки каталога книг
+  if (downloadLink && catalogueButton) {
+    catalogueButton.addEventListener('click', downloadCatalogue);
   }
 
   // Обработчик загрузки книги покупателем

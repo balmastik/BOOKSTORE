@@ -39,9 +39,9 @@ export class Book {
   readonly image: string;
 
   constructor({title, author, genre, year, image}: BookDetails) {
-    this.title = title.toLowerCase();
-    this.author = author.toLowerCase();
-    this.genre = genre.toLowerCase();
+    this.title = title;
+    this.author = author;
+    this.genre = genre;
     this.year = year;
     this.image = image;
   }
@@ -120,9 +120,9 @@ export class Store {
     const foundBooks: StoreBook[] = Array.from(this.catalogue.values())
       .filter((item: StoreBook) => {
         return (
-          item.book.title.includes(book.title) ||
-          item.book.author.includes(book.author) ||
-          item.book.genre.includes(book.genre)
+          item.book.title.toLowerCase().includes(book.title) ||
+          item.book.author.toLowerCase().includes(book.author) ||
+          item.book.genre.toLowerCase().includes(book.genre)
         );
       });
     return foundBooks;
@@ -249,9 +249,9 @@ export class Client {
     const foundBooks: StoreBook[] = this.purchasedBooks
       .filter((item: StoreBook) => {
         return (
-          item.book.title.includes(book.title) ||
-          item.book.author.includes(book.author) ||
-          item.book.genre.includes(book.genre)
+          item.book.title.toLowerCase().includes(book.title) ||
+          item.book.author.toLowerCase().includes(book.author) ||
+          item.book.genre.toLowerCase().includes(book.genre)
         );
       });
     return foundBooks;

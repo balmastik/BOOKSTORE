@@ -1,4 +1,5 @@
 import {Book, StoreBook, Store, Client, SearchBookDetails} from './store';
+import {robotoBase64} from './font';
 
 // Создание клиента
 const client = new Client({
@@ -13,12 +14,20 @@ const store = new Store();
 // Запрос базы книг с сервера
 async function fetchBooks() {
   try {
+    const storedCatalogueData = localStorage.getItem('catalogueData');
+    if (storedCatalogueData) {
+      console.log('Книги загружены из localStorage');
+      store.importCatalogue(storedCatalogueData);
+      return;
+    }
+
     const booksResponse = await fetch('http://localhost:3000/api/books');
     const books: StoreBook[] = await booksResponse.json();
     console.log(books);
     books.forEach(book => store.addBook(book));
+    saveData();
   } catch (error) {
-    console.error('Error fetching books', error);
+    console.error('Ошибка при загрузке книг с сервера', error);
   }
 }
 
@@ -238,28 +247,28 @@ const catalogueButton = document.getElementById("catalogueButton") as HTMLButton
 const downloadLink = document.getElementById("downloadLink") as HTMLAnchorElement;
 
 function downloadCatalogue() {
-  if(window.jspdf) {
+  if (window.jspdf) {
     const {jsPDF} = window.jspdf;
     const doc = new jsPDF();
 
+    doc.addFileToVFS("Roboto-Regular.ttf", robotoBase64);
+    doc.addFont("Roboto-Regular.ttf", "Roboto", "normal");
+
+    doc.setFont('Roboto');
     doc.setFontSize(16);
-    doc.setFont("Helvetica", "normal");
     doc.setTextColor(0, 0, 0);
-    doc.text("Каталог KNIGBOOM", 150, 10, {align: "center"});
+    doc.text("Каталог KNIGBOOM", 80, 20);
 
     doc.setFontSize(12);
-    doc.text(store.toString(), 10, 10, {align: "left"});
+    doc.text(store.toString(), 20, 40);
 
     const pdfBlob = doc.output("blob");
     const url = URL.createObjectURL(pdfBlob);
 
     downloadLink.href = url;
     downloadLink.download = "Каталог KNIGBOOM.pdf";
-    downloadLink.style.display = "inline";
-
-    downloadLink.addEventListener('click', () => {
-      URL.revokeObjectURL(url);
-    });
+    downloadLink.click();
+    URL.revokeObjectURL(url);
   } else {
     console.log('ERROR');
   }
@@ -539,9 +548,8 @@ function saveData(): void {
   localStorage.setItem('catalogueData', catalogueData);
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-
-  // Загрузка данных клиента из localStorage
+// Загрузка данных клиента из localStorage
+function loadClientData() {
   const savedClientData = localStorage.getItem('clientData');
   if (savedClientData) {
     try {
@@ -551,8 +559,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.error('Ошибка при загрузке данных клиента:', error);
     }
   }
+}
 
-  // Загрузка данных магазина из localStorage
+// Загрузка данных магазина из localStorage
+function loadStoreData() {
   const savedCatalogueData = localStorage.getItem('catalogueData');
   if (savedCatalogueData) {
     try {
@@ -562,12 +572,29 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.error('Ошибка при загрузке данных каталога:', error);
     }
   }
+}
 
-  // Отображение клиентов и книг при загрузке страницы
-  await fetchBooks();
-  displayClients();
-  displayBooks();
-  displayClientBooks();
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Загрузка данных из localStorage
+  loadStoreData();
+  loadClientData();
+
+  // Загрузки книг с сервера
+  fetchBooks().then(() => {
+    console.log('Книги загружены с сервера');
+
+    // Отображение клиентов и книг при загрузке страницы
+    displayClients();
+    displayBooks();
+    displayClientBooks();
+
+  }).catch((error) => {
+    console.error('Ошибка загрузки книг с сервера', error);
+    displayClients();
+    displayBooks();
+    displayClientBooks();
+  });
 
   // Обработчик popup
   const popupShown = localStorage.getItem('popupShown');

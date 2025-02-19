@@ -1,4 +1,4 @@
-// Общие настройки IDEA
+// General settings for IDEA
 html {
   color: #222;
   font-size: 1em;
@@ -153,8 +153,8 @@ textarea {
   }
 }
 
-// Частные настройки сайта
-// Переменные
+// Site-specific settings
+// Variables
 $primary-color: #f99462;
 $secondary-color: #ED6019;
 $dark-text-color: #333;
@@ -181,7 +181,7 @@ $main-border-radius: 5px;
 $main-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 $main-text-transform: uppercase;
 
-// Миксин для кнопок
+// Mixin for buttons
 @mixin button-style($bg-color, $hover-bg-color) {
   padding: 10px 20px;
   text-align: $main-text-align;
@@ -206,7 +206,7 @@ $main-text-transform: uppercase;
   font-family: 'Montserrat', sans-serif;
 }
 
-// Верхний колонтитул
+// Header
 .header {
   padding: 35px 20px;
   text-align: $main-text-align;
@@ -232,7 +232,7 @@ $main-text-transform: uppercase;
   }
 }
 
-// Меню навигации верхнего и нижнего колонтитулов
+// Navigation menu in header and footer
 .nav-list {
   list-style: none;
   display: flex;
@@ -255,7 +255,7 @@ $main-text-transform: uppercase;
   }
 }
 
-// Заголовки страниц
+// Page headers
 .page-header {
   position: relative;
   margin: 40px auto;
@@ -270,7 +270,7 @@ $main-text-transform: uppercase;
   }
 }
 
-// Поиск книг в магазине и библиотеке
+// Book search in store and library
 .store-search-container, .library-search-container {
   display: flex;
   width: 100%;
@@ -296,7 +296,7 @@ $main-text-transform: uppercase;
   @include button-style($primary-color, $secondary-color);
 }
 
-// Фильтр
+// Filter
 .open-filter-img {
   width: 29px;
   height: 29px;
@@ -372,7 +372,7 @@ $main-text-transform: uppercase;
 
   &-values {
     position: absolute;
-    top: 66%;
+    margin-top: -50px;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -386,10 +386,11 @@ $main-text-transform: uppercase;
     position: relative;
     width: 100%;
     height: 100%;
+    margin-bottom: 90px;
   }
 }
 
-.range-container input{
+.range-container input {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -471,7 +472,7 @@ $main-text-transform: uppercase;
 .filter-button {
   display: flex;
   width: 100%;
-  margin-top: 70px;
+  margin-top: 50px;
   justify-content: space-between;
   gap: 10px;
 
@@ -486,7 +487,7 @@ $main-text-transform: uppercase;
   }
 }
 
-// Список клиентов и книг
+// Client and book lists
 .list {
   display: flex;
   flex-wrap: wrap;
@@ -512,7 +513,7 @@ $main-text-transform: uppercase;
   padding-bottom: 7px;
 }
 
-// Карточки клиентов и книг
+// Client and book cards
 .card {
   position: relative;
   width: 370px;
@@ -574,11 +575,10 @@ $main-text-transform: uppercase;
 
   .book-button, .client-button {
     @include button-style($primary-color, $secondary-color);
-    padding: 8px 20px !important;
   }
 }
 
-// Секция загрузки каталога
+// Catalogue download section
 .download-catalogue {
   display: flex;
   width: 100%;
@@ -591,7 +591,7 @@ $main-text-transform: uppercase;
   @include button-style($primary-color, $secondary-color);
 }
 
-// Форма добавления книги
+// Add book form
 .add-book {
   width: 100%;
   max-width: 600px;
@@ -646,7 +646,7 @@ $main-text-transform: uppercase;
   }
 }
 
-// Нижний колонтитул
+// Footer
 .footer {
   padding: 35px 20px;
   text-align: $main-text-align;
@@ -671,7 +671,7 @@ $main-text-transform: uppercase;
   }
 }
 
-// Подписка на рассылку
+// Newsletter subscription
 .newsletter {
   &-title {
     margin-bottom: 10px;
@@ -714,11 +714,8 @@ $main-text-transform: uppercase;
 
   &-message {
     margin-top: -60px;
-    font-size: $font-size-title;
-    font-weight: $font-weight-bold;
-    letter-spacing: $letter-spacing-small;
-    color: $dark-text-color;
-    text-transform: $main-text-transform;
+    font-size: $font-size-tagline;
+    color: $light-text-color;
   }
 }
 
@@ -727,7 +724,7 @@ $main-text-transform: uppercase;
   color: $light-text-color;
 }
 
-// Стили всплывающего окна
+// Popup window styles
 .popup {
   display: none;
   position: fixed;
@@ -772,6 +769,7 @@ $main-text-transform: uppercase;
   flex: 1;
   @include button-style($primary-color, $secondary-color);
 }
+
 
 
 

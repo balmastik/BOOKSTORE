@@ -13,65 +13,65 @@ app.use(express.static(path.join(__dirname, 'dist/video')));
 
 const books = [
   new StoreBook(new Book({
-    title: 'Атлант расправил плечи',
-    author: 'Айн Ренд',
-    genre: 'Роман',
+    title: 'Atlas Shrugged',
+    author: 'Ayn Rand',
+    genre: 'Novel',
     year: 1957,
     image: '/img/atlas_shrugged.jpeg'
   }), 24.99),
   new StoreBook(new Book({
-    title: 'Сага о Форсайтах',
-    author: 'Джон Голсуорси',
-    genre: 'Роман',
+    title: 'The Forsyte Saga',
+    author: 'John Galsworthy',
+    genre: 'Novel',
     year: 1906,
     image: '/img/the_forsyte_saga.jpeg'
   }), 22.99),
   new StoreBook(new Book({
-    title: 'Потерянный горизонт',
-    author: 'Джеймс Хилтон',
-    genre: 'Приключения',
+    title: 'Lost Horizon',
+    author: 'James Hilton',
+    genre: 'Adventure',
     year: 1933,
     image: '/img/lost_horizon.jpeg'
   }), 17.50),
   new StoreBook(new Book({
-    title: 'Острие бритвы',
-    author: 'Сомерсет Моэм',
-    genre: 'Роман',
+    title: 'The Razor\'s Edge',
+    author: 'Somerset Maugham',
+    genre: 'Novel',
     year: 1944,
     image: '/img/the_razors_edge.jpeg'
   }), 20.00),
   new StoreBook(new Book({
-    title: 'Нетерпение сердца',
-    author: 'Стефан Цвейг',
-    genre: 'Роман',
+    title: 'Beware of Pity',
+    author: 'Stefan Zweig',
+    genre: 'Novel',
     year: 1939,
     image: '/img/beware_of_pity.jpeg'
   }), 14.99),
   new StoreBook(new Book({
-    title: 'Прощайте, мистер Чипс',
-    author: 'Джеймс Хилтон',
-    genre: 'Приключения',
+    title: 'Goodbye, Mr. Chips',
+    author: 'James Hilton',
+    genre: 'Adventure',
     year: 1934,
     image: '/img/goodbye_mr_chips.jpeg'
   }), 12.99),
-     new StoreBook(new Book({
-    title: 'Грозовой перевал',
-    author: 'Эмили Бронте',
-    genre: 'Трагедия',
+  new StoreBook(new Book({
+    title: 'Wuthering Heights',
+    author: 'Emily Brontë',
+    genre: 'Tragedy',
     year: 1847,
     image: '/img/wuthering_heights.jpeg'
   }), 17.50),
   new StoreBook(new Book({
-    title: 'Казино Рояль',
-    author: 'Ян Флеминг',
-    genre: 'Роман',
+    title: 'Casino Royale',
+    author: 'Ian Fleming',
+    genre: 'Novel',
     year: 1953,
     image: '/video/casino_royale.mp4'
   }), 28.00),
-    new StoreBook(new Book({
-    title: 'Уловка-22',
-    author: 'Джозеф Хеллер',
-    genre: 'Сатира',
+  new StoreBook(new Book({
+    title: 'Catch-22',
+    author: 'Joseph Heller',
+    genre: 'Satire',
     year: 1961,
     image: '/img/catch_22.jpeg'
   }), 24.00),
@@ -82,5 +82,5 @@ app.get('/api/books', (req: Request, res: Response) => {
 });
 
 app.listen(port, () => {
-  console.log('Сервер запущен на http://localhost:3000');
+  console.log('The server is running on http://localhost:3000');
 });

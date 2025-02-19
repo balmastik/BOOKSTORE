@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KNIGBOOM customer</title>
+  <link rel="stylesheet" href="./dist/css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap">
+</head>
+
+<body>
+<header class="header">
+  <div class="container">
+    <div class="branding">
+      <a href="index.html" class="header-title">KNIGBOOM</a>
+      <p class="header-tagline">THE CORNER STORE</p>
+    </div>
+    <nav class="navigation">
+      <ul class="nav-list">
+        <li><a href="index.html" class="nav-list-link">Catalogue</a></li>
+        <li><a href="#customer" class="nav-list-link">Customer</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-header">
+    <h2 class="page-header-title">Customer</h2>
+  </section>
+  <section id="client-list" class="client-list"></section>
+</main>
+
+<hr>
+
+<main>
+  <section class="page-header">
+    <h2 class="page-header-title">Library</h2>
+    <div class="library-search-container">
+      <input type="text" id="library-search-input" class="library-search-input" placeholder="Book title, author, genre">
+      <button id="library-search-button" class="library-search-button">Search</button>
+    </div>
+  </section>
+
+  <section id="client-book-list" class="client-book-list"></section>
+
+  <section class="add-book">
+    <h2 class="add-book-title">Add a Book to the Library</h2>
+    <div id="add-book-form" class="add-book-form">
+      <input type="text" id="book-title" placeholder="Title" required>
+      <input type="text" id="book-author" placeholder="Author" required>
+      <div class="add-container">
+        <label for="add-image" id="book-image-label" class="add-image">Cover</label>
+        <input type="file" id="add-image" accept="image/*" required style="display:none;">
+        <button id="add-book-button" class="add-button">Add</button>
+        <button id="clear-form-button" class="clear-form">Clear</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="branding">
+      <h1 class="footer-title">KNIGBOOM</h1>
+      <p class="footer-tagline">THE CORNER STORE</p>
+    </div>
+    <div class="newsletter">
+      <h2 class="newsletter-title">NEWSLETTER</h2>
+      <p class="newsletter-text">Get information about discounts, new arrivals and exclusive offers directly to your email.</p>
+
+      <form action="#" method="post" id="newsletter-form" class="newsletter-form-container">
+        <input type="email" name="email" id="newsletter-email" placeholder="Enter your email" required>
+        <button type="submit" class="newsletter-button">Subscribe</button>
+      </form>
+
+      <h2 id="newsletter-message" class="newsletter-message" style="display: none;"></h2>
+    </div>
+
+    <nav class="navigation">
+      <ul class="nav-list">
+        <li><a href="payment.html" class="nav-list-link">PAYMENT</a></li>
+        <li><a href="delivery.html" class="nav-list-link">DELIVERY</a></li>
+        <li><a href="conditions.html" class="nav-list-link">TERMS</a></li>
+      </ul>
+    </nav>
+
+    <p class="site-finish">© 2025 KNIGBOOM BookStore</p>
+  </div>
+</footer>
+
+<script src="./dist/index.js" type="module"></script>
+</body>
+</html>

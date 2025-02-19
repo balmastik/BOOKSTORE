@@ -301,7 +301,7 @@ textarea {
 }
 .range-values {
   position: absolute;
-  top: 66%;
+  margin-top: -50px;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -314,6 +314,7 @@ textarea {
   position: relative;
   width: 100%;
   height: 100%;
+  margin-bottom: 90px;
 }
 
 .range-container input {
@@ -398,7 +399,7 @@ textarea {
 .filter-button {
   display: flex;
   width: 100%;
-  margin-top: 70px;
+  margin-top: 50px;
   justify-content: space-between;
   gap: 10px;
 }
@@ -527,7 +528,6 @@ textarea {
   cursor: pointer;
   transition: background 0.3s;
   background-color: #f99462;
-  padding: 8px 20px !important;
 }
 .card .book-button:hover, .card .client-button:hover {
   background-color: #ED6019;
@@ -696,11 +696,8 @@ textarea {
 }
 .newsletter-message {
   margin-top: -60px;
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: #333;
-  text-transform: uppercase;
+  font-size: 16px;
+  color: #666;
 }
 
 .site-finish {

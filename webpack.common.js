@@ -4,7 +4,6 @@ module.exports = {
   entry: {
     index: './src/index.ts',
     store: './src/store.ts',
-    font: './src/font.ts',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),

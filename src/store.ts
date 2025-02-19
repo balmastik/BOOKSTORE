@@ -47,8 +47,8 @@ export class Book {
   }
 
   toString(): string {
-    return `Книга: \"${this.title}\". Автор: ${this.author}.\n` +
-      `Жанр: ${this.genre}. Дата публикации: ${this.year} год.`
+    return `Book: \"${this.title}\". Author: ${this.author}.\n` +
+      `Genre: ${this.genre}. Publication year: ${this.year}.`
   }
 }
 
@@ -99,7 +99,7 @@ export class Store {
   removeBook(storeBook: StoreBook): this {
     if (this.bookIsAvailable(storeBook) && storeBook.book.quantity > 0) {
       --storeBook.book.quantity;
-      console.log(`Книга успешно списана.`);
+      console.log(`Book successfully removed from store.`);
 
       if (this.bookIsAvailable(storeBook) && storeBook.book.quantity === 0) {
         const foundBook = Array.from(this.catalogue.entries())
@@ -107,11 +107,11 @@ export class Store {
 
         if (foundBook) {
           this.catalogue.delete(foundBook[0]);
-          console.log(`Книга "${storeBook.book.title}" удалена из каталога.`);
+          console.log(`Book "${storeBook.book.title}" removed from store.`);
         }
       }
     } else {
-      console.log(`Внимание! Книга отсутствует на складе.`);
+      console.log(`Book is not available in store.`);
     }
     return this;
   }
@@ -206,10 +206,10 @@ export class Store {
   toString(): string {
     return Array.from(this.catalogue.entries())
       .map(([id, item]: [number, StoreBook]): string => {
-        return `Книга: "${item.book.title}". Автор: ${item.book.author}.\n` +
-          `Жанр: ${item.book.genre}. Дата публикации: ${item.book.year} год.\n` +
-          `Цена: ${item.book.price.toFixed(2)} евро. Артикул: ${id}. ` +
-          `На складе: ${item.book.quantity}.`
+        return `Book: "${item.book.title}". Author: ${item.book.author}.\n` +
+          `Genre: ${item.book.genre}. Publication year: ${item.book.year}.\n` +
+          `Price: ${item.book.price.toFixed(2)} EUR. Article number: ${id}. ` +
+          `In stock: ${item.book.quantity}.`
       })
       .join('\n\n');
   }
@@ -239,10 +239,10 @@ export class Client {
     if (storeBook.book.price <= this.balance) {
       this.purchasedBooks.push(storeBook);
       this.balance -= storeBook.book.price;
-      console.log('Вы успешно купили книгу.');
+      console.log('Book has been purchased.');
       return this;
     }
-    return 'У Вас недостаточно средств на счету.';
+    return 'Please increase Your balance.';
   }
 
   searchBook(book: SearchBookDetails): StoreBook[] {
@@ -276,7 +276,7 @@ export class Client {
     const client = JSON.parse(data);
 
     if (client.name !== this.name) {
-      throw new Error('Имя клиента не совпадает.');
+      throw new Error('Client name does not match.');
     }
 
     this.balance = client.balance;
@@ -292,4 +292,3 @@ export class Client {
     return this;
   }
 }
-

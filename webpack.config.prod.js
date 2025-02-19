@@ -33,8 +33,8 @@ module.exports = merge(common, {
     }),
 
     new HtmlWebpackPlugin({
-      template: './client.html',
-      filename: 'client.html',
+      template: './customer.html',
+      filename: 'customer.html',
       inject: 'body',
     }),
 

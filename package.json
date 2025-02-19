@@ -11,7 +11,7 @@
   "scripts": {
     "sass": "sass ./scss/style.scss:./css/style.css",
     "start": "webpack --config webpack.config.dev.js",
-    "build": "webpack --config webpack.config.prod.js",
+    "build": "npm run sass && npx tsc && webpack --config webpack.config.prod.js",
     "server": "webpack --config webpack.config.server.js && node ./dist/server.js"
   },
   "devDependencies": {

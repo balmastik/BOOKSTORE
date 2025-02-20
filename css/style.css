@@ -440,7 +440,7 @@ textarea {
   background-color: #ED6019;
 }
 
-.list, .book-list, .client-book-list, .client-list {
+.list, .book-list, .customer-book-list, .customer-list {
   display: flex;
   flex-wrap: wrap;
   padding-left: 3rem;
@@ -450,16 +450,16 @@ textarea {
   gap: 3rem;
 }
 
-.client-list {
+.customer-list {
   margin-top: -10px;
   padding-bottom: 50px;
 }
 
-.book-list, .client-book-list {
+.book-list, .customer-book-list {
   padding-bottom: 30px;
 }
 
-.client-book-list .author {
+.customer-book-list .author {
   padding-bottom: 7px;
 }
 
@@ -515,7 +515,7 @@ textarea {
   padding-bottom: 6px;
   font-weight: 700;
 }
-.card .book-button, .card .client-button {
+.card .book-button, .card .customer-button {
   padding: 10px 20px;
   text-align: center;
   font-size: 14px;
@@ -529,7 +529,7 @@ textarea {
   transition: background 0.3s;
   background-color: #f99462;
 }
-.card .book-button:hover, .card .client-button:hover {
+.card .book-button:hover, .card .customer-button:hover {
   background-color: #ED6019;
 }
 

@@ -487,7 +487,7 @@ $main-text-transform: uppercase;
   }
 }
 
-// Client and book lists
+// customer and book lists
 .list {
   display: flex;
   flex-wrap: wrap;
@@ -498,22 +498,22 @@ $main-text-transform: uppercase;
   gap: 3rem;
 }
 
-.client-list {
+.customer-list {
   @extend .list;
   margin-top: -10px;
   padding-bottom: 50px;
 }
 
-.book-list, .client-book-list {
+.book-list, .customer-book-list {
   @extend .list;
   padding-bottom: 30px;
 }
 
-.client-book-list .author {
+.customer-book-list .author {
   padding-bottom: 7px;
 }
 
-// Client and book cards
+// customer and book cards
 .card {
   position: relative;
   width: 370px;
@@ -573,7 +573,7 @@ $main-text-transform: uppercase;
     font-weight: $font-weight-bold;
   }
 
-  .book-button, .client-button {
+  .book-button, .customer-button {
     @include button-style($primary-color, $secondary-color);
   }
 }

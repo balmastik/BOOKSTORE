@@ -2,13 +2,20 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    index: './src/index.ts',
-    store: './src/store.ts',
+    index: './src/frontend/index.ts',
+    globals: './src/frontend/globals.ts',
+    book: './src/backend/book.ts',
+    storeBook: './src/backend/storeBook.ts',
+    storeBooksData: './src/backend/storeBooks-data.ts',
+    store: './src/backend/store.ts',
+    customer: './src/backend/customer.ts',
+    customerData: './src/backend/customer-data.ts',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
     clean: true,
     filename: '[name].js',
+    publicPath: '/dist/',
   },
   resolve: {
     extensions: ['.ts', '.js'],

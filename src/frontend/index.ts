@@ -1,15 +1,69 @@
-import {Book, StoreBook, Store, Client, SearchBookDetails} from './store';
+interface Book {
+  title: string,
+  author: string,
+  genre: string,
+  year: number,
+  image: string,
+  price: number,
+  quantity: number
+}
 
-// Creating a client
-const client = new Client({
-  name: 'John Doe',
-  balance: 40,
-  image: './dist/img/first_client.jpeg'
-});
+interface StoreBook {
+  book: Book;
+}
 
-// Creating the store
-const store = new Store();
+// Create book card
+function createBookCard(storeBook: StoreBook): HTMLElement {
 
+  const bookCard = document.createElement('div');
+  bookCard.className = 'card';
+
+  const bookMedia = storeBook.book.image.endsWith('.mp4')
+    ? `<video class="video" autoplay muted loop>
+         <source src="${storeBook.book.image}" type="video/mp4">
+         Your browser does not support video.
+       </video>`
+    : `<img src="${storeBook.book.image}" alt="${storeBook.book.title}" class="image">`;
+
+  bookCard.innerHTML = `
+    ${bookMedia}
+    <h3>${storeBook.book.title}</h3>
+    <p class="author">${storeBook.book.author}</p>
+    <p class="price">${storeBook.book.price.toFixed(2)} €</p>
+    <button class="book-button">Purchase</button>
+  `;
+
+  return bookCard;
+}
+
+// Display books catalogue
+function displayBooks() {
+  const bookList = document.getElementById('book-list') as HTMLElement;
+  if (!bookList) return;
+  bookList.innerHTML = '';
+
+  fetch('http://localhost:3000/api/catalogue')
+    .then(res => res.json())
+    .then(catalogue => {
+      catalogue.forEach((storeBook: StoreBook) => {
+        const bookCard = createBookCard(storeBook);
+        bookList.appendChild(bookCard);
+      });
+    })
+    .catch(error => {
+      console.error("Ошибка при загрузке каталога:", error);
+    });
+}
+
+  document.addEventListener('DOMContentLoaded', () => {
+  displayBooks();
+  });
+
+
+
+
+
+/*
 // Requesting the book catalogue from the server
 async function fetchBooks() {
   try {
@@ -30,26 +84,26 @@ async function fetchBooks() {
   }
 }
 
-// Creating the client card
-function createClientCard(client: Client, addClientFund: () => void): HTMLElement {
-  const clientCard = document.createElement('div');
-  clientCard.className = 'card';
+// Creating the customer card
+function createcustomerCard(customer: customer, addcustomerFund: () => void): HTMLElement {
+  const customerCard = document.createElement('div');
+  customerCard.className = 'card';
 
-  const clientImage = client.image
-    ? `<img src="${client.image}" alt="${client.name}" class="image">`
+  const customerImage = customer.image
+    ? `<img src="${customer.image}" alt="${customer.name}" class="image">`
     : `<div class="image-placeholder"></div>`;
 
-  clientCard.innerHTML = `
-    ${clientImage}
-    <h3>${client.name}</h3>
-    <p class="balance">${client.balance.toFixed(2)} €</p>
-    <button class="client-button">Increase balance</button>
+  customerCard.innerHTML = `
+    ${customerImage}
+    <h3>${customer.name}</h3>
+    <p class="balance">${customer.balance.toFixed(2)} €</p>
+    <button class="customer-button">Increase balance</button>
   `;
 
-  const clientButton = clientCard.querySelector('.client-button') as HTMLElement;
-  clientButton.addEventListener('click', addClientFund);
+  const customerButton = customerCard.querySelector('.customer-button') as HTMLElement;
+  customerButton.addEventListener('click', addcustomerFund);
 
-  return clientCard;
+  return customerCard;
 }
 
 // Creating the book card
@@ -78,13 +132,13 @@ function createBookCard(storeBook: StoreBook, handleBook: () => void): HTMLEleme
   return bookCard;
 }
 
-// Displaying the client
-function displayClients(): void {
-  const clientList = document.getElementById('client-list') as HTMLElement;
-  if (!clientList) return;
-  clientList.innerHTML = '';
-  const clientCard = createClientCard(client, () => addClientFund(client));
-  clientList.appendChild(clientCard);
+// Displaying the customer
+function displaycustomers(): void {
+  const customerList = document.getElementById('customer-list') as HTMLElement;
+  if (!customerList) return;
+  customerList.innerHTML = '';
+  const customerCard = createcustomerCard(customer, () => addcustomerFund(customer));
+  customerList.appendChild(customerCard);
 }
 
 // Displaying the store's books
@@ -98,15 +152,15 @@ function displayBooks(): void {
   });
 }
 
-// Displaying the client's library books
-function displayClientBooks(): void {
-  const clientBookList = document.getElementById('client-book-list') as HTMLElement;
-  if (!clientBookList) {
+// Displaying the customer's library books
+function displaycustomerBooks(): void {
+  const customerBookList = document.getElementById('customer-book-list') as HTMLElement;
+  if (!customerBookList) {
     return;
   }
-  clientBookList.innerHTML = '';
-  client.purchasedBooks.forEach(storeBook => {
-    const bookCard = createBookCard(storeBook, () => removeClientBook(storeBook, bookCard));
+  customerBookList.innerHTML = '';
+  customer.purchasedBooks.forEach(storeBook => {
+    const bookCard = createBookCard(storeBook, () => removecustomerBook(storeBook, bookCard));
     const priceElement = bookCard.querySelector('.price');
     if (priceElement) {
       priceElement.remove();
@@ -115,7 +169,7 @@ function displayClientBooks(): void {
     if (buttonContent) {
       buttonContent.innerHTML = 'Remove';
     }
-    clientBookList.appendChild(bookCard);
+    customerBookList.appendChild(bookCard);
   });
 }
 
@@ -124,22 +178,22 @@ function removeBookCard(bookCard: HTMLElement): void {
   bookCard.remove();
 }
 
-// Removing the book card from the client's library
-function removeClientBook(storeBook: StoreBook, bookCard: HTMLElement): void {
-  if (client.purchasedBooks.includes(storeBook)) {
-    client.purchasedBooks.splice(client.purchasedBooks.indexOf(storeBook), 1);
+// Removing the book card from the customer's library
+function removecustomerBook(storeBook: StoreBook, bookCard: HTMLElement): void {
+  if (customer.purchasedBooks.includes(storeBook)) {
+    customer.purchasedBooks.splice(customer.purchasedBooks.indexOf(storeBook), 1);
     bookCard.remove();
     saveData();  // Save changes after removing the book
     console.log('The book card was successfully removed.');
   }
 }
 
-// Increasing the client's balance
-function addClientFund(client: Client): void {
-  const result = client.addFunds(40);
+// Increasing the customer's balance
+function addcustomerFund(customer: customer): void {
+  const result = customer.addFunds(40);
 
-  if (result === client) {
-    displayClients();
+  if (result === customer) {
+    displaycustomers();
     saveData();
   } else {
     alert(result);
@@ -149,12 +203,12 @@ function addClientFund(client: Client): void {
 // Book purchase and sale
 function handleBuyBook(storeBook: StoreBook, bookCard: HTMLElement): void {
   if (store.bookIsAvailable(storeBook) && storeBook.book.quantity > 0) {
-    const result = client.buyBooks(storeBook);
+    const result = customer.buyBooks(storeBook);
 
-    if (result === client) {
+    if (result === customer) {
       store.removeBook(storeBook);
       removeBookCard(bookCard);
-      displayClientBooks();
+      displaycustomerBooks();
       saveData();
     } else {
       alert(result);
@@ -210,19 +264,19 @@ function searchLibraryBooks(): void {
     genre: query
   }
 
-  let foundBooks: StoreBook[] = client.searchBook(book);
+  let foundBooks: StoreBook[] = customer.searchBook(book);
   displayLibrarySearchResults(foundBooks);
 }
 
 // Displaying the search results of library books
 function displayLibrarySearchResults(foundBooks: StoreBook[]): void {
-  const clientBookList = document.getElementById('client-book-list') as HTMLElement;
-  if (!clientBookList) return;
-  clientBookList.innerHTML = '';
+  const customerBookList = document.getElementById('customer-book-list') as HTMLElement;
+  if (!customerBookList) return;
+  customerBookList.innerHTML = '';
 
   if (foundBooks.length > 0) {
     foundBooks.forEach(storeBook => {
-      const bookCard = createBookCard(storeBook, () => removeClientBook(storeBook, bookCard));
+      const bookCard = createBookCard(storeBook, () => removecustomerBook(storeBook, bookCard));
       const priceElement = bookCard.querySelector('.book-price');
       if (priceElement) {
         priceElement.remove();
@@ -231,10 +285,10 @@ function displayLibrarySearchResults(foundBooks: StoreBook[]): void {
       if (buttonContent) {
         buttonContent.innerHTML = 'Remove';
       }
-      clientBookList.appendChild(bookCard);
+      customerBookList.appendChild(bookCard);
     });
   } else {
-    clientBookList.innerHTML = '<p>No results found for your query.</p>';
+    customerBookList.innerHTML = '<p>No results found for your query.</p>';
   }
 }
 
@@ -279,7 +333,7 @@ function handleFileChange(): void {
   }
 }
 
-// Adding a book to the library by a client
+// Adding a book to the library by a customer
 const addBookButton = document.getElementById('add-book-button') as HTMLButtonElement;
 
 function addBookToLibrary(event: MouseEvent): void {
@@ -312,9 +366,9 @@ function addBookToLibrary(event: MouseEvent): void {
     });
 
     const storeBook = new StoreBook(newBook, 0);
-    client.purchasedBooks.push(storeBook);
+    customer.purchasedBooks.push(storeBook);
 
-    displayClientBooks();
+    displaycustomerBooks();
     clearLibraryForm();
     saveData();
   };
@@ -529,25 +583,25 @@ function hidePopup() {
 
 // Saving data to localStorage
 function saveData(): void {
-  const clientData = client.exportClientData();
+  const customerData = customer.exportcustomerData();
   const catalogueData = store.exportCatalogue();
 
-  console.log('Saving client data to localStorage:', clientData);
+  console.log('Saving customer data to localStorage:', customerData);
   console.log('Saving catalogue data to localStorage:', catalogueData);
 
-  localStorage.setItem('clientData', clientData);
+  localStorage.setItem('customerData', customerData);
   localStorage.setItem('catalogueData', catalogueData);
 }
 
-// Loading client data from localStorage
-function loadClientData() {
-  const savedClientData = localStorage.getItem('clientData');
-  if (savedClientData) {
+// Loading customer data from localStorage
+function loadcustomerData() {
+  const savedcustomerData = localStorage.getItem('customerData');
+  if (savedcustomerData) {
     try {
-      client.importClientData(savedClientData);
-      console.log('Client data loaded.');
+      customer.importcustomerData(savedcustomerData);
+      console.log('customer data loaded.');
     } catch (error) {
-      console.error('Error loading client data:', error);
+      console.error('Error loading customer data:', error);
     }
   }
 }
@@ -569,22 +623,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Loading data from localStorage
   loadStoreData();
-  loadClientData();
+  loadcustomerData();
 
   // Loading books from the server
   fetchBooks().then(() => {
     console.log('Books loaded from the server');
 
-    // Display clients and books when the page is loaded
-    displayClients();
+    // Display customers and books when the page is loaded
+    displaycustomers();
     displayBooks();
-    displayClientBooks();
+    displaycustomerBooks();
 
   }).catch((error) => {
     console.error('Error loading books from the server', error);
-    displayClients();
+    displaycustomers();
     displayBooks();
-    displayClientBooks();
+    displaycustomerBooks();
   });
 
   // Popup handler
@@ -638,3 +692,4 @@ document.addEventListener('DOMContentLoaded', () => {
     applyFilter.addEventListener('click', applyBooksFilter);
   }
 });
+*/

@@ -28,14 +28,35 @@ export class Customer {
     return this;
   }
 
-  buyBook(storeBook: StoreBook): string | this {
+  buyBook(storeBook: StoreBook): boolean {
     if (storeBook.book.price <= this.balance) {
       this.purchasedBooks.push(storeBook);
       this.balance -= storeBook.book.price;
-      console.log('Book has been purchased.');
-      return this;
+      return true;  // Успешная покупка
+    } else {
+      console.log(`Customer should increase the balance to purchase the book.`);
+      return false;
     }
-    return 'Please increase Your balance.';
+  }
+
+  removeBook(storeBook: StoreBook): this {
+    const bookInLibrary = this.purchasedBooks.find(item =>
+      item.book.title === storeBook.book.title && item.book.author === storeBook.book.author
+    );
+
+    if (bookInLibrary && bookInLibrary.book.quantity > 0) {
+      console.log(`Attempting to remove book from the library: "${bookInLibrary.book.title}" by ${bookInLibrary.book.author}. Current quantity: ${bookInLibrary.book.quantity}`);
+      bookInLibrary.book.quantity--;
+      console.log(`Book quantity decreased. New quantity: ${bookInLibrary.book.quantity}`);
+
+      if (bookInLibrary.book.quantity === 0) {
+        this.purchasedBooks.splice(this.purchasedBooks.indexOf(bookInLibrary), 1);
+      }
+      console.log(`Book "${bookInLibrary.book.title}" removed from the library.`);
+    } else {
+      console.log(`Book "${storeBook.book.title}" by ${storeBook.book.author} is not available in the library.`);
+    }
+    return this;
   }
 
   searchBook(book: SearchBookDetails): StoreBook[] {
@@ -48,39 +69,5 @@ export class Customer {
         );
       });
     return foundBooks;
-  }
-
-  exportCustomerData(): string {
-    const data = {
-      name: this.name,
-      balance: this.balance,
-      image: this.image,
-      purchasedBooks: this.purchasedBooks.map(storeBook => ({
-        ...storeBook.book,
-        price: storeBook.book.price,
-        quantity: storeBook.book.quantity,
-      })),
-    };
-    return JSON.stringify(data);
-  }
-
-  importCustomerData(data: string): this {
-    const customer = JSON.parse(data);
-
-    if (customer.name !== this.name) {
-      throw new Error('customer name does not match.');
-    }
-
-    this.balance = customer.balance;
-    this.image = customer.image;
-    this.purchasedBooks.length = 0;
-    this.purchasedBooks.push(
-      ...customer.purchasedBooks.map((storeBook: StoreBookDetails) => {
-        const {price, quantity, ...bookDetails} = storeBook;
-        const book = new Book(bookDetails);
-        return new StoreBook(book, price);
-      }),
-    );
-    return this;
   }
 }

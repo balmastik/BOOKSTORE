@@ -33,21 +33,24 @@ export class Store {
   }
 
   removeBook(storeBook: StoreBook): this {
-    if (this.bookIsAvailable(storeBook) && storeBook.book.quantity > 0) {
-      --storeBook.book.quantity;
-      console.log(`Book successfully removed from store.`);
+    const bookInCatalogue = [...this.catalogue.values()].find(item =>
+      item.book.title === storeBook.book.title && item.book.author === storeBook.book.author
+    );
 
-      if (this.bookIsAvailable(storeBook) && storeBook.book.quantity === 0) {
-        const foundBook = Array.from(this.catalogue.entries())
-          .find(([_, item]) => item === storeBook);
+    if (bookInCatalogue && bookInCatalogue.book.quantity > 0) {
+      console.log(`Attempting to remove book from the store: "${bookInCatalogue.book.title}" by ${bookInCatalogue.book.author}. Current quantity: ${bookInCatalogue.book.quantity}`);
+      bookInCatalogue.book.quantity--;
+      console.log(`Book quantity decreased. New quantity: ${bookInCatalogue.book.quantity}`);
 
-        if (foundBook) {
-          this.catalogue.delete(foundBook[0]);
-          console.log(`Book "${storeBook.book.title}" removed from store.`);
+      if (bookInCatalogue.book.quantity === 0) {
+        const bookId = [...this.catalogue.entries()].find(([_, item]) => item === bookInCatalogue)?.[0];
+        if (bookId !== undefined) {
+          this.catalogue.delete(bookId);
+          console.log(`Book "${bookInCatalogue.book.title}" removed from the store.`);
         }
       }
     } else {
-      console.log(`Book is not available in store.`);
+      console.log(`Book "${storeBook.book.title}" by ${storeBook.book.author} is not available in the store.`);
     }
     return this;
   }
@@ -75,27 +78,6 @@ export class Store {
         );
       });
     return foundBooks;
-  }
-
-  exportCatalogue(): string {
-    const catalogue: [number, StoreBook][] = Array
-      .from(this.catalogue, ([id, item]: [number, StoreBook]) => {
-        return [id, item];
-      });
-    return JSON.stringify(catalogue);
-  }
-
-  importCatalogue(catalogue: string): this {
-    const catalogueArray: [number, StoreBook][] = JSON.parse(catalogue);
-
-    this.catalogue.clear();
-
-    catalogueArray.forEach(([id, item]: [number, StoreBook]) => {
-      if (item.book.quantity > 0) {
-        this.catalogue.set(id, item);
-      }
-    });
-    return this;
   }
 
   toString(): string {

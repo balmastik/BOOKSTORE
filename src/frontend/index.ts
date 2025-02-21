@@ -12,8 +12,14 @@ interface StoreBook {
   book: Book;
 }
 
+interface Customer {
+  name: string,
+  balance: number,
+  image: string
+}
+
 // Create book card
-function createBookCard(storeBook: StoreBook): HTMLElement {
+function createBookCard(storeBook: StoreBook, handleBook: () => void): HTMLElement {
 
   const bookCard = document.createElement('div');
   bookCard.className = 'card';
@@ -33,11 +39,14 @@ function createBookCard(storeBook: StoreBook): HTMLElement {
     <button class="book-button">Purchase</button>
   `;
 
+  const bookButton = bookCard.querySelector('.book-button') as HTMLElement;
+  bookButton.addEventListener('click', handleBook);
+
   return bookCard;
 }
 
-// Display books catalogue
-function displayBooks() {
+// Display catalogue
+function displayCatalogue() {
   const bookList = document.getElementById('book-list') as HTMLElement;
   if (!bookList) return;
   bookList.innerHTML = '';
@@ -46,21 +55,137 @@ function displayBooks() {
     .then(res => res.json())
     .then(catalogue => {
       catalogue.forEach((storeBook: StoreBook) => {
-        const bookCard = createBookCard(storeBook);
+        const bookCard = createBookCard(storeBook, () => purchaseBook(storeBook, bookCard));
         bookList.appendChild(bookCard);
       });
     })
     .catch(error => {
-      console.error("Ошибка при загрузке каталога:", error);
+      console.error("Catalogue loading error:", error);
     });
 }
 
-  document.addEventListener('DOMContentLoaded', () => {
-  displayBooks();
-  });
+// Create customer card
+function createCustomerCard(customer: Customer): HTMLElement {
+  const customerCard = document.createElement('div');
+  customerCard.className = 'card';
 
+  const customerImage = customer.image
+    ? `<img src="${customer.image}" alt="${customer.name}" class="image">`
+    : `<div class="image-placeholder"></div>`;
 
+  customerCard.innerHTML = `
+    ${customerImage}
+    <h3>${customer.name}</h3>
+    <p class="balance">${customer.balance.toFixed(2)} €</p>
+    <button class="customer-button">Increase balance</button>
+  `;
 
+  return customerCard;
+}
+
+// Remove customer card
+function removeCustomerCard(storeBook: StoreBook, bookCard: HTMLElement): void {
+  fetch('http://localhost:3000/api/customer/removeBook', {
+    method: 'DELETE',
+    headers: {'Content-Type': 'application/json',},
+    body: JSON.stringify(storeBook)
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        bookCard.remove();
+        alert(data.message);
+      } else {
+        console.error(data.error);
+      }
+    })
+    .catch(error => {
+      console.error("Error removing book:", error);
+    });
+}
+
+// Display customer
+function displayCustomer(): void {
+  const customerList = document.getElementById('customer-list') as HTMLElement;
+  if (!customerList) return;
+  customerList.innerHTML = '';
+
+  const storedCustomer = localStorage.getItem('customer');
+  if (storedCustomer) {
+
+    const customer = JSON.parse(storedCustomer);
+    const customerCard = createCustomerCard(customer);
+    customerList.appendChild(customerCard);
+  } else {
+    fetch('http://localhost:3000/api/customer')
+      .then(res => res.json())
+      .then(customer => {
+        localStorage.setItem('customer', JSON.stringify(customer));
+
+        const customerCard = createCustomerCard(customer);
+        customerList.appendChild(customerCard);
+      })
+      .catch(error => {
+        console.error("Customer loading error:", error);
+      });
+  }
+}
+
+// Display library
+function displayLibrary(): void {
+  const customerBookList = document.getElementById('customer-book-list') as HTMLElement;
+  if (!customerBookList) {
+    return;
+  }
+  customerBookList.innerHTML = '';
+
+  fetch('http://localhost:3000/api/customer/library')
+    .then(res => res.json())
+    .then(library => {
+      library.forEach((storeBook: StoreBook) => {
+        const bookCard = createBookCard(storeBook, () => removeCustomerCard(storeBook, bookCard));
+        const priceElement = bookCard.querySelector('.price');
+        if (priceElement) {
+          priceElement.remove();
+        }
+        const buttonContent = bookCard.querySelector('.book-button');
+        if (buttonContent) {
+          buttonContent.innerHTML = 'Remove';
+        }
+        customerBookList.appendChild(bookCard);
+      })
+    })
+    .catch(error => {
+      console.error("Catalogue loading error:", error);
+    });
+}
+
+// Book sale/purchase
+function purchaseBook(storeBook: StoreBook, bookCard: HTMLElement): void {
+  fetch('http://localhost:3000/api/purchase', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(storeBook),
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        console.log(data.message);
+        bookCard.remove();
+      } else {
+        alert(data.error);
+      }
+    })
+    .catch(error => {
+      console.error("Purchase loading error:", error);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  displayCatalogue();
+  displayCustomer();
+  displayLibrary();
+})
 
 
 /*

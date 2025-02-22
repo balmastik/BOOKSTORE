@@ -12,7 +12,7 @@ export class Customer {
   readonly name: string;
   balance: number;
   image: string;
-  readonly purchasedBooks: StoreBook[];
+  purchasedBooks: StoreBook[];
 
   constructor({name, balance, image}: CustomerDetails) {
     this.name = name;
@@ -21,20 +21,23 @@ export class Customer {
     this.purchasedBooks = [];
   }
 
-  addFunds(amount: number): this {
+  addFunds(amount: number): boolean {
     if (isFinite(amount) && amount > 0) {
       this.balance += amount;
+      return true;
+    } else {
+      console.log(`Amount is not valid`)
+      return false;
     }
-    return this;
   }
 
   buyBook(storeBook: StoreBook): boolean {
     if (storeBook.book.price <= this.balance) {
       this.purchasedBooks.push(storeBook);
       this.balance -= storeBook.book.price;
-      return true;  // Успешная покупка
+      return true;
     } else {
-      console.log(`Customer should increase the balance to purchase the book.`);
+      console.log(`Customer should increase the balance to purchase the book`);
       return false;
     }
   }

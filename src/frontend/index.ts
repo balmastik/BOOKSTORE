@@ -80,27 +80,37 @@ function createCustomerCard(customer: Customer): HTMLElement {
     <button class="customer-button">Increase balance</button>
   `;
 
+  const customerButton = customerCard.querySelector('.customer-button') as HTMLElement;
+  customerButton.addEventListener('click', increaseBalance);
+
   return customerCard;
 }
 
-// Remove customer card
-function removeCustomerCard(storeBook: StoreBook, bookCard: HTMLElement): void {
-  fetch('http://localhost:3000/api/customer/removeBook', {
-    method: 'DELETE',
-    headers: {'Content-Type': 'application/json',},
-    body: JSON.stringify(storeBook)
+// Increase customer's balance
+function increaseBalance(): void {
+
+  const amount: number = parseFloat(prompt('Please enter the amount, 0') || '0');
+  if (isNaN(amount) || amount <= 0) {
+    alert('Please enter a valid positive number');
+    return;
+  }
+
+  fetch('http://localhost:3000/api/customer/addFunds', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({amount}),
   })
     .then(res => res.json())
     .then(data => {
       if (data.success) {
-        bookCard.remove();
         alert(data.message);
+        displayCustomer();
       } else {
-        console.error(data.error);
+        alert(data.error);
       }
     })
     .catch(error => {
-      console.error("Error removing book:", error);
+      console.error("Increase balance error:", error);
     });
 }
 
@@ -110,25 +120,17 @@ function displayCustomer(): void {
   if (!customerList) return;
   customerList.innerHTML = '';
 
-  const storedCustomer = localStorage.getItem('customer');
-  if (storedCustomer) {
 
-    const customer = JSON.parse(storedCustomer);
-    const customerCard = createCustomerCard(customer);
-    customerList.appendChild(customerCard);
-  } else {
-    fetch('http://localhost:3000/api/customer')
-      .then(res => res.json())
-      .then(customer => {
-        localStorage.setItem('customer', JSON.stringify(customer));
+  fetch('http://localhost:3000/api/customer')
+    .then(res => res.json())
+    .then(customer => {
 
-        const customerCard = createCustomerCard(customer);
-        customerList.appendChild(customerCard);
-      })
-      .catch(error => {
-        console.error("Customer loading error:", error);
-      });
-  }
+      const customerCard = createCustomerCard(customer);
+      customerList.appendChild(customerCard);
+    })
+    .catch(error => {
+      console.error("Customer loading error:", error);
+    });
 }
 
 // Display library
@@ -160,6 +162,27 @@ function displayLibrary(): void {
     });
 }
 
+// Remove library book card
+function removeCustomerCard(storeBook: StoreBook, bookCard: HTMLElement): void {
+  fetch('http://localhost:3000/api/customer/removeBook', {
+    method: 'DELETE',
+    headers: {'Content-Type': 'application/json',},
+    body: JSON.stringify(storeBook)
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        bookCard.remove();
+        console.log(data.message);
+      } else {
+        console.error(data.error);
+      }
+    })
+    .catch(error => {
+      console.error("Error removing book:", error);
+    });
+}
+
 // Book sale/purchase
 function purchaseBook(storeBook: StoreBook, bookCard: HTMLElement): void {
   fetch('http://localhost:3000/api/purchase', {
@@ -172,8 +195,10 @@ function purchaseBook(storeBook: StoreBook, bookCard: HTMLElement): void {
       if (data.success) {
         console.log(data.message);
         bookCard.remove();
+        displayCatalogue();
       } else {
         alert(data.error);
+        console.log(data.error);
       }
     })
     .catch(error => {
@@ -189,159 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /*
-// Requesting the book catalogue from the server
-async function fetchBooks() {
-  try {
-    const storedCatalogueData = localStorage.getItem('catalogueData');
-    if (storedCatalogueData) {
-      console.log('Books loaded from localStorage');
-      store.importCatalogue(storedCatalogueData);
-      return;
-    }
-
-    const booksResponse = await fetch('http://localhost:3000/api/books');
-    const books: StoreBook[] = await booksResponse.json();
-    console.log(books);
-    books.forEach(book => store.addBook(book));
-    saveData();
-  } catch (error) {
-    console.error('Error loading books from server', error);
-  }
-}
-
-// Creating the customer card
-function createcustomerCard(customer: customer, addcustomerFund: () => void): HTMLElement {
-  const customerCard = document.createElement('div');
-  customerCard.className = 'card';
-
-  const customerImage = customer.image
-    ? `<img src="${customer.image}" alt="${customer.name}" class="image">`
-    : `<div class="image-placeholder"></div>`;
-
-  customerCard.innerHTML = `
-    ${customerImage}
-    <h3>${customer.name}</h3>
-    <p class="balance">${customer.balance.toFixed(2)} €</p>
-    <button class="customer-button">Increase balance</button>
-  `;
-
-  const customerButton = customerCard.querySelector('.customer-button') as HTMLElement;
-  customerButton.addEventListener('click', addcustomerFund);
-
-  return customerCard;
-}
-
-// Creating the book card
-function createBookCard(storeBook: StoreBook, handleBook: () => void): HTMLElement {
-  const bookCard = document.createElement('div');
-  bookCard.className = 'card';
-
-  const bookMedia = storeBook.book.image.endsWith('.mp4')
-    ? `<video class="video" autoplay muted loop>
-         <source src="${storeBook.book.image}" type="video/mp4">
-         Your browser does not support video.
-       </video>`
-    : `<img src="${storeBook.book.image}" alt="${storeBook.book.title}" class="image">`;
-
-  bookCard.innerHTML = `
-    ${bookMedia}
-    <h3>${storeBook.book.title}</h3>
-    <p class="author">${storeBook.book.author}</p>
-    <p class="price">${storeBook.book.price.toFixed(2)} €</p>
-    <button class="book-button">Purchase</button>
-  `;
-
-  const bookButton = bookCard.querySelector('.book-button') as HTMLElement;
-  bookButton.addEventListener('click', handleBook);
-
-  return bookCard;
-}
-
-// Displaying the customer
-function displaycustomers(): void {
-  const customerList = document.getElementById('customer-list') as HTMLElement;
-  if (!customerList) return;
-  customerList.innerHTML = '';
-  const customerCard = createcustomerCard(customer, () => addcustomerFund(customer));
-  customerList.appendChild(customerCard);
-}
-
-// Displaying the store's books
-function displayBooks(): void {
-  const bookList = document.getElementById('book-list') as HTMLElement;
-  if (!bookList) return;
-  bookList.innerHTML = '';
-  Array.from(store.catalogue.values()).forEach(storeBook => {
-    const bookCard = createBookCard(storeBook, () => handleBuyBook(storeBook, bookCard));
-    bookList.appendChild(bookCard);
-  });
-}
-
-// Displaying the customer's library books
-function displaycustomerBooks(): void {
-  const customerBookList = document.getElementById('customer-book-list') as HTMLElement;
-  if (!customerBookList) {
-    return;
-  }
-  customerBookList.innerHTML = '';
-  customer.purchasedBooks.forEach(storeBook => {
-    const bookCard = createBookCard(storeBook, () => removecustomerBook(storeBook, bookCard));
-    const priceElement = bookCard.querySelector('.price');
-    if (priceElement) {
-      priceElement.remove();
-    }
-    const buttonContent = bookCard.querySelector('.book-button');
-    if (buttonContent) {
-      buttonContent.innerHTML = 'Remove';
-    }
-    customerBookList.appendChild(bookCard);
-  });
-}
-
-// Removing the book card from the store
-function removeBookCard(bookCard: HTMLElement): void {
-  bookCard.remove();
-}
-
-// Removing the book card from the customer's library
-function removecustomerBook(storeBook: StoreBook, bookCard: HTMLElement): void {
-  if (customer.purchasedBooks.includes(storeBook)) {
-    customer.purchasedBooks.splice(customer.purchasedBooks.indexOf(storeBook), 1);
-    bookCard.remove();
-    saveData();  // Save changes after removing the book
-    console.log('The book card was successfully removed.');
-  }
-}
-
-// Increasing the customer's balance
-function addcustomerFund(customer: customer): void {
-  const result = customer.addFunds(40);
-
-  if (result === customer) {
-    displaycustomers();
-    saveData();
-  } else {
-    alert(result);
-  }
-}
-
-// Book purchase and sale
-function handleBuyBook(storeBook: StoreBook, bookCard: HTMLElement): void {
-  if (store.bookIsAvailable(storeBook) && storeBook.book.quantity > 0) {
-    const result = customer.buyBooks(storeBook);
-
-    if (result === customer) {
-      store.removeBook(storeBook);
-      removeBookCard(bookCard);
-      displaycustomerBooks();
-      saveData();
-    } else {
-      alert(result);
-    }
-  } else {
-    alert('This book is unavailable.');
-  }
-}
 
 // Searching for books in the store by title, author, and genre
 const storeSearchInput = document.getElementById('store-search-input') as HTMLInputElement;

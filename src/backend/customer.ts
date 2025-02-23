@@ -1,5 +1,4 @@
-import {Book} from "./book";
-import {StoreBookDetails, StoreBook} from "./storeBook";
+import {StoreBook} from "./storeBook";
 import {SearchBookDetails} from "./store";
 
 export interface CustomerDetails {

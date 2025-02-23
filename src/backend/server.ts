@@ -1,17 +1,25 @@
 import express, {Request, Response} from 'express';
 import fs from 'fs';
 import cors from 'cors';
+import multer from 'multer';
+
+import {StoreBook} from "./storeBook";
+import {SearchBookDetails, Store} from "./store";
 import {books} from "./storeBooks-data";
-import {Store} from "./store";
 import {customer} from "./customer-data";
 
 const app = express();
+const upload = multer({
+  dest: 'uploads/',
+  limits: { fileSize: 10 * 1024 * 1024 }
+});
 const port = 3000;
 const store = new Store();
 
 
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 
 function saveCatalogue() {
   const catalogue = Array.from(store.catalogue.values());
@@ -31,7 +39,7 @@ function saveCustomerData() {
 app.get('/api/catalogue', (req: Request, res: Response) => {
   try {
     const data = fs.readFileSync('catalogue.json', 'utf8');
-    const catalogue: [number, StoreBook][] = JSON.parse(data);
+    const catalogue: [StoreBook][] = JSON.parse(data);
     res.json(catalogue);
   } catch (error) {
     console.error("Catalogue loading error:", error);
@@ -45,10 +53,8 @@ app.post('/api/purchase', (req: Request, res: Response) => {
   const bookIsAvailable = store.bookIsAvailable(storeBook);
 
   if(bookIsAvailable) {
-    console.log(`Balance before purchase: ${customer.balance}`);
     const result = customer.buyBook(storeBook);
     if (result) {
-      console.log(`Balance after purchase: ${customer.balance}`);
       store.removeBook(storeBook);
       saveCatalogue();
       saveCustomerData();
@@ -70,6 +76,40 @@ app.post('/api/purchase', (req: Request, res: Response) => {
     }
 });
 
+app.post('/api/catalogue/searchStore', (req: Request, res: Response) => {
+
+  try {
+    const query = req.body.query;
+    const book: SearchBookDetails = {
+      title: query,
+      author: query,
+      genre: query
+    }
+
+    const foundBooks = store.searchBook(book);
+    res.json(foundBooks);
+  } catch (error) {
+    console.error("Error loading found books:", error);
+    res.status(500).json({ error: "Error loading found books" });
+  }
+})
+
+app.post('/api/catalogue/filterStore', (req: Request, res: Response) => {
+
+  try {
+    const priceMin: number = req.body.priceMin;
+    const priceMax: number = req.body.priceMax;
+    const yearMin: number = req.body.yearMin;
+    const yearMax: number = req.body.yearMax;
+
+    const foundBooks = store.filterBooks(priceMin, priceMax, yearMin, yearMax);
+    res.json(foundBooks);
+  } catch (error) {
+    console.error("Error loading found books:", error);
+    res.status(500).json({ error: "Error loading found books" });
+  }
+})
+
 app.get('/api/customer', (req: Request, res: Response) => {
   try {
     const customerData = fs.readFileSync('customer.json', 'utf8'); // читаем файл
@@ -82,6 +122,7 @@ app.get('/api/customer', (req: Request, res: Response) => {
 });
 
 app.get('/api/customer/library', (req: Request, res: Response) => {
+
   try {
     const data = fs.readFileSync('customer.json', 'utf8');
     const customerData = JSON.parse(data);
@@ -131,6 +172,51 @@ app.delete('/api/customer/removeBook', (req: Request, res: Response) => {
     });
   }
 });
+
+app.post('/api/customer/searchLibrary', (req: Request, res: Response) => {
+
+  try {
+    const query = req.body.query;
+    const book: SearchBookDetails = {
+      title: query,
+      author: query,
+      genre: query
+    }
+
+    const foundBooks = customer.searchBook(book);
+    res.json(foundBooks);
+  } catch (error) {
+    console.error("Error loading found books:", error);
+    res.status(500).json({ error: "Error loading found books" });
+  }
+})
+
+app.post('/api/customer/addBook', upload.single('image'), (req: Request, res: Response) => {
+
+  try {
+    const title: string = req.body.title;
+    const author: string = req.body.author;
+    const imageUrl = `/uploads/${req.file?.filename}`;
+
+    let storeBook = new StoreBook({
+        title: title,
+        author: author,
+        genre: 'not specified',
+        year: 0,
+        image: imageUrl
+    }, 0, 1);
+
+    customer.purchasedBooks.push(storeBook);
+    saveCustomerData();
+    res.json({
+      success: true,
+      message: 'Book has been added successfully'
+    });
+  } catch (error) {
+    console.error('Error adding book:', error);
+    res.status(500).json({ error: 'Failed to add the book' });
+  }
+})
 
 app.listen(port, () => {
   books.forEach(storeBook => store.addBook(storeBook));

@@ -8,11 +8,11 @@ export interface StoreBookDetails extends BookDetails {
 export class StoreBook {
   readonly book: StoreBookDetails;
 
-  constructor(book: Book, price: number) {
+  constructor(book: Book, price: number, quantity: number = 0) {
     this.book = {
       ...book,
       price: price,
-      quantity: 0
+      quantity: quantity
     };
   }
 }

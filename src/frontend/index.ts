@@ -18,6 +18,18 @@ interface Customer {
   image: string
 }
 
+// Close popup window
+const popup = document.getElementById("popup") as HTMLElement;
+const denyPopup = document.getElementById("deny-popup") as HTMLButtonElement;
+const confirmPopup = document.getElementById("confirm-popup") as HTMLButtonElement;
+
+function hidePopup() {
+  if (popup) {
+    popup.style.display = "none";
+    localStorage.setItem('popupShown', 'true');
+  }
+}
+
 // Create book card
 function createBookCard(storeBook: StoreBook, handleBook: () => void): HTMLElement {
 
@@ -120,11 +132,9 @@ function displayCustomer(): void {
   if (!customerList) return;
   customerList.innerHTML = '';
 
-
   fetch('http://localhost:3000/api/customer')
     .then(res => res.json())
     .then(customer => {
-
       const customerCard = createCustomerCard(customer);
       customerList.appendChild(customerCard);
     })
@@ -206,33 +216,29 @@ function purchaseBook(storeBook: StoreBook, bookCard: HTMLElement): void {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  displayCatalogue();
-  displayCustomer();
-  displayLibrary();
-})
-
-
-/*
-
-// Searching for books in the store by title, author, and genre
+// Search for books in the store by title, author, and genre
 const storeSearchInput = document.getElementById('store-search-input') as HTMLInputElement;
 const storeSearchButton = document.getElementById('store-search-button') as HTMLButtonElement;
 
 function searchStoreBooks(): void {
   let query = storeSearchInput.value.toLowerCase().trim();
 
-  let book: SearchBookDetails = {
-    title: query,
-    author: query,
-    genre: query
-  }
-
-  let foundBooks: StoreBook[] = store.searchBook(book);
-  displayStoreSearchResults(foundBooks);
+  fetch('http://localhost:3000/api/catalogue/searchStore', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json',},
+    body: JSON.stringify({query})
+  })
+    .then(res => res.json())
+    .then(foundBooks => {
+      console.log(foundBooks);
+      displayStoreSearchResults(foundBooks);
+    })
+    .catch(error => {
+      console.error("Found books loading error:", error);
+    });
 }
 
-// Displaying the search results of store books
+// Display store search results
 function displayStoreSearchResults(foundBooks: StoreBook[]): void {
   const bookList = document.getElementById('book-list') as HTMLElement;
   if (!bookList) return;
@@ -240,172 +246,11 @@ function displayStoreSearchResults(foundBooks: StoreBook[]): void {
 
   if (foundBooks.length > 0) {
     foundBooks.forEach(storeBook => {
-      const bookCard = createBookCard(storeBook, () => handleBuyBook(storeBook, bookCard));
+      const bookCard = createBookCard(storeBook, () => purchaseBook(storeBook, bookCard));
       bookList.appendChild(bookCard);
     });
   } else {
-    bookList.innerHTML = '<p>No results found for your query.</p>';
-  }
-}
-
-// Searching for books in the library by title, author, and genre
-const librarySearchInput = document.getElementById('library-search-input') as HTMLInputElement;
-const librarySearchButton = document.getElementById('library-search-button') as HTMLButtonElement;
-
-function searchLibraryBooks(): void {
-  let query = librarySearchInput.value.toLowerCase().trim();
-
-  let book: SearchBookDetails = {
-    title: query,
-    author: query,
-    genre: query
-  }
-
-  let foundBooks: StoreBook[] = customer.searchBook(book);
-  displayLibrarySearchResults(foundBooks);
-}
-
-// Displaying the search results of library books
-function displayLibrarySearchResults(foundBooks: StoreBook[]): void {
-  const customerBookList = document.getElementById('customer-book-list') as HTMLElement;
-  if (!customerBookList) return;
-  customerBookList.innerHTML = '';
-
-  if (foundBooks.length > 0) {
-    foundBooks.forEach(storeBook => {
-      const bookCard = createBookCard(storeBook, () => removecustomerBook(storeBook, bookCard));
-      const priceElement = bookCard.querySelector('.book-price');
-      if (priceElement) {
-        priceElement.remove();
-      }
-      const buttonContent = bookCard.querySelector('.book-button');
-      if (buttonContent) {
-        buttonContent.innerHTML = 'Remove';
-      }
-      customerBookList.appendChild(bookCard);
-    });
-  } else {
-    customerBookList.innerHTML = '<p>No results found for your query.</p>';
-  }
-}
-
-// Downloading the book catalogue
-const catalogueButton = document.getElementById("catalogueButton") as HTMLButtonElement;
-const downloadLink = document.getElementById("downloadLink") as HTMLAnchorElement;
-
-function downloadCatalogue() {
-  if (window.jspdf) {
-    const {jsPDF} = window.jspdf;
-    const doc = new jsPDF();
-
-    doc.setFont('Helvetica');
-    doc.setFontSize(16);
-    doc.setTextColor(0, 0, 0);
-    doc.text("KNIGBOOM Catalogue", 80, 20);
-
-    doc.setFontSize(12);
-    doc.text(store.toString(), 20, 40);
-
-    const pdfBlob = doc.output("blob");
-    const url = URL.createObjectURL(pdfBlob);
-
-    downloadLink.href = url;
-    downloadLink.download = "KNIGBOOM Catalogue.pdf";
-    downloadLink.click();
-    URL.revokeObjectURL(url);
-  } else {
-    console.log('jsPDF has been not loaded');
-  }
-}
-
-// Change the label "Cover" when the image is uploaded
-const fileInput = document.getElementById('add-image') as HTMLInputElement;
-
-function handleFileChange(): void {
-  const label = document.getElementById('book-image-label') as HTMLLabelElement;
-
-  const file = fileInput.files?.[0];
-  if (file) {
-    label.textContent = file.name;
-  }
-}
-
-// Adding a book to the library by a customer
-const addBookButton = document.getElementById('add-book-button') as HTMLButtonElement;
-
-function addBookToLibrary(event: MouseEvent): void {
-  event.preventDefault();
-
-  const title = (document.getElementById('book-title') as HTMLInputElement).value.trim().toLowerCase();
-  const author = (document.getElementById('book-author') as HTMLInputElement).value.trim().toLowerCase();
-
-  if (!title || !author) {
-    alert('Please fill in all fields.');
-    return;
-  }
-
-  const file = fileInput.files?.[0];
-  if (!file) {
-    alert('Please upload the book cover.');
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    const imageUrl = e.target?.result as string;
-
-    const newBook = new Book({
-      title: title,
-      author: author,
-      genre: 'Not specified',
-      year: 0.00,
-      image: imageUrl
-    });
-
-    const storeBook = new StoreBook(newBook, 0);
-    customer.purchasedBooks.push(storeBook);
-
-    displaycustomerBooks();
-    clearLibraryForm();
-    saveData();
-  };
-
-  reader.readAsDataURL(file);
-}
-
-// Clearing the form when adding a book to the library
-const clearFormButton = document.getElementById('clear-form-button') as HTMLButtonElement;
-
-function clearLibraryForm(): void {
-  (document.getElementById('book-title') as HTMLInputElement).value = '';
-  (document.getElementById('book-author') as HTMLInputElement).value = '';
-  (document.getElementById('add-image') as HTMLInputElement).value = '';
-  const label = document.getElementById('book-image-label') as HTMLLabelElement;
-  label.textContent = 'Cover';
-}
-
-// Newsletter subscription
-const newsLetterForm = document.getElementById('newsletter-form') as HTMLFormElement;
-
-function confirmNewsLetterForm(event: SubmitEvent) {
-  event.preventDefault();
-
-  const newsLetterEmail = document.getElementById('newsletter-email') as HTMLInputElement;
-  const newsletterMessage = document.getElementById('newsletter-message') as HTMLElement;
-  const email = newsLetterEmail.value.trim();
-
-  if (email) {
-    console.log('Subscription email:', email);
-
-    newsletterMessage.textContent = 'You have successfully subscribed to our newsletter.';
-    newsletterMessage.style.display = 'block';
-    setTimeout(() => {
-      newsletterMessage.remove();
-    }, 5000);
-    newsLetterEmail.value = '';
-
-  } else {
-    alert('Please enter a valid email!');
+    bookList.innerHTML = '<p>No results found for your query</p>';
   }
 }
 
@@ -432,7 +277,7 @@ function closeFilterPanel(): void {
   }
 }
 
-// Filtering books by price and publication year
+// Filter books by price and publication date
 const priceSlider1 = document.getElementById('price-slider-1') as HTMLInputElement;
 const priceSlider2 = document.getElementById('price-slider-2') as HTMLInputElement;
 const yearSlider1 = document.getElementById('year-slider-1') as HTMLInputElement;
@@ -548,9 +393,18 @@ function applyBooksFilter(event: MouseEvent) {
     const yearMin = +yearSlider1.value;
     const yearMax = +yearSlider2.value;
 
-    let foundBooks: StoreBook[] = store.filterBooks(priceMin, priceMax, yearMin, yearMax);
-    console.log(foundBooks);
-    displayStoreSearchResults(foundBooks);
+    fetch('http://localhost:3000/api/catalogue/filterStore', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json',},
+      body: JSON.stringify({priceMin, priceMax, yearMin, yearMax})
+    })
+      .then(res => res.json())
+      .then(foundBooks => {
+        displayStoreSearchResults(foundBooks);
+      })
+      .catch(error => {
+        console.error("Found books loading error:", error);
+      });
   }
 }
 
@@ -563,80 +417,169 @@ function clearBooksFilter() {
   priceSlideTwo();
   slideOne();
   slideTwo();
-  displayBooks();
+  displayCatalogue();
 }
 
-// Closing the popup window
-const popup = document.getElementById("popup") as HTMLElement;
-const denyPopup = document.getElementById("deny-popup") as HTMLButtonElement;
-const confirmPopup = document.getElementById("confirm-popup") as HTMLButtonElement;
+// Download book catalogue PDF
+const catalogueButton = document.getElementById("catalogueButton") as HTMLButtonElement;
+const downloadLink = document.getElementById("downloadLink") as HTMLAnchorElement;
 
-function hidePopup() {
-  if (popup) {
-    popup.style.display = "none";
-    localStorage.setItem('popupShown', 'true');
+function downloadCatalogue() {
+  fetch('http://localhost:3000/api/catalogue')
+    .then(response => response.json())
+    .then(catalogue => {
+      if (window.jspdf) {
+        const {jsPDF} = window.jspdf;
+        const doc = new jsPDF();
+
+        doc.setFont('Helvetica');
+        doc.setFontSize(16);
+        doc.setTextColor(0, 0, 0);
+        doc.text("KNIGBOOM Catalogue", 80, 20);
+
+        doc.setFontSize(12);
+
+        const catalogueText = catalogue
+          .map((item: StoreBook): string => {
+            return `Book: "${item.book.title}". Author: ${item.book.author}.\n` +
+              `Genre: ${item.book.genre}. Publication year: ${item.book.year}.\n` +
+              `Price: ${item.book.price.toFixed(2)} EUR. In stock: ${item.book.quantity}.`
+          })
+          .join('\n\n');
+
+        doc.text(catalogueText, 20, 40);
+
+        const pdfBlob = doc.output("blob");
+        const url = URL.createObjectURL(pdfBlob);
+
+        downloadLink.href = url;
+        downloadLink.download = "KNIGBOOM Catalogue.pdf";
+        downloadLink.click();
+        URL.revokeObjectURL(url);
+      } else {
+        console.log('jsPDF has not been loaded');
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching catalogue:', error);
+    });
+}
+
+// Search for books in the library by title, author, and genre
+const librarySearchInput = document.getElementById('library-search-input') as HTMLInputElement;
+const librarySearchButton = document.getElementById('library-search-button') as HTMLButtonElement;
+
+function searchLibraryBooks(): void {
+  let query = librarySearchInput.value.toLowerCase().trim();
+
+  fetch('http://localhost:3000/api/customer/searchLibrary', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json',},
+    body: JSON.stringify({query})
+  })
+    .then(res => res.json())
+    .then(foundBooks => {
+      console.log(foundBooks);
+      displayLibrarySearchResults(foundBooks);
+    })
+    .catch(error => {
+      console.error("Found books loading error:", error);
+    });
+}
+
+// Display library search results
+function displayLibrarySearchResults(foundBooks: StoreBook[]): void {
+  const customerBookList = document.getElementById('customer-book-list') as HTMLElement;
+  if (!customerBookList) return;
+  customerBookList.innerHTML = '';
+
+  if (foundBooks.length > 0) {
+    foundBooks.forEach(storeBook => {
+      const bookCard = createBookCard(storeBook, () => removeCustomerCard(storeBook, bookCard));
+      const priceElement = bookCard.querySelector('.price');
+      if (priceElement) {
+        priceElement.remove();
+      }
+      const buttonContent = bookCard.querySelector('.book-button');
+      if (buttonContent) {
+        buttonContent.innerHTML = 'Remove';
+      }
+      customerBookList.appendChild(bookCard);
+    });
+  } else {
+    customerBookList.innerHTML = '<p>No results found for your query</p>';
   }
 }
 
-// Saving data to localStorage
-function saveData(): void {
-  const customerData = customer.exportcustomerData();
-  const catalogueData = store.exportCatalogue();
+// Add image to the library (add book form)
+const fileInput = document.getElementById('add-image') as HTMLInputElement;
 
-  console.log('Saving customer data to localStorage:', customerData);
-  console.log('Saving catalogue data to localStorage:', catalogueData);
+function handleFileChange(): void {
 
-  localStorage.setItem('customerData', customerData);
-  localStorage.setItem('catalogueData', catalogueData);
-}
-
-// Loading customer data from localStorage
-function loadcustomerData() {
-  const savedcustomerData = localStorage.getItem('customerData');
-  if (savedcustomerData) {
-    try {
-      customer.importcustomerData(savedcustomerData);
-      console.log('customer data loaded.');
-    } catch (error) {
-      console.error('Error loading customer data:', error);
-    }
+  const label = document.getElementById('book-image-label') as HTMLLabelElement;
+  const file = fileInput.files?.[0];
+  if (file) {
+    label.textContent = file.name;
   }
 }
 
-// Loading store data from localStorage
-function loadStoreData() {
-  const savedCatalogueData = localStorage.getItem('catalogueData');
-  if (savedCatalogueData) {
-    try {
-      store.importCatalogue(savedCatalogueData);
-      console.log('Catalogue data loaded.');
-    } catch (error) {
-      console.error('Error loading catalogue data:', error);
-    }
+// Add book to the library
+const addBookButton = document.getElementById('add-book-button') as HTMLButtonElement;
+
+function addBookToLibrary(event: MouseEvent): void {
+  event.preventDefault();
+
+  const title = (document.getElementById('book-title') as HTMLInputElement).value.trim().toLowerCase();
+  const author = (document.getElementById('book-author') as HTMLInputElement).value.trim().toLowerCase();
+
+  if (!title || !author) {
+    alert('Please fill in all fields');
+    return;
   }
+
+  const file = fileInput.files?.[0];
+  if (!file) {
+    alert('Please upload the book cover');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('title', title);
+  formData.append('author', author);
+  formData.append('image', file);
+
+  fetch('http://localhost:3000/api/customer/addBook', {
+    method: 'POST',
+    body: formData,
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        displayLibrary();
+        clearLibraryForm();
+        setTimeout(() => alert(data.message), 1000);
+      }
+    })
+    .catch(error => {
+      console.error("Loading error:", error);
+    });
+}
+
+// Clearing the form when adding a book to the library
+const clearFormButton = document.getElementById('clear-form-button') as HTMLButtonElement;
+
+function clearLibraryForm(): void {
+  (document.getElementById('book-title') as HTMLInputElement).value = '';
+  (document.getElementById('book-author') as HTMLInputElement).value = '';
+  (document.getElementById('add-image') as HTMLInputElement).value = '';
+  const label = document.getElementById('book-image-label') as HTMLLabelElement;
+  label.textContent = 'Cover';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-
-  // Loading data from localStorage
-  loadStoreData();
-  loadcustomerData();
-
-  // Loading books from the server
-  fetchBooks().then(() => {
-    console.log('Books loaded from the server');
-
-    // Display customers and books when the page is loaded
-    displaycustomers();
-    displayBooks();
-    displaycustomerBooks();
-
-  }).catch((error) => {
-    console.error('Error loading books from the server', error);
-    displaycustomers();
-    displayBooks();
-    displaycustomerBooks();
-  });
+  displayCatalogue();
+  displayCustomer();
+  displayLibrary();
 
   // Popup handler
   const popupShown = localStorage.getItem('popupShown');
@@ -653,29 +596,6 @@ document.addEventListener('DOMContentLoaded', () => {
     storeSearchButton.addEventListener('click', searchStoreBooks);
   }
 
-  // Library search handler
-  if (librarySearchInput && librarySearchButton) {
-    librarySearchInput.addEventListener('change', searchLibraryBooks);
-    librarySearchButton.addEventListener('click', searchLibraryBooks);
-  }
-
-  // Catalogue download handler
-  if (downloadLink && catalogueButton) {
-    catalogueButton.addEventListener('click', downloadCatalogue);
-  }
-
-  // Add book handler
-  if (fileInput && addBookButton && clearFormButton) {
-    fileInput.addEventListener('change', handleFileChange);
-    addBookButton.addEventListener('click', addBookToLibrary);
-    clearFormButton.addEventListener('click', clearLibraryForm);
-  }
-
-  // Newsletter subscription handler
-  if (newsLetterForm) {
-    newsLetterForm.addEventListener('submit', confirmNewsLetterForm);
-  }
-
   // Filter events handler
   if (openFilter && closeFilter && priceSlider1 && priceSlider2 && yearSlider1 &&
     yearSlider2 && clearFilter && applyFilter) {
@@ -688,5 +608,59 @@ document.addEventListener('DOMContentLoaded', () => {
     clearFilter.addEventListener('click', clearBooksFilter);
     applyFilter.addEventListener('click', applyBooksFilter);
   }
+
+  // Catalogue download handler
+  if (downloadLink && catalogueButton) {
+    catalogueButton.addEventListener('click', downloadCatalogue);
+  }
+
+  // Library search handler
+  if (librarySearchInput && librarySearchButton) {
+    librarySearchInput.addEventListener('change', searchLibraryBooks);
+    librarySearchButton.addEventListener('click', searchLibraryBooks);
+  }
+
+  // Add book handler
+  if (fileInput && addBookButton && clearFormButton) {
+    fileInput.addEventListener('change', handleFileChange);
+    addBookButton.addEventListener('click', addBookToLibrary);
+    clearFormButton.addEventListener('click', clearLibraryForm);
+  }
+})
+
+
+/*
+// Newsletter subscription
+const newsLetterForm = document.getElementById('newsletter-form') as HTMLFormElement;
+
+function confirmNewsLetterForm(event: SubmitEvent) {
+  event.preventDefault();
+
+  const newsLetterEmail = document.getElementById('newsletter-email') as HTMLInputElement;
+  const newsletterMessage = document.getElementById('newsletter-message') as HTMLElement;
+  const email = newsLetterEmail.value.trim();
+
+  if (email) {
+    console.log('Subscription email:', email);
+
+    newsletterMessage.textContent = 'You have successfully subscribed to our newsletter.';
+    newsletterMessage.style.display = 'block';
+    setTimeout(() => {
+      newsletterMessage.remove();
+    }, 5000);
+    newsLetterEmail.value = '';
+
+  } else {
+    alert('Please enter a valid email!');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Newsletter subscription handler
+  if (newsLetterForm) {
+    newsLetterForm.addEventListener('submit', confirmNewsLetterForm);
+  }
+
 });
 */

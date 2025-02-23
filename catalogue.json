@@ -34,6 +34,17 @@
   },
   {
     "book": {
+      "title": "The Razor's Edge",
+      "author": "Somerset Maugham",
+      "genre": "Novel",
+      "year": 1944,
+      "image": "/img/the_razors_edge.jpeg",
+      "price": 20,
+      "quantity": 1
+    }
+  },
+  {
+    "book": {
       "title": "Beware of Pity",
       "author": "Stefan Zweig",
       "genre": "Novel",
@@ -51,6 +62,17 @@
       "year": 1934,
       "image": "/img/goodbye_mr_chips.jpeg",
       "price": 12.99,
+      "quantity": 1
+    }
+  },
+  {
+    "book": {
+      "title": "Casino Royale",
+      "author": "Ian Fleming",
+      "genre": "Novel",
+      "year": 1953,
+      "image": "/video/casino_royale.mp4",
+      "price": 28,
       "quantity": 1
     }
   }

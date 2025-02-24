@@ -5,17 +5,18 @@ import multer from 'multer';
 
 import {StoreBook} from "./storeBook";
 import {SearchBookDetails, Store} from "./store";
+import {Newsletter} from "./emails";
 import {books} from "./storeBooks-data";
 import {customer} from "./customer-data";
 
 const app = express();
 const upload = multer({
   dest: 'uploads/',
-  limits: { fileSize: 10 * 1024 * 1024 }
+  limits: {fileSize: 10 * 1024 * 1024}
 });
 const port = 3000;
 const store = new Store();
-
+const newsletter = new Newsletter();
 
 app.use(cors());
 app.use(express.json());
@@ -36,6 +37,11 @@ function saveCustomerData() {
   fs.writeFileSync('customer.json', JSON.stringify(customerData, null, 2), 'utf8');
 }
 
+function saveSubscriberData() {
+  const subscriberData = newsletter.subscribers;
+  fs.writeFileSync('subscriber.json', JSON.stringify(subscriberData, null, 2), 'utf8');
+}
+
 app.get('/api/catalogue', (req: Request, res: Response) => {
   try {
     const data = fs.readFileSync('catalogue.json', 'utf8');
@@ -43,16 +49,15 @@ app.get('/api/catalogue', (req: Request, res: Response) => {
     res.json(catalogue);
   } catch (error) {
     console.error("Catalogue loading error:", error);
-    res.status(500).json({ error: "Error loading catalogue" });
+    res.status(500).json({error: "Error loading catalogue"});
   }
 });
 
 app.post('/api/purchase', (req: Request, res: Response) => {
-
   const storeBook: StoreBook = req.body;
   const bookIsAvailable = store.bookIsAvailable(storeBook);
 
-  if(bookIsAvailable) {
+  if (bookIsAvailable) {
     const result = customer.buyBook(storeBook);
     if (result) {
       store.removeBook(storeBook);
@@ -62,22 +67,21 @@ app.post('/api/purchase', (req: Request, res: Response) => {
         success: true,
         message: "Book has been successfully sold from the store",
       });
-  } else {
+    } else {
       return res.status(400).json({
         success: false,
         error: "Please increase the balance to purchase the book",
       });
     }
   } else {
-      return res.status(400).json({
-        success: false,
-        error: "Book is not available in the store",
-      });
-    }
+    return res.status(400).json({
+      success: false,
+      error: "Book is not available in the store",
+    });
+  }
 });
 
 app.post('/api/catalogue/searchStore', (req: Request, res: Response) => {
-
   try {
     const query = req.body.query;
     const book: SearchBookDetails = {
@@ -90,12 +94,11 @@ app.post('/api/catalogue/searchStore', (req: Request, res: Response) => {
     res.json(foundBooks);
   } catch (error) {
     console.error("Error loading found books:", error);
-    res.status(500).json({ error: "Error loading found books" });
+    res.status(500).json({error: "Error loading found books"});
   }
 })
 
 app.post('/api/catalogue/filterStore', (req: Request, res: Response) => {
-
   try {
     const priceMin: number = req.body.priceMin;
     const priceMax: number = req.body.priceMax;
@@ -106,7 +109,7 @@ app.post('/api/catalogue/filterStore', (req: Request, res: Response) => {
     res.json(foundBooks);
   } catch (error) {
     console.error("Error loading found books:", error);
-    res.status(500).json({ error: "Error loading found books" });
+    res.status(500).json({error: "Error loading found books"});
   }
 })
 
@@ -117,12 +120,11 @@ app.get('/api/customer', (req: Request, res: Response) => {
     res.json(customer);
   } catch (error) {
     console.error('Error loading customer data:', error);
-    res.status(500).json({ error: 'Error loading customer data' });
+    res.status(500).json({error: 'Error loading customer data'});
   }
 });
 
 app.get('/api/customer/library', (req: Request, res: Response) => {
-
   try {
     const data = fs.readFileSync('customer.json', 'utf8');
     const customerData = JSON.parse(data);
@@ -131,7 +133,7 @@ app.get('/api/customer/library', (req: Request, res: Response) => {
     res.json(library);
   } catch (error) {
     console.error("Error loading customer library:", error);
-    res.status(500).json({ error: 'Failed to load customer library' });
+    res.status(500).json({error: 'Failed to load customer library'});
   }
 });
 
@@ -174,7 +176,6 @@ app.delete('/api/customer/removeBook', (req: Request, res: Response) => {
 });
 
 app.post('/api/customer/searchLibrary', (req: Request, res: Response) => {
-
   try {
     const query = req.body.query;
     const book: SearchBookDetails = {
@@ -187,23 +188,22 @@ app.post('/api/customer/searchLibrary', (req: Request, res: Response) => {
     res.json(foundBooks);
   } catch (error) {
     console.error("Error loading found books:", error);
-    res.status(500).json({ error: "Error loading found books" });
+    res.status(500).json({error: "Error loading found books"});
   }
 })
 
 app.post('/api/customer/addBook', upload.single('image'), (req: Request, res: Response) => {
-
   try {
     const title: string = req.body.title;
     const author: string = req.body.author;
     const imageUrl = `/uploads/${req.file?.filename}`;
 
     let storeBook = new StoreBook({
-        title: title,
-        author: author,
-        genre: 'not specified',
-        year: 0,
-        image: imageUrl
+      title: title,
+      author: author,
+      genre: 'not specified',
+      year: 0,
+      image: imageUrl
     }, 0, 1);
 
     customer.purchasedBooks.push(storeBook);
@@ -214,7 +214,28 @@ app.post('/api/customer/addBook', upload.single('image'), (req: Request, res: Re
     });
   } catch (error) {
     console.error('Error adding book:', error);
-    res.status(500).json({ error: 'Failed to add the book' });
+    res.status(500).json({error: 'Failed to add the book'});
+  }
+})
+
+app.post('/api/newsletter', (req: Request, res: Response) => {
+  try {
+    const email: string = req.body.email;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      return res.status(400).json({success: false, error: 'Invalid email format'});
+    }
+
+    if (newsletter.subscribers.includes(email)) {
+      return res.status(400).json({success: false, error: 'You have already been subscribed to our newsletter'});
+    }
+
+    newsletter.subscribers.push(email);
+    saveSubscriberData();
+    return res.json({success: true});
+  } catch (error) {
+    console.error('Error subscribing email:', error);
+    res.status(500).json({error: "Error loading subscribers"});
   }
 })
 

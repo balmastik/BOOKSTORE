@@ -565,7 +565,7 @@ function addBookToLibrary(event: MouseEvent): void {
     });
 }
 
-// Clearing the form when adding a book to the library
+// Clear book add form
 const clearFormButton = document.getElementById('clear-form-button') as HTMLButtonElement;
 
 function clearLibraryForm(): void {
@@ -574,6 +574,44 @@ function clearLibraryForm(): void {
   (document.getElementById('add-image') as HTMLInputElement).value = '';
   const label = document.getElementById('book-image-label') as HTMLLabelElement;
   label.textContent = 'Cover';
+}
+
+// Newsletter subscription
+const newsLetterForm = document.getElementById('newsletter-form') as HTMLFormElement;
+
+function subscribeNewsletter(event: SubmitEvent) {
+  event.preventDefault();
+
+  const newsLetterEmail = document.getElementById('newsletter-email') as HTMLInputElement;
+  const newsletterMessage = document.getElementById('newsletter-message') as HTMLElement;
+  const email = newsLetterEmail.value.trim();
+
+  if (email) {
+    fetch('http://localhost:3000/api/newsletter', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json',},
+      body: JSON.stringify({email})
+    })
+      .then(res => res.json())
+      .then(data =>  {
+        if (data.success) {
+          newsletterMessage.textContent = 'You have successfully subscribed to our newsletter!';
+          newsletterMessage.style.display = 'block';
+          setTimeout(() => {
+            newsletterMessage.textContent = '';
+            newsletterMessage.style.display = 'none';
+          }, 3000);
+          newsLetterEmail.value = '';
+        } else {
+          alert(data.error)
+        }
+      })
+      .catch(error => {
+        console.error("Emails loading error:", error);
+      });
+  } else {
+    alert('Please enter a valid email!');
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -626,41 +664,9 @@ document.addEventListener('DOMContentLoaded', () => {
     addBookButton.addEventListener('click', addBookToLibrary);
     clearFormButton.addEventListener('click', clearLibraryForm);
   }
-})
-
-
-/*
-// Newsletter subscription
-const newsLetterForm = document.getElementById('newsletter-form') as HTMLFormElement;
-
-function confirmNewsLetterForm(event: SubmitEvent) {
-  event.preventDefault();
-
-  const newsLetterEmail = document.getElementById('newsletter-email') as HTMLInputElement;
-  const newsletterMessage = document.getElementById('newsletter-message') as HTMLElement;
-  const email = newsLetterEmail.value.trim();
-
-  if (email) {
-    console.log('Subscription email:', email);
-
-    newsletterMessage.textContent = 'You have successfully subscribed to our newsletter.';
-    newsletterMessage.style.display = 'block';
-    setTimeout(() => {
-      newsletterMessage.remove();
-    }, 5000);
-    newsLetterEmail.value = '';
-
-  } else {
-    alert('Please enter a valid email!');
-  }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
 
   // Newsletter subscription handler
   if (newsLetterForm) {
-    newsLetterForm.addEventListener('submit', confirmNewsLetterForm);
+    newsLetterForm.addEventListener('submit', subscribeNewsletter);
   }
-
-});
-*/
+})

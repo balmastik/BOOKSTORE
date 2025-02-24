@@ -10,6 +10,7 @@ module.exports = {
     store: './src/backend/store.ts',
     customer: './src/backend/customer.ts',
     customerData: './src/backend/customer-data.ts',
+    emails: './src/backend/emails.ts',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),

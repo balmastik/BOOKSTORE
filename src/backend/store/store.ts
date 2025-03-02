@@ -38,9 +38,7 @@ export class Store {
     );
 
     if (bookInCatalogue && bookInCatalogue.book.quantity > 0) {
-      console.log(`Attempting to remove book from the store: "${bookInCatalogue.book.title}" by ${bookInCatalogue.book.author}. Current quantity: ${bookInCatalogue.book.quantity}`);
       bookInCatalogue.book.quantity--;
-      console.log(`Book quantity decreased. New quantity: ${bookInCatalogue.book.quantity}`);
 
       if (bookInCatalogue.book.quantity === 0) {
         const bookId = [...this.catalogue.entries()].find(([_, item]) => item === bookInCatalogue)?.[0];

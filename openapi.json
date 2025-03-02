@@ -1,0 +1,73 @@
+{
+  "components": {
+    "schemas": {
+      "StoreBook": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title of the book"
+          },
+          "author": {
+            "type": "string",
+            "description": "Author of the book"
+          },
+          "genre": {
+            "type": "string",
+            "description": "Genre of the book"
+          },
+          "year": {
+            "type": "integer",
+            "description": "Year of publication"
+          },
+          "image": {
+            "type": "string",
+            "description": "URL of the book image"
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "description": "Price of the book"
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Quantity of the book available in store"
+          }
+        },
+        "required": [
+          "title",
+          "author",
+          "genre",
+          "year",
+          "image",
+          "price",
+          "quantity"
+        ]
+      },
+      "Customer": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Customer's name"
+          },
+          "balance": {
+            "type": "number",
+            "format": "float",
+            "description": "Current balance of the customer"
+          },
+          "image": {
+            "type": "string",
+            "description": "URL of the customer's profile image"
+          }
+        },
+        "required": [
+          "name",
+          "balance",
+          "image"
+        ]
+      }
+    }
+  }
+}
+

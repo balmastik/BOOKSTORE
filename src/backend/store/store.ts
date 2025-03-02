@@ -1,4 +1,4 @@
-import {StoreBook} from "./storeBook";
+import {StoreBook} from "../storebook/storeBook";
 
 export interface SearchBookDetails {
   title: string,

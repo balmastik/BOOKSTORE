@@ -23,17 +23,6 @@
   },
   {
     "book": {
-      "title": "Lost Horizon",
-      "author": "James Hilton",
-      "genre": "Adventure",
-      "year": 1933,
-      "image": "/img/lost_horizon.jpeg",
-      "price": 17.5,
-      "quantity": 1
-    }
-  },
-  {
-    "book": {
       "title": "The Razor's Edge",
       "author": "Somerset Maugham",
       "genre": "Novel",

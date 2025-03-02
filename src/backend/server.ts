@@ -1,15 +1,33 @@
 import express, {Request, Response} from 'express';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
 import cors from 'cors';
 import multer from 'multer';
 
-import {StoreBook} from "./storeBook";
-import {SearchBookDetails, Store} from "./store";
-import {Newsletter} from "./emails";
-import {books} from "./storeBooks-data";
-import {customer} from "./customer-data";
+import {StoreBook} from "./storebook/storeBook";
+import {Store} from "./store/store";
+import {Newsletter} from "./mail/emails";
+import {books} from "./storebook/storeBooksData";
+import {customer} from "./customer/customerData";
+
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'KNIGBOOM API',
+      version: '1.0.0',
+      description: 'API Documentation for KNIGBOOM Store',
+    },
+    components: {
+      schemas: JSON.parse(fs.readFileSync('openapi.json', 'utf-8')).components.schemas
+    }
+  },
+  apis: ['./src/backend/server.ts'],
+};
 
 const app = express();
+const swaggerDocs = swaggerJSDoc(swaggerOptions);
 const upload = multer({
   dest: 'uploads/',
   limits: {fileSize: 10 * 1024 * 1024}
@@ -20,6 +38,7 @@ const newsletter = new Newsletter();
 
 app.use(cors());
 app.use(express.json());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use('/uploads', express.static('uploads'));
 
 function saveCatalogue() {
@@ -42,54 +61,84 @@ function saveSubscriberData() {
   fs.writeFileSync('subscriber.json', JSON.stringify(subscriberData, null, 2), 'utf8');
 }
 
+/**
+ * @swagger
+ * tags:
+ *   - name: Store
+ *     description: Operations related to the store catalogue
+ */
+
+/**
+ * @swagger
+ * /api/catalogue:
+ *   get:
+ *     tags:
+ *       - Store
+ *     summary: Get list of books from the store catalogue
+ *     description: Returns a list of all books available in the store catalogue.
+ *     responses:
+ *       200:
+ *         description: A list of books
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/StoreBook'
+ *       500:
+ *         description: Internal server error during loading catalogue
+ */
 app.get('/api/catalogue', (req: Request, res: Response) => {
   try {
     const data = fs.readFileSync('catalogue.json', 'utf8');
     const catalogue: [StoreBook][] = JSON.parse(data);
     res.json(catalogue);
   } catch (error) {
-    console.error("Catalogue loading error:", error);
+    console.error("Error loading catalogue:", error);
     res.status(500).json({error: "Error loading catalogue"});
   }
 });
 
-app.post('/api/purchase', (req: Request, res: Response) => {
-  const storeBook: StoreBook = req.body;
-  const bookIsAvailable = store.bookIsAvailable(storeBook);
-
-  if (bookIsAvailable) {
-    const result = customer.buyBook(storeBook);
-    if (result) {
-      store.removeBook(storeBook);
-      saveCatalogue();
-      saveCustomerData();
-      res.json({
-        success: true,
-        message: "Book has been successfully sold from the store",
-      });
-    } else {
-      return res.status(400).json({
-        success: false,
-        error: "Please increase the balance to purchase the book",
-      });
-    }
-  } else {
-    return res.status(400).json({
-      success: false,
-      error: "Book is not available in the store",
-    });
-  }
-});
-
+/**
+ * @swagger
+ * /api/catalogue/searchStore:
+ *   post:
+ *     tags:
+ *       - Store
+ *     summary: Search for a book in the store catalogue
+ *     description: Find a book in the store catalogue based on title, author, or genre.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               query:
+ *                 type: string
+ *                 description: A search string that will be used for searching the title, author, and genre.
+ *             example:
+ *               query: "rand"
+ *     responses:
+ *       200:
+ *         description: A list of books matching the search query
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/StoreBook'
+ *       500:
+ *         description: Internal server error during search process
+ */
 app.post('/api/catalogue/searchStore', (req: Request, res: Response) => {
   try {
-    const query = req.body.query;
-    const book: SearchBookDetails = {
+    const query: string = req.body.query;
+    const book = {
       title: query,
       author: query,
       genre: query
     }
-
     const foundBooks = store.searchBook(book);
     res.json(foundBooks);
   } catch (error) {
@@ -98,6 +147,51 @@ app.post('/api/catalogue/searchStore', (req: Request, res: Response) => {
   }
 })
 
+/**
+ * @swagger
+ * /api/catalogue/filterStore:
+ *   post:
+ *     tags:
+ *       - Store
+ *     summary: Filter books by price and publication date in the store catalogue
+ *     description: Filters books by minimum and maximum price, as well as by minimum and maximum publication year.
+ *     requestBody:
+ *       description: Parameters for filtering books
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               priceMin:
+ *                 type: number
+ *                 description: Minimum book price
+ *               priceMax:
+ *                 type: number
+ *                 description: Maximum book price
+ *               yearMin:
+ *                 type: number
+ *                 description: Minimum publication year
+ *               yearMax:
+ *                 type: number
+ *                 description: Maximum publication year
+ *             example:
+ *               priceMin: 10
+ *               priceMax: 100
+ *               yearMin: 1900
+ *               yearMax: 1950
+ *     responses:
+ *       200:
+ *         description: List of found books that match the filter criteria
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/StoreBook'
+ *       500:
+ *         description: Internal server error during loading books
+ */
 app.post('/api/catalogue/filterStore', (req: Request, res: Response) => {
   try {
     const priceMin: number = req.body.priceMin;
@@ -113,10 +207,35 @@ app.post('/api/catalogue/filterStore', (req: Request, res: Response) => {
   }
 })
 
+/**
+ * @swagger
+ * tags:
+ *   - name: Customer
+ *     description: Operations related to the customer
+ */
+
+/**
+ * @swagger
+ * /api/customer:
+ *   get:
+ *     tags:
+ *       - Customer
+ *     summary: Get customer data
+ *     description: Returns customer data like name, balance, and image.
+ *     responses:
+ *       200:
+ *         description: Customer data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Customer'
+ *       500:
+ *         description: Internal server error during loading customer data
+ */
 app.get('/api/customer', (req: Request, res: Response) => {
   try {
     const customerData = fs.readFileSync('customer.json', 'utf8'); // читаем файл
-    const customer = JSON.parse(customerData);
+    const customer: Customer = JSON.parse(customerData);
     res.json(customer);
   } catch (error) {
     console.error('Error loading customer data:', error);
@@ -124,6 +243,26 @@ app.get('/api/customer', (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/customer/library:
+ *   get:
+ *     tags:
+ *       - Customer
+ *     summary: Get list of books from the customer library
+ *     description: Returns the list of books purchased by the customer.
+ *     responses:
+ *       200:
+ *         description: List of books in customer library
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/StoreBook'
+ *       500:
+ *         description: Internal server error during loading customer library
+ */
 app.get('/api/customer/library', (req: Request, res: Response) => {
   try {
     const data = fs.readFileSync('customer.json', 'utf8');
@@ -133,52 +272,166 @@ app.get('/api/customer/library', (req: Request, res: Response) => {
     res.json(library);
   } catch (error) {
     console.error("Error loading customer library:", error);
-    res.status(500).json({error: 'Failed to load customer library'});
+    res.status(500).json({error: 'Error loading customer library'});
   }
 });
 
+/**
+ * @swagger
+ * /api/customer/addFunds:
+ *   post:
+ *     tags:
+ *       - Customer
+ *     summary: Add funds to the customer balance
+ *     description: Adds funds to the customer balance.
+ *     requestBody:
+ *       description: Amount to be added
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               amount:
+ *                 type: number
+ *                 description: Amount to add to the balance
+ *                 example: 100.50
+ *     responses:
+ *       200:
+ *         description: Successfully added funds to the balance
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: Success status
+ *                 message:
+ *                   type: string
+ *       400:
+ *         description: Invalid amount
+ *       500:
+ *         description: Internal server error during adding funds
+ */
 app.post('/api/customer/addFunds', (req: Request, res: Response) => {
-  const amount: number = req.body.amount;
-  const success = customer.addFunds(amount);
+  try {
+    const amount: number = req.body.amount;
+    const success = customer.addFunds(amount);
 
-  if (success) {
-    saveCustomerData();
+    if (success) {
+      saveCustomerData();
 
-    res.json({
-      success: true,
-      message: "Balance has been successfully increased"
-    });
-  } else {
-    res.status(400).json({
-      success: false,
-      error: "Please enter a valid positive number"
-    });
+      res.json({
+        success: true,
+        message: "Balance has been successfully increased"
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        error: "Please enter a valid positive number"
+      });
+    }
+  } catch (error) {
+    console.error("Error adding funds:", error);
+    res.status(500).json({ error: 'Error loading customer balance'});
   }
 });
 
+/**
+ * @swagger
+ * /api/customer/removeBook:
+ *   delete:
+ *     tags:
+ *       - Customer
+ *     summary: Remove book from the customer library
+ *     description: Removes a book from the customer library.
+ *     requestBody:
+ *       description: Data of the book to be removed
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/StoreBook'
+ *     responses:
+ *       200:
+ *         description: Successfully removed book
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: Indicates if the book was successfully removed
+ *                 message:
+ *                   type: string
+ *                   description: Message confirming the book was removed
+ *       400:
+ *         description: Error removing book (book not found)
+ *       500:
+ *         description: Internal server error during removing the book
+ */
 app.delete('/api/customer/removeBook', (req: Request, res: Response) => {
-  const storeBook: StoreBook = req.body;
-  const success = customer.removeBook(storeBook);
+  try {
+    const storeBook: StoreBook = req.body;
+    const success = customer.removeBook(storeBook);
 
-  if (success) {
-    saveCustomerData();
+    if (success) {
+      saveCustomerData();
 
-    res.json({
-      success: true,
-      message: "Book has been successfully removed from the library"
-    });
-  } else {
-    res.status(400).json({
-      success: false,
-      error: "Book has not been found in the library"
-    });
+      res.json({
+        success: true,
+        message: "Book has been successfully removed from the library"
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        error: "Book has not been found in the library"
+      });
+    }
+  } catch (error) {
+    console.error('Error removing book:', error);
+    res.status(500).json({ error: 'Error removing book' });
   }
 });
 
+/**
+ * @swagger
+ * /api/customer/searchLibrary:
+ *   post:
+ *     tags:
+ *       - Customer
+ *     summary: Search for a book in the library
+ *     description: Find a book in the library based on title, author, or genre.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               query:
+ *                 type: string
+ *                 description: A search string that will be used for searching the title, author, and genre.
+ *             example:
+ *               query: "horizon"
+ *     responses:
+ *       200:
+ *         description: A list of books matching the search query
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/StoreBook'
+ *       500:
+ *         description: Internal server error during search process
+ */
 app.post('/api/customer/searchLibrary', (req: Request, res: Response) => {
   try {
-    const query = req.body.query;
-    const book: SearchBookDetails = {
+    const query: string = req.body.query;
+    const book = {
       title: query,
       author: query,
       genre: query
@@ -192,6 +445,49 @@ app.post('/api/customer/searchLibrary', (req: Request, res: Response) => {
   }
 })
 
+/**
+ * @swagger
+ * /api/customer/addBook:
+ *   post:
+ *     tags:
+ *       - Customer
+ *     summary: Add book to the customer library
+ *     description: Adds a book to the customer's library with the option to upload a book image.
+ *     requestBody:
+ *       description: Book information
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: Title of the book
+ *               author:
+ *                 type: string
+ *                 description: Author of the book
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *                 description: Book image
+ *     responses:
+ *       200:
+ *         description: Successfully added the book
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: Indicates if the book was successfully added
+ *                 message:
+ *                   type: string
+ *                   description: Message confirming the book was added
+ *       500:
+ *         description: Internal server error during adding the book
+ */
 app.post('/api/customer/addBook', upload.single('image'), (req: Request, res: Response) => {
   try {
     const title: string = req.body.title;
@@ -218,16 +514,140 @@ app.post('/api/customer/addBook', upload.single('image'), (req: Request, res: Re
   }
 })
 
+/**
+ * @swagger
+ * tags:
+ *   - name: Purchase
+ *     description: Operations related to purchase process
+ */
+
+/**
+ * @swagger
+ * /api/purchase:
+ *   post:
+ *     tags:
+ *       - Purchase
+ *     summary: Process of selling the book by the store and purchasing the book by the customer
+ *     description: Allows a customer to purchase a book from the store catalogue and add it to the library.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/StoreBook'
+ *     responses:
+ *       200:
+ *         description: Successfully sold book from the store catalogue
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Book has been successfully sold from the store"
+ *       400:
+ *         description: Purchase error (customer balance issues or unavailable book)
+ *       500:
+ *         description: Internal server error during the purchase process
+ */
+app.post('/api/purchase', (req: Request, res: Response) => {
+  try {
+    const storeBook: StoreBook = req.body;
+    const bookIsAvailable = store.bookIsAvailable(storeBook);
+
+    if (bookIsAvailable) {
+      const result = customer.buyBook(storeBook);
+      if (result) {
+        store.removeBook(storeBook);
+        saveCatalogue();
+        saveCustomerData();
+        res.json({
+          success: true,
+          message: "Book has been successfully sold from the store",
+        });
+      } else {
+        return res.status(400).json({
+          success: false,
+          error: "Please increase the balance to purchase the book",
+        });
+      }
+    } else {
+      return res.status(400).json({
+        success: false,
+        error: "Book is not available in the store",
+      });
+    }
+  } catch (error) {
+    console.error("Error loading purchase:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error loading purchase",
+    });
+  }
+});
+
+/**
+ * @swagger
+ * tags:
+ *   - name: Newsletter
+ *     description: Operations related to newsletter subscription
+ */
+
+/**
+ * @swagger
+ * /api/newsletter:
+ *   post:
+ *     tags:
+ *       - Newsletter
+ *     summary: Subscribe to newsletter
+ *     description: Adds an email to the subscriber list for the newsletter.
+ *     requestBody:
+ *       description: Email address
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: Email address
+ *     responses:
+ *       200:
+ *         description: Successfully subscribed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: Indicates if the subscription was successful
+ *       400:
+ *         description: Subscription error (invalid email format or already subscribed)
+ *       500:
+ *         description: Internal server error during processing subscription
+ */
 app.post('/api/newsletter', (req: Request, res: Response) => {
   try {
     const email: string = req.body.email;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || !emailRegex.test(email)) {
-      return res.status(400).json({success: false, error: 'Invalid email format'});
+    const emailRegexp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegexp.test(email)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid email format'
+      });
     }
 
     if (newsletter.subscribers.includes(email)) {
-      return res.status(400).json({success: false, error: 'You have already been subscribed to our newsletter'});
+      return res.status(400).json({
+        success: false,
+        error: 'You have already been subscribed to our newsletter'
+      });
     }
 
     newsletter.subscribers.push(email);

@@ -168,7 +168,7 @@ function displayLibrary(): void {
       })
     })
     .catch(error => {
-      console.error("Catalogue loading error:", error);
+      console.error("Library loading error:", error);
     });
 }
 
@@ -189,7 +189,7 @@ function removeCustomerCard(storeBook: StoreBook, bookCard: HTMLElement): void {
       }
     })
     .catch(error => {
-      console.error("Error removing book:", error);
+      console.error("Removing book error:", error);
     });
 }
 
@@ -461,7 +461,7 @@ function downloadCatalogue() {
       }
     })
     .catch(error => {
-      console.error('Error fetching catalogue:', error);
+      console.error('Fetching catalogue error:', error);
     });
 }
 
@@ -561,7 +561,7 @@ function addBookToLibrary(event: MouseEvent): void {
       }
     })
     .catch(error => {
-      console.error("Loading error:", error);
+      console.error("Add book loading error:", error);
     });
 }
 

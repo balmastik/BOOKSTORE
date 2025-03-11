@@ -63,16 +63,16 @@ function displayCatalogue() {
   if (!bookList) return;
   bookList.innerHTML = '';
 
-  fetch('http://localhost:3000/api/catalogue')
+  fetch('http://localhost:3000/api/books')
     .then(res => res.json())
-    .then(catalogue => {
-      catalogue.forEach((storeBook: StoreBook) => {
+    .then(books => {
+      books.forEach((storeBook: StoreBook) => {
         const bookCard = createBookCard(storeBook, () => purchaseBook(storeBook, bookCard));
         bookList.appendChild(bookCard);
       });
     })
     .catch(error => {
-      console.error("Catalogue loading error:", error);
+      console.error("Books loading error:", error);
     });
 }
 
@@ -107,7 +107,7 @@ function increaseBalance(): void {
     return;
   }
 
-  fetch('http://localhost:3000/api/customer/addFunds', {
+  fetch('http://localhost:3000/api/customer/balance/increase', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({amount}),
@@ -122,7 +122,7 @@ function increaseBalance(): void {
       }
     })
     .catch(error => {
-      console.error("Increase balance error:", error);
+      console.error("Increase balance loading error:", error);
     });
 }
 
@@ -151,10 +151,10 @@ function displayLibrary(): void {
   }
   customerBookList.innerHTML = '';
 
-  fetch('http://localhost:3000/api/customer/library')
+  fetch('http://localhost:3000/api/customer/books')
     .then(res => res.json())
-    .then(library => {
-      library.forEach((storeBook: StoreBook) => {
+    .then(books => {
+      books.forEach((storeBook: StoreBook) => {
         const bookCard = createBookCard(storeBook, () => removeCustomerCard(storeBook, bookCard));
         const priceElement = bookCard.querySelector('.price');
         if (priceElement) {
@@ -168,13 +168,13 @@ function displayLibrary(): void {
       })
     })
     .catch(error => {
-      console.error("Library loading error:", error);
+      console.error("Customer books loading error:", error);
     });
 }
 
 // Remove library book card
 function removeCustomerCard(storeBook: StoreBook, bookCard: HTMLElement): void {
-  fetch('http://localhost:3000/api/customer/removeBook', {
+  fetch('http://localhost:3000/api/customer/books', {
     method: 'DELETE',
     headers: {'Content-Type': 'application/json',},
     body: JSON.stringify(storeBook)
@@ -189,7 +189,7 @@ function removeCustomerCard(storeBook: StoreBook, bookCard: HTMLElement): void {
       }
     })
     .catch(error => {
-      console.error("Removing book error:", error);
+      console.error("Removing book loading error:", error);
     });
 }
 
@@ -223,7 +223,7 @@ const storeSearchButton = document.getElementById('store-search-button') as HTML
 function searchStoreBooks(): void {
   let query = storeSearchInput.value.toLowerCase().trim();
 
-  fetch('http://localhost:3000/api/catalogue/searchStore', {
+  fetch('http://localhost:3000/api/books/search', {
     method: 'POST',
     headers: {'Content-Type': 'application/json',},
     body: JSON.stringify({query})
@@ -234,7 +234,7 @@ function searchStoreBooks(): void {
       displayStoreSearchResults(foundBooks);
     })
     .catch(error => {
-      console.error("Found books loading error:", error);
+      console.error("Searching books loading error:", error);
     });
 }
 
@@ -393,7 +393,7 @@ function applyBooksFilter(event: MouseEvent) {
     const yearMin = +yearSlider1.value;
     const yearMax = +yearSlider2.value;
 
-    fetch('http://localhost:3000/api/catalogue/filterStore', {
+    fetch('http://localhost:3000/api/books/filter', {
       method: 'POST',
       headers: {'Content-Type': 'application/json',},
       body: JSON.stringify({priceMin, priceMax, yearMin, yearMax})
@@ -403,7 +403,7 @@ function applyBooksFilter(event: MouseEvent) {
         displayStoreSearchResults(foundBooks);
       })
       .catch(error => {
-        console.error("Found books loading error:", error);
+        console.error("Filtering books loading error:", error);
       });
   }
 }
@@ -472,7 +472,7 @@ const librarySearchButton = document.getElementById('library-search-button') as 
 function searchLibraryBooks(): void {
   let query = librarySearchInput.value.toLowerCase().trim();
 
-  fetch('http://localhost:3000/api/customer/searchLibrary', {
+  fetch('http://localhost:3000/api/customer/books/search', {
     method: 'POST',
     headers: {'Content-Type': 'application/json',},
     body: JSON.stringify({query})
@@ -483,7 +483,7 @@ function searchLibraryBooks(): void {
       displayLibrarySearchResults(foundBooks);
     })
     .catch(error => {
-      console.error("Found books loading error:", error);
+      console.error("Searching book loading error:", error);
     });
 }
 
@@ -548,7 +548,7 @@ function addBookToLibrary(event: MouseEvent): void {
   formData.append('author', author);
   formData.append('image', file);
 
-  fetch('http://localhost:3000/api/customer/addBook', {
+  fetch('http://localhost:3000/api/customer/books/add', {
     method: 'POST',
     body: formData,
   })
@@ -561,7 +561,7 @@ function addBookToLibrary(event: MouseEvent): void {
       }
     })
     .catch(error => {
-      console.error("Add book loading error:", error);
+      console.error("Adding book loading error:", error);
     });
 }
 
@@ -587,7 +587,7 @@ function subscribeNewsletter(event: SubmitEvent) {
   const email = newsLetterEmail.value.trim();
 
   if (email) {
-    fetch('http://localhost:3000/api/newsletter', {
+    fetch('http://localhost:3000/api/subscriber', {
       method: 'POST',
       headers: {'Content-Type': 'application/json',},
       body: JSON.stringify({email})
@@ -607,7 +607,7 @@ function subscribeNewsletter(event: SubmitEvent) {
         }
       })
       .catch(error => {
-        console.error("Emails loading error:", error);
+        console.error("Subscribing email loading error:", error);
       });
   } else {
     alert('Please enter a valid email!');

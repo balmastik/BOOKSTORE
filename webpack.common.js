@@ -2,15 +2,15 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    index: './src/frontend/index.ts',
-    globals: './src/frontend/globals.ts',
-    book: './src/backend/storebook/book.ts',
-    storeBook: './src/backend/storebook/storeBook.ts',
-    storeBooksData: './src/backend/storebook/storeBooksData.ts',
-    store: './src/backend/store/store.ts',
-    customer: './src/backend/customer/customer.ts',
-    customerData: './src/backend/customer/customerData.ts',
-    emails: './src/backend/mail/emails.ts',
+    index: './src/index.tsx',
+    globals: './src/globals.ts',
+    book: './server/storeBook/book.ts',
+    storeBook: './server/storeBook/storeBook.ts',
+    storeBooksData: './server/storeBook/storeBooksData.ts',
+    store: './server/store/store.ts',
+    customer: './server/customer/customer.ts',
+    customerData: './server/customer/customerData.ts',
+    emails: './server/mail/emails.ts',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -18,7 +18,7 @@ module.exports = {
     filename: '[name].js',
   },
   resolve: {
-    extensions: ['.ts', '.js'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
     fallback: {
       "zlib": require.resolve("browserify-zlib"),
       "http": require.resolve("stream-http"),
@@ -41,6 +41,16 @@ module.exports = {
       {
         test: /\.ts$/,
         use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.tsx$/,
+        use: 'babel-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.jsx?$/,
+        use: 'babel-loader',
         exclude: /node_modules/,
       },
       {
@@ -79,4 +89,3 @@ module.exports = {
     }
   }
 }
-

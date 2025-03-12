@@ -25,31 +25,29 @@ module.exports = merge(common, {
     }
   },
   plugins: [
-
     new HtmlWebpackPlugin({
-      template: './index.html',
+      template: './public/index.html',
       filename: 'index.html',
       inject: 'body',
+      chunks: ['index'],
     }),
-
     new HtmlWebpackPlugin({
-      template: './customer.html',
+      template: './public/customer.html',
       filename: 'customer.html',
       inject: 'body',
+      chunks: ['index'],
     }),
-
     new CopyPlugin({
       patterns: [
-        { from: 'img', to: 'img' },
-        { from: 'video', to: 'video' },
-        { from: 'icon', to: 'icon' },
-        { from: 'css', to: 'css' },
-        { from: 'icon.svg', to: 'icon.svg' },
-        { from: 'favicon.ico', to: 'favicon.ico' },
-        { from: 'robots.txt', to: 'robots.txt' },
-        { from: 'icon.png', to: 'icon.png' },
-        { from: '404.html', to: '404.html' },
-        { from: 'site.webmanifest', to: 'site.webmanifest' },
+        { from: 'public/img', to: 'img' },
+        { from: 'public/video', to: 'video' },
+        { from: 'public/icon', to: 'icon' },
+        { from: 'public/css', to: 'css' },
+        { from: 'public/favicon.ico', to: 'favicon.ico' },
+        { from: 'public/robots.txt', to: 'robots.txt' },
+        { from: 'public/icon.png', to: 'icon.png' },
+        { from: 'public/404.html', to: '404.html' },
+        { from: 'public/site.webmanifest', to: 'site.webmanifest' },
       ],
     }),
   ],

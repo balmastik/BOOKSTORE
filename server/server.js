@@ -1,66 +1,63 @@
-import express, {Request, Response} from 'express';
-import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
-import fs from 'fs';
-import cors from 'cors';
-import multer from 'multer';
-
-import {StoreBook} from "./storebook/storeBook";
-import {Store} from "./store/store";
-import {Newsletter} from "./mail/emails";
-import {books} from "./storebook/storeBooksData";
-import {customer} from "./customer/customerData";
-
-const swaggerOptions = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'KNIGBOOM API',
-      version: '1.0.0',
-      description: 'API Documentation for KNIGBOOM Store',
-    },
-    components: {
-      schemas: JSON.parse(fs.readFileSync('openapi.json', 'utf-8')).components.schemas
-    }
-  },
-  apis: ['./src/backend/server.ts'],
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-
-const app = express();
-const swaggerDocs = swaggerJSDoc(swaggerOptions);
-const upload = multer({
-  dest: 'uploads/',
-  limits: {fileSize: 10 * 1024 * 1024}
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
+const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+const fs_1 = __importDefault(require("fs"));
+const cors_1 = __importDefault(require("cors"));
+const multer_1 = __importDefault(require("multer"));
+const storeBook_1 = require("./storeBook/storeBook");
+const store_1 = require("./store/store");
+const emails_1 = require("./mail/emails");
+const storeBooksData_1 = require("./storeBook/storeBooksData");
+const customerData_1 = require("./customer/customerData");
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'KNIGBOOM API',
+            version: '1.0.0',
+            description: 'API Documentation for KNIGBOOM Store',
+        },
+        components: {
+            schemas: JSON.parse(fs_1.default.readFileSync('openapi.json', 'utf-8')).components.schemas
+        }
+    },
+    apis: ['./src/backend/server.ts'],
+};
+const app = (0, express_1.default)();
+const swaggerDocs = (0, swagger_jsdoc_1.default)(swaggerOptions);
+const upload = (0, multer_1.default)({
+    dest: 'uploads/',
+    limits: { fileSize: 10 * 1024 * 1024 }
 });
 const port = 3000;
-const store = new Store();
-const newsletter = new Newsletter();
-
-app.use(cors());
-app.use(express.json());
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-app.use('/uploads', express.static('uploads'));
-
+const store = new store_1.Store();
+const newsletter = new emails_1.Newsletter();
+app.use((0, cors_1.default)());
+app.use(express_1.default.json());
+app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerDocs));
+app.use('/uploads', express_1.default.static('uploads'));
 function saveCatalogue() {
-  const catalogue = Array.from(store.catalogue.values());
-  fs.writeFileSync('catalogue.json', JSON.stringify(catalogue, null, 2), 'utf8');
+    const catalogue = Array.from(store.catalogue.values());
+    fs_1.default.writeFileSync('catalogue.json', JSON.stringify(catalogue, null, 2), 'utf8');
 }
-
 function saveCustomerData() {
-  const customerData = {
-    name: customer.name,
-    balance: customer.balance,
-    image: customer.image,
-    purchasedBooks: customer.purchasedBooks
-  };
-  fs.writeFileSync('customer.json', JSON.stringify(customerData, null, 2), 'utf8');
+    const customerData = {
+        name: customerData_1.customer.name,
+        balance: customerData_1.customer.balance,
+        image: customerData_1.customer.image,
+        purchasedBooks: customerData_1.customer.purchasedBooks
+    };
+    fs_1.default.writeFileSync('customer.json', JSON.stringify(customerData, null, 2), 'utf8');
 }
-
 function saveSubscriberData() {
-  const subscriberData = newsletter.subscribers;
-  fs.writeFileSync('subscriber.json', JSON.stringify(subscriberData, null, 2), 'utf8');
+    const subscriberData = newsletter.subscribers;
+    fs_1.default.writeFileSync('subscriber.json', JSON.stringify(subscriberData, null, 2), 'utf8');
 }
-
 /**
  * @swagger
  * tags:
@@ -69,7 +66,6 @@ function saveSubscriberData() {
  *   - name: Customer
  *     description: Operations related to the customer
  */
-
 /**
  * @swagger
  * /api/books:
@@ -90,17 +86,17 @@ function saveSubscriberData() {
  *       500:
  *         description: Internal server error during loading books
  */
-app.get('/api/books', (req: Request, res: Response) => {
-  try {
-    const data = fs.readFileSync('catalogue.json', 'utf8');
-    const books: [StoreBook][] = JSON.parse(data);
-    res.json(books);
-  } catch (error) {
-    console.error("Error loading books:", error);
-    res.status(500).json({error: "Error loading books"});
-  }
+app.get('/api/books', (req, res) => {
+    try {
+        const data = fs_1.default.readFileSync('catalogue.json', 'utf8');
+        const books = JSON.parse(data);
+        res.json(books);
+    }
+    catch (error) {
+        console.error("Error loading books:", error);
+        res.status(500).json({ error: "Error loading books" });
+    }
 });
-
 /**
  * @swagger
  * /api/books/search:
@@ -133,22 +129,22 @@ app.get('/api/books', (req: Request, res: Response) => {
  *       500:
  *         description: Internal server error during search process
  */
-app.post('/api/books/search', (req: Request, res: Response) => {
-  try {
-    const query: string = req.body.query;
-    const book = {
-      title: query,
-      author: query,
-      genre: query
+app.post('/api/books/search', (req, res) => {
+    try {
+        const query = req.body.query;
+        const book = {
+            title: query,
+            author: query,
+            genre: query
+        };
+        const foundBooks = store.searchBook(book);
+        res.json(foundBooks);
     }
-    const foundBooks = store.searchBook(book);
-    res.json(foundBooks);
-  } catch (error) {
-    console.error("Error searching books:", error);
-    res.status(500).json({error: "Error searching books"});
-  }
-})
-
+    catch (error) {
+        console.error("Error searching books:", error);
+        res.status(500).json({ error: "Error searching books" });
+    }
+});
 /**
  * @swagger
  * /api/books/filter:
@@ -194,21 +190,20 @@ app.post('/api/books/search', (req: Request, res: Response) => {
  *       500:
  *         description: Internal server error during filtering books
  */
-app.post('/api/books/filter', (req: Request, res: Response) => {
-  try {
-    const priceMin: number = req.body.priceMin;
-    const priceMax: number = req.body.priceMax;
-    const yearMin: number = req.body.yearMin;
-    const yearMax: number = req.body.yearMax;
-
-    const foundBooks = store.filterBooks(priceMin, priceMax, yearMin, yearMax);
-    res.json(foundBooks);
-  } catch (error) {
-    console.error("Error filtering books:", error);
-    res.status(500).json({error: "Error filtering books"});
-  }
-})
-
+app.post('/api/books/filter', (req, res) => {
+    try {
+        const priceMin = req.body.priceMin;
+        const priceMax = req.body.priceMax;
+        const yearMin = req.body.yearMin;
+        const yearMax = req.body.yearMax;
+        const foundBooks = store.filterBooks(priceMin, priceMax, yearMin, yearMax);
+        res.json(foundBooks);
+    }
+    catch (error) {
+        console.error("Error filtering books:", error);
+        res.status(500).json({ error: "Error filtering books" });
+    }
+});
 /**
  * @swagger
  * /api/customer:
@@ -227,17 +222,17 @@ app.post('/api/books/filter', (req: Request, res: Response) => {
  *       500:
  *         description: Internal server error during loading customer data
  */
-app.get('/api/customer', (req: Request, res: Response) => {
-  try {
-    const customerData = fs.readFileSync('customer.json', 'utf8'); // читаем файл
-    const customer: Customer = JSON.parse(customerData);
-    res.json(customer);
-  } catch (error) {
-    console.error('Error loading customer data:', error);
-    res.status(500).json({error: 'Error loading customer data'});
-  }
+app.get('/api/customer', (req, res) => {
+    try {
+        const customerData = fs_1.default.readFileSync('customer.json', 'utf8'); // читаем файл
+        const customer = JSON.parse(customerData);
+        res.json(customer);
+    }
+    catch (error) {
+        console.error('Error loading customer data:', error);
+        res.status(500).json({ error: 'Error loading customer data' });
+    }
 });
-
 /**
  * @swagger
  * /api/customer/balance/increase:
@@ -276,30 +271,29 @@ app.get('/api/customer', (req: Request, res: Response) => {
  *       500:
  *         description: Internal server error during increasing balance
  */
-app.post('/api/customer/balance/increase', (req: Request, res: Response) => {
-  try {
-    const amount: number = req.body.amount;
-    const success = customer.addFunds(amount);
-
-    if (success) {
-      saveCustomerData();
-
-      res.json({
-        success: true,
-        message: "Balance has been successfully increased"
-      });
-    } else {
-      res.status(400).json({
-        success: false,
-        error: "Please enter a valid positive number"
-      });
+app.post('/api/customer/balance/increase', (req, res) => {
+    try {
+        const amount = req.body.amount;
+        const success = customerData_1.customer.addFunds(amount);
+        if (success) {
+            saveCustomerData();
+            res.json({
+                success: true,
+                message: "Balance has been successfully increased"
+            });
+        }
+        else {
+            res.status(400).json({
+                success: false,
+                error: "Please enter a valid positive number"
+            });
+        }
     }
-  } catch (error) {
-    console.error("Error increasing customer balance:", error);
-    res.status(500).json({ error: 'Error increasing customer balance'});
-  }
+    catch (error) {
+        console.error("Error increasing customer balance:", error);
+        res.status(500).json({ error: 'Error increasing customer balance' });
+    }
 });
-
 /**
  * @swagger
  * /api/customer/books:
@@ -320,19 +314,18 @@ app.post('/api/customer/balance/increase', (req: Request, res: Response) => {
  *       500:
  *         description: Internal server error during loading customer books
  */
-app.get('/api/customer/books', (req: Request, res: Response) => {
-  try {
-    const data = fs.readFileSync('customer.json', 'utf8');
-    const customerData = JSON.parse(data);
-    const books = customerData.purchasedBooks;
-
-    res.json(books);
-  } catch (error) {
-    console.error("Error loading customer books:", error);
-    res.status(500).json({error: 'Error loading customer books'});
-  }
+app.get('/api/customer/books', (req, res) => {
+    try {
+        const data = fs_1.default.readFileSync('customer.json', 'utf8');
+        const customerData = JSON.parse(data);
+        const books = customerData.purchasedBooks;
+        res.json(books);
+    }
+    catch (error) {
+        console.error("Error loading customer books:", error);
+        res.status(500).json({ error: 'Error loading customer books' });
+    }
 });
-
 /**
  * @swagger
  * /api/customer/books/search:
@@ -365,23 +358,22 @@ app.get('/api/customer/books', (req: Request, res: Response) => {
  *       500:
  *         description: Internal server error during search process
  */
-app.post('/api/customer/books/search', (req: Request, res: Response) => {
-  try {
-    const query: string = req.body.query;
-    const book = {
-      title: query,
-      author: query,
-      genre: query
+app.post('/api/customer/books/search', (req, res) => {
+    try {
+        const query = req.body.query;
+        const book = {
+            title: query,
+            author: query,
+            genre: query
+        };
+        const foundBooks = customerData_1.customer.searchBook(book);
+        res.json(foundBooks);
     }
-
-    const foundBooks = customer.searchBook(book);
-    res.json(foundBooks);
-  } catch (error) {
-    console.error("Searching book error:", error);
-    res.status(500).json({error: "Searching book error"});
-  }
-})
-
+    catch (error) {
+        console.error("Searching book error:", error);
+        res.status(500).json({ error: "Searching book error" });
+    }
+});
 /**
  * @swagger
  * /api/customer/books/add:
@@ -425,32 +417,30 @@ app.post('/api/customer/books/search', (req: Request, res: Response) => {
  *       500:
  *         description: Internal server error during adding the book
  */
-app.post('/api/customer/books/add', upload.single('image'), (req: Request, res: Response) => {
-  try {
-    const title: string = req.body.title;
-    const author: string = req.body.author;
-    const imageUrl = `/uploads/${req.file?.filename}`;
-
-    let storeBook = new StoreBook({
-      title: title,
-      author: author,
-      genre: 'not specified',
-      year: 0,
-      image: imageUrl
-    }, 0, 1);
-
-    customer.purchasedBooks.push(storeBook);
-    saveCustomerData();
-    res.json({
-      success: true,
-      message: 'Book has been added successfully'
-    });
-  } catch (error) {
-    console.error('Error adding book:', error);
-    res.status(500).json({error: 'Error adding book'});
-  }
-})
-
+app.post('/api/customer/books/add', upload.single('image'), (req, res) => {
+    try {
+        const title = req.body.title;
+        const author = req.body.author;
+        const imageUrl = `/uploads/${req.file?.filename}`;
+        let storeBook = new storeBook_1.StoreBook({
+            title: title,
+            author: author,
+            genre: 'not specified',
+            year: 0,
+            image: imageUrl
+        }, 0, 1);
+        customerData_1.customer.purchasedBooks.push(storeBook);
+        saveCustomerData();
+        res.json({
+            success: true,
+            message: 'Book has been added successfully'
+        });
+    }
+    catch (error) {
+        console.error('Error adding book:', error);
+        res.status(500).json({ error: 'Error adding book' });
+    }
+});
 /**
  * @swagger
  * /api/customer/books:
@@ -485,30 +475,29 @@ app.post('/api/customer/books/add', upload.single('image'), (req: Request, res: 
  *       500:
  *         description: Internal server error during removing the book
  */
-app.delete('/api/customer/books', (req: Request, res: Response) => {
-  try {
-    const storeBook: StoreBook = req.body;
-    const success = customer.removeBook(storeBook);
-
-    if (success) {
-      saveCustomerData();
-
-      res.json({
-        success: true,
-        message: "Book has been successfully removed from the library"
-      });
-    } else {
-      res.status(400).json({
-        success: false,
-        error: "Book has not been found in the library"
-      });
+app.delete('/api/customer/books', (req, res) => {
+    try {
+        const storeBook = req.body;
+        const success = customerData_1.customer.removeBook(storeBook);
+        if (success) {
+            saveCustomerData();
+            res.json({
+                success: true,
+                message: "Book has been successfully removed from the library"
+            });
+        }
+        else {
+            res.status(400).json({
+                success: false,
+                error: "Book has not been found in the library"
+            });
+        }
     }
-  } catch (error) {
-    console.error('Error removing book:', error);
-    res.status(500).json({ error: 'Error removing book' });
-  }
+    catch (error) {
+        console.error('Error removing book:', error);
+        res.status(500).json({ error: 'Error removing book' });
+    }
 });
-
 /**
  * @swagger
  * /api/purchase:
@@ -543,49 +532,49 @@ app.delete('/api/customer/books', (req: Request, res: Response) => {
  *       500:
  *         description: Internal server error during the purchase process
  */
-app.post('/api/purchase', (req: Request, res: Response) => {
-  try {
-    const storeBook: StoreBook = req.body;
-    const bookIsAvailable = store.bookIsAvailable(storeBook);
-
-    if (bookIsAvailable) {
-      const result = customer.buyBook(storeBook);
-      if (result) {
-        store.removeBook(storeBook);
-        saveCatalogue();
-        saveCustomerData();
-        res.json({
-          success: true,
-          message: "Book has been successfully sold from the store",
-        });
-      } else {
-        return res.status(400).json({
-          success: false,
-          error: "Please increase the balance to purchase the book",
-        });
-      }
-    } else {
-      return res.status(400).json({
-        success: false,
-        error: "Book is not available in the store",
-      });
+app.post('/api/purchase', (req, res) => {
+    try {
+        const storeBook = req.body;
+        const bookIsAvailable = store.bookIsAvailable(storeBook);
+        if (bookIsAvailable) {
+            const result = customerData_1.customer.buyBook(storeBook);
+            if (result) {
+                store.removeBook(storeBook);
+                saveCatalogue();
+                saveCustomerData();
+                res.json({
+                    success: true,
+                    message: "Book has been successfully sold from the store",
+                });
+            }
+            else {
+                return res.status(400).json({
+                    success: false,
+                    error: "Please increase the balance to purchase the book",
+                });
+            }
+        }
+        else {
+            return res.status(400).json({
+                success: false,
+                error: "Book is not available in the store",
+            });
+        }
     }
-  } catch (error) {
-    console.error("Error loading purchase:", error);
-    res.status(500).json({
-      success: false,
-      error: "Error loading purchase",
-    });
-  }
+    catch (error) {
+        console.error("Error loading purchase:", error);
+        res.status(500).json({
+            success: false,
+            error: "Error loading purchase",
+        });
+    }
 });
-
 /**
  * @swagger
  * tags:
  *   - name: Subscriber
  *     description: Operations related to newsletter subscription
  */
-
 /**
  * @swagger
  * /api/subscriber:
@@ -621,36 +610,34 @@ app.post('/api/purchase', (req: Request, res: Response) => {
  *       500:
  *         description: Internal server error during processing subscription
  */
-app.post('/api/subscriber', (req: Request, res: Response) => {
-  try {
-    const email: string = req.body.email;
-    const emailRegexp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || !emailRegexp.test(email)) {
-      return res.status(400).json({
-        success: false,
-        error: 'Invalid email format'
-      });
+app.post('/api/subscriber', (req, res) => {
+    try {
+        const email = req.body.email;
+        const emailRegexp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRegexp.test(email)) {
+            return res.status(400).json({
+                success: false,
+                error: 'Invalid email format'
+            });
+        }
+        if (newsletter.subscribers.includes(email)) {
+            return res.status(400).json({
+                success: false,
+                error: 'You have already been subscribed to our newsletter'
+            });
+        }
+        newsletter.subscribers.push(email);
+        saveSubscriberData();
+        return res.json({ success: true });
     }
-
-    if (newsletter.subscribers.includes(email)) {
-      return res.status(400).json({
-        success: false,
-        error: 'You have already been subscribed to our newsletter'
-      });
+    catch (error) {
+        console.error('Subscribing email error:', error);
+        res.status(500).json({ error: "Subscribing email error" });
     }
-
-    newsletter.subscribers.push(email);
-    saveSubscriberData();
-    return res.json({success: true});
-  } catch (error) {
-    console.error('Subscribing email error:', error);
-    res.status(500).json({error: "Subscribing email error"});
-  }
-})
-
+});
 app.listen(port, () => {
-  books.forEach(storeBook => store.addBook(storeBook));
-  saveCatalogue();
-  saveCustomerData();
-  console.log('The server is running on http://localhost:3000');
+    storeBooksData_1.books.forEach(storeBook => store.addBook(storeBook));
+    saveCatalogue();
+    saveCustomerData();
+    console.log('The server is running on http://localhost:3000');
 });

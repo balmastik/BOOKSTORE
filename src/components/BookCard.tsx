@@ -13,11 +13,12 @@ interface Book {
 interface BookCardProps {
   book: Book;
   onPurchase: () => void;
+  onRemove?: () => void;
 }
 
-const BookCard: React.FC<BookCardProps> = ({ book, onPurchase }) => {
+const BookCard: React.FC<BookCardProps> = ({ book, onPurchase, onRemove }) => {
   const bookMedia = book.image.endsWith('.mp4') ? (
-    <video className="video" autoplay muted loop>
+    <video className="video" autoPlay muted loop>
       <source src={book.image} type="video/mp4" />
       Your browser does not support video.
     </video>
@@ -31,9 +32,16 @@ const BookCard: React.FC<BookCardProps> = ({ book, onPurchase }) => {
       <h3>{book.title}</h3>
       <p className="author">{book.author}</p>
       <p className="price">{book.price.toFixed(2)} €</p>
-      <button className="book-button" onClick={onPurchase}>
-        Purchase
-      </button>
+      <div>
+        <button className="book-button" onClick={onPurchase}>
+          Purchase
+        </button>
+        {onRemove && (
+          <button className="book-button" onClick={onRemove}>
+            Remove
+          </button>
+        )}
+      </div>
     </div>
   );
 };

@@ -70,7 +70,7 @@ const Catalogue: React.FC = () => {
 
   return (
     <div>
-      <h1>Bookstore</h1>
+      <h2>Catalogue</h2>
 
       {/* Поиск */}
       <div>

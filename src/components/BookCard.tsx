@@ -10,28 +10,32 @@ interface Book {
   quantity: number;
 }
 
-interface BookCardProps {
+interface StoreBook {
   book: Book;
+}
+
+interface BookCardProps {
+  storeBook: StoreBook;
   onPurchase: () => void;
   onRemove?: () => void;
 }
 
-const BookCard: React.FC<BookCardProps> = ({ book, onPurchase, onRemove }) => {
-  const bookMedia = book.image.endsWith('.mp4') ? (
+const BookCard: React.FC<BookCardProps> = ({ storeBook, onPurchase, onRemove }) => {
+  const bookMedia = storeBook.book.image.endsWith('.mp4') ? (
     <video className="video" autoPlay muted loop>
-      <source src={book.image} type="video/mp4" />
+      <source src={storeBook.book.image} type="video/mp4" />
       Your browser does not support video.
     </video>
   ) : (
-    <img src={book.image} alt={book.title} className="image" />
+    <img src={storeBook.book.image} alt={storeBook.book.title} className="image" />
   );
 
   return (
     <div className="card">
       {bookMedia}
-      <h3>{book.title}</h3>
-      <p className="author">{book.author}</p>
-      <p className="price">{book.price.toFixed(2)} €</p>
+      <h3>{storeBook.book.title}</h3>
+      <p className="author">{storeBook.book.author}</p>
+      <p className="price">{storeBook.book.price.toFixed(2)} €</p>
       <div>
         <button className="book-button" onClick={onPurchase}>
           Purchase

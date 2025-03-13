@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Header: React.FC = () => {
+const Header: React.FC<{ page: string }> = ({ page }) => {
   return (
     <header className="header">
       <div className="container">
@@ -18,6 +18,6 @@ const Header: React.FC = () => {
       </div>
     </header>
   );
-}
+};
 
 export default Header;

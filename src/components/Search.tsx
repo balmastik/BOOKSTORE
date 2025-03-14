@@ -16,17 +16,16 @@ const Search: React.FC<{ onSearch: (query: string) => void }> = ({ onSearch }) =
   };
 
   return (
-    <div className="store-search-container">
+    <div className="search-container">
       <input
         type="text"
-        className="store-search-input"
+        className="search-input"
         placeholder="Book title, author, genre"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         onKeyDown={handleKeyDown}
       />
-      <button className="store-search-button" onClick={handleSearch}>Search</button>
-      <img src="./dist/icon/filter_book_icon.svg" alt="Open filter" className="open-filter-img" />
+      <button className="search-button" onClick={handleSearch}>Search</button>
     </div>
   );
 };

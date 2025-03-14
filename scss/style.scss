@@ -271,7 +271,7 @@ $main-text-transform: uppercase;
 }
 
 // Book search in store and library
-.store-search-container, .library-search-container {
+.search-container {
   display: flex;
   width: 100%;
   justify-content: center;
@@ -280,7 +280,7 @@ $main-text-transform: uppercase;
   gap: 10px;
 }
 
-.store-search-input, .library-search-input {
+.search-input {
   max-width: 400px;
   width: 100%;
   padding: 9px;
@@ -292,7 +292,7 @@ $main-text-transform: uppercase;
   background-color: $background-color;
 }
 
-.store-search-button, .library-search-button {
+.search-button {
   @include button-style($primary-color, $secondary-color);
 }
 

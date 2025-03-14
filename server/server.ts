@@ -5,11 +5,11 @@ import fs from 'fs';
 import cors from 'cors';
 import multer from 'multer';
 
-import {StoreBook} from "./storeBook/storeBook";
-import {Store} from "./store/store";
-import {Newsletter} from "./mail/emails";
-import {books} from "./storeBook/storeBooksData";
-import {customer} from "./customer/customerData";
+import {StoreBook} from './storeBook/storeBook';
+import {Store} from './store/store';
+import {Newsletter} from './mail/emails';
+import {books} from './storeBook/storeBooksData';
+import {customer} from './customer/customerData';
 
 const swaggerOptions = {
   definition: {

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import BookCard from '../components/BookCard';
 import Search from '../components/Search';
+import Filter from '../components/Filter';
 
-interface Book {
+interface BookData {
   title: string;
   author: string;
   genre: string;
@@ -13,14 +14,12 @@ interface Book {
 }
 
 interface StoreBook {
-  book: Book;
+  book: BookData;
 }
 
 const Catalogue: React.FC = () => {
   const [books, setBooks] = useState<StoreBook[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<StoreBook[]>([]);
-  const [priceRange, setPriceRange] = useState([0, 100]);
-  const [yearRange, setYearRange] = useState([1800, 2025]);
 
   useEffect(() => {
     fetch('http://localhost:3000/api/books')
@@ -29,110 +28,64 @@ const Catalogue: React.FC = () => {
         setBooks(data);
         setFilteredBooks(data);
       })
-      .catch((error) => console.error('Books loading error:', error));
+      .catch((error) => console.error('Error loading books:', error));
   }, []);
 
   const handleSearch = (query: string) => {
     fetch('http://localhost:3000/api/books/search', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query }),
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({query}),
     })
       .then((res) => res.json())
       .then((foundBooks) => {
         setFilteredBooks(foundBooks);
       })
-      .catch((error) => console.error('Searching books loading error:', error));
+      .catch((error) => console.error('Error searching books:', error));
   };
 
-  // Применение фильтров по цене и году
-  const applyFilter = () => {
+  const handleApplyFilter = (priceMin: number, priceMax: number, yearMin: number, yearMax: number) => {
     fetch('http://localhost:3000/api/books/filter', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ priceRange, yearRange }),
+      body: JSON.stringify({ priceMin, priceMax, yearMin, yearMax })
     })
       .then((res) => res.json())
-      .then((filteredBooks) => {
-        setFilteredBooks(filteredBooks);
-      })
-      .catch((error) => console.error('Filtering books loading error:', error));
+      .then((data) => setFilteredBooks(data))
+      .catch((error) => console.error("Error applying filters:", error));
   };
 
-  // Обработчик изменения диапазона цен
-  const handlePriceChange = (min: number, max: number) => {
-    setPriceRange([min, max]);
-  };
-
-  // Обработчик изменения диапазона годов
-  const handleYearChange = (min: number, max: number) => {
-    setYearRange([min, max]);
+  const handleClearFilter = () => {
+    setFilteredBooks(books);
   };
 
   return (
-    <section className="page-header">
-      <h2 className="page-header-title">Catalogue</h2>
-        <Search onSearch={handleSearch} />
-    </section>
+    <div>
+      <section className="page-header">
+        <h2 className="page-header-title">Catalogue</h2>
+        <Search onSearch={handleSearch}/>
+        <img src="./dist/icon/filter_book_icon.svg" alt="Open filter" className="open-filter-img" />
+      </section>
 
-    <section className="filter-section">
-      <div id="filter-panel" className="filter-panel">
-        <button id="close-filter" className="filter-panel-close">X</button>
-        <div className="filter-content">
-          <h2>Filter</h2>
-          <div className="range">
-            <label htmlFor="price-range-container" className="range-label">PRICE RANGE</label>
-            <div class="range-values">
-              <input
-                type="range"
-                min="0"
-                max="100"
-              value={priceRange[0]}
-              onChange={(e) => handlePriceChange(parseFloat(e.target.value), priceRange[1])}
-            />
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value={priceRange[1]}
-              onChange={(e) => handlePriceChange(priceRange[0], parseFloat(e.target.value))}
-            />
-            <p>{priceRange[0]} € - {priceRange[1]} €</p>
-          </div>
+      <section className="filter-section">
+        <Filter onApplyFilter={handleApplyFilter} onClearFilter={handleClearFilter}/>
+      </section>
 
-          <div>
-            <label>Year Range</label>
-            <input
-              type="range"
-              min="1800"
-              max="2025"
-              value={yearRange[0]}
-              onChange={(e) => handleYearChange(parseFloat(e.target.value), yearRange[1])}
-            />
-            <input
-              type="range"
-              min="1800"
-              max="2025"
-              value={yearRange[1]}
-              onChange={(e) => handleYearChange(yearRange[0], parseFloat(e.target.value))}
-            />
-            <p>{yearRange[0]} - {yearRange[1]}</p>
-          </div>
-
-          <button onClick={applyFilter}>Apply Filters</button>
-    </section>
-
-  <div id="book-list">
-    {filteredBooks.length > 0 ? (
+      <section className="book-list">
+        {filteredBooks.length > 0 ? (
           filteredBooks.map((storeBook) => (
-            <BookCard key={storeBook.book.title} book={storeBook} onPurchase={() => alert(`Purchase ${storeBook.book.title}`)}/>
+            <BookCard
+              key={storeBook.book.title}
+              storeBook={storeBook}
+              onPurchase={() => alert(`Purchase ${storeBook.book.title}`)}
+            />
           ))
         ) : (
           <p>No books found</p>
         )}
-      </div>
+      </section>
     </div>
-  );
+);
 };
 
 export default Catalogue;

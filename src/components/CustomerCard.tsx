@@ -1,13 +1,13 @@
 import React from 'react';
 
-interface Customer {
+interface CustomerData {
   name: string;
   balance: number;
   image: string;
 }
 
 interface CustomerCardProps {
-  customer: Customer;
+  customer: CustomerData;
   onIncreaseBalance: () => void;
 }
 

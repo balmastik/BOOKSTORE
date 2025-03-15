@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import CustomerCard from '../components/CustomerCard';
 import BookCard from '../components/BookCard';
-import Search from "../components/Search";
+import Search from '../components/Search';
 
 interface BookData {
   title: string;
@@ -74,6 +74,26 @@ const Customer: React.FC = () => {
       .catch((error) => console.error('Error loading books:', error));
   }, []);
 
+
+  const handleRemove = (storeBook: StoreBook) => {
+    fetch('http://localhost:3000/api/customer/books', {
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json',},
+      body: JSON.stringify(storeBook)
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setFilteredBooks(data.books);
+        } else {
+          console.error(data.error);
+        }
+      })
+      .catch(error => {
+        console.error("Error removing book:", error);
+      });
+  }
+
   const handleSearch = (query: string) => {
     fetch('http://localhost:3000/api/customer/books/search', {
       method: 'POST',
@@ -109,7 +129,7 @@ const Customer: React.FC = () => {
             <BookCard
               key={storeBook.book.title}
               storeBook={storeBook}
-              onPurchase={() => alert(`Purchase ${storeBook.book.title}`)}
+              onRemove={() => handleRemove(storeBook)}
             />
           ))
         ) : (

@@ -9,11 +9,11 @@ const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const fs_1 = __importDefault(require("fs"));
 const cors_1 = __importDefault(require("cors"));
 const multer_1 = __importDefault(require("multer"));
-const storeBook_1 = require("./storeBook/storeBook");
-const store_1 = require("./store/store");
-const emails_1 = require("./mail/emails");
-const storeBooksData_1 = require("./storeBook/storeBooksData");
-const customerData_1 = require("./customer/customerData");
+const storeBook_1 = require("../storeBook/storeBook");
+const store_1 = require("../store/store");
+const emails_1 = require("../mail/emails");
+const storeBooksData_1 = require("../storeBook/storeBooksData");
+const customerData_1 = require("../customer/customerData");
 const swaggerOptions = {
     definition: {
         openapi: '3.0.0',
@@ -481,9 +481,13 @@ app.delete('/api/customer/books', (req, res) => {
         const success = customerData_1.customer.removeBook(storeBook);
         if (success) {
             saveCustomerData();
+            const libraryData = fs_1.default.readFileSync('customer.json', 'utf8');
+            const customerData = JSON.parse(libraryData);
+            const updatedBooks = customerData.purchasedBooks;
             res.json({
                 success: true,
-                message: "Book has been successfully removed from the library"
+                message: "Book has been successfully removed from the library",
+                books: updatedBooks,
             });
         }
         else {

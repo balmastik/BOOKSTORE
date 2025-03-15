@@ -230,7 +230,7 @@ app.post('/api/books/filter', (req: Request, res: Response) => {
 app.get('/api/customer', (req: Request, res: Response) => {
   try {
     const customerData = fs.readFileSync('customer.json', 'utf8'); // читаем файл
-    const customer: Customer = JSON.parse(customerData);
+    const customer = JSON.parse(customerData);
     res.json(customer);
   } catch (error) {
     console.error('Error loading customer data:', error);
@@ -493,9 +493,14 @@ app.delete('/api/customer/books', (req: Request, res: Response) => {
     if (success) {
       saveCustomerData();
 
+      const libraryData = fs.readFileSync('customer.json', 'utf8');
+      const customerData = JSON.parse(libraryData);
+      const updatedBooks = customerData.purchasedBooks;
+
       res.json({
         success: true,
-        message: "Book has been successfully removed from the library"
+        message: "Book has been successfully removed from the library",
+        books: updatedBooks,
       });
     } else {
       res.status(400).json({

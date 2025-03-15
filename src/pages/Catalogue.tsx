@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import BookCard from '../components/BookCard';
 import Search from '../components/Search';
 import Filter from '../components/Filter';
@@ -20,6 +20,7 @@ interface StoreBook {
 const Catalogue: React.FC = () => {
   const [books, setBooks] = useState<StoreBook[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<StoreBook[]>([]);
+  const linkRef = useRef<HTMLAnchorElement | null>(null);
 
   useEffect(() => {
     fetch('http://localhost:3000/api/books')
@@ -59,6 +60,51 @@ const Catalogue: React.FC = () => {
     setFilteredBooks(books);
   };
 
+  const downloadCatalogue = () => {
+    fetch('http://localhost:3000/api/catalogue')
+      .then(response => response.json())
+      .then(catalogue => {
+        if (window.jspdf) {
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF();
+
+          doc.setFont('Helvetica');
+          doc.setFontSize(16);
+          doc.setTextColor(0, 0, 0);
+          doc.text("KNIGBOOM Catalogue", 80, 20);
+
+          doc.setFontSize(12);
+
+          const catalogueText = catalogue
+            .map((item: StoreBook) => {
+              return `Book: "${item.book.title}". Author: ${item.book.author}.\n` +
+                `Genre: ${item.book.genre}. Publication year: ${item.book.year}.\n` +
+                `Price: ${item.book.price.toFixed(2)} EUR. In stock: ${item.book.quantity}.`
+            })
+            .join('\n\n');
+
+          doc.text(catalogueText, 20, 40);
+
+          const pdfBlob = doc.output("blob");
+          const url = URL.createObjectURL(pdfBlob);
+
+          if(linkRef.current) {
+          linkRef.current.href = url;
+          linkRef.current.download = "KNIGBOOM Catalogue.pdf";
+          linkRef.current.click();
+
+          URL.revokeObjectURL(url);
+          }
+        } else {
+          console.log('jsPDF is not loaded');
+        }
+      })
+      .catch(error => {
+        console.error('Error loading catalogue:', error);
+      });
+  };
+
+
   return (
     <div>
       <section className="page-header">
@@ -77,12 +123,19 @@ const Catalogue: React.FC = () => {
             <BookCard
               key={storeBook.book.title}
               storeBook={storeBook}
-              onPurchase={() => alert(`Purchase ${storeBook.book.title}`)}
+              onPurchase={() => handlePurchase(storeBook)}
             />
           ))
         ) : (
           <p>No books found</p>
         )}
+      </section>
+
+      <section className="download-catalogue">
+        <a ref={linkRef} style={{ display: 'none' }} />
+        <button onClick={downloadCatalogue} className="catalogueButton">
+          Download Catalogue
+        </button>
       </section>
     </div>
 );

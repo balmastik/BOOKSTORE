@@ -16,7 +16,7 @@ interface StoreBook {
 
 interface BookCardProps {
   storeBook: StoreBook;
-  onPurchase: () => void;
+  onPurchase?: () => void;
   onRemove?: () => void;
 }
 
@@ -37,9 +37,11 @@ const BookCard: React.FC<BookCardProps> = ({ storeBook, onPurchase, onRemove }) 
       <p className="author">{storeBook.book.author}</p>
       <p className="price">{storeBook.book.price.toFixed(2)} €</p>
       <div>
-        <button className="book-button" onClick={onPurchase}>
-          Purchase
-        </button>
+        {onPurchase && (
+          <button className="book-button" onClick={onPurchase}>
+            Purchase
+          </button>
+        )}
         {onRemove && (
           <button className="book-button" onClick={onRemove}>
             Remove

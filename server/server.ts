@@ -108,7 +108,7 @@ app.get('/api/books', (req: Request, res: Response) => {
  *     tags:
  *       - Store
  *     summary: Search a book in the store catalogue
- *     description: Searches a book in the store based on title, author, or genre
+ *     description: Searches a book in the store based on title, author, or genre.
  *     requestBody:
  *       required: true
  *       content:
@@ -118,20 +118,28 @@ app.get('/api/books', (req: Request, res: Response) => {
  *             properties:
  *               query:
  *                 type: string
- *                 description: A search string that will be used for searching the title, author, and genre
+ *                 description: A search string that will be used for searching the title, author, and genre.
  *             example:
  *               query: "rand"
  *     responses:
  *       200:
- *         description: A list of books matching the search query
+ *         description: A list of books matching the search query.
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/StoreBook'
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: Indicates if the search was successful.
+ *                 books:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/StoreBook'
+ *       400:
+ *         description: Bad request, no books found or invalid query.
  *       500:
- *         description: Internal server error during search process
+ *         description: Internal server error during the search process.
  */
 app.post('/api/books/search', (req: Request, res: Response) => {
   try {
@@ -142,10 +150,20 @@ app.post('/api/books/search', (req: Request, res: Response) => {
       genre: query
     }
     const foundBooks = store.searchBook(book);
-    res.json(foundBooks);
+    if(foundBooks.length >= 0) {
+      res.json({
+        success: true,
+        books: foundBooks,
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        error: "Error searching book"
+      });
+    }
   } catch (error) {
-    console.error("Error searching books:", error);
-    res.status(500).json({error: "Error searching books"});
+    console.error("Searching book error:", error);
+    res.status(500).json({error: "Searching book error"});
   }
 })
 
@@ -340,7 +358,7 @@ app.get('/api/customer/books', (req: Request, res: Response) => {
  *     tags:
  *       - Customer
  *     summary: Search a book in the customer library
- *     description: Searches a book in the customer library based on title, author, or genre
+ *     description: Searches a book in the customer library based on title, author, or genre.
  *     requestBody:
  *       required: true
  *       content:
@@ -350,21 +368,30 @@ app.get('/api/customer/books', (req: Request, res: Response) => {
  *             properties:
  *               query:
  *                 type: string
- *                 description: A search string that will be used for searching the title, author, and genre
+ *                 description: A search string that will be used for searching the title, author, and genre.
  *             example:
  *               query: "horizon"
  *     responses:
  *       200:
- *         description: A list of books matching the search query
+ *         description: A list of books matching the search query.
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/StoreBook'
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: Indicates if the search was successful.
+ *                 books:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/StoreBook'
+ *       400:
+ *         description: Bad request, no books found or invalid query.
  *       500:
- *         description: Internal server error during search process
+ *         description: Internal server error during the search process.
  */
+
 app.post('/api/customer/books/search', (req: Request, res: Response) => {
   try {
     const query: string = req.body.query;
@@ -375,8 +402,19 @@ app.post('/api/customer/books/search', (req: Request, res: Response) => {
     }
 
     const foundBooks = customer.searchBook(book);
-    res.json(foundBooks);
-  } catch (error) {
+
+    if(foundBooks.length >= 0) {
+      res.json({
+      success: true,
+      books: foundBooks,
+    });
+  } else {
+      res.status(400).json({
+      success: false,
+      error: "Error searching book"
+    });
+  }
+} catch (error) {
     console.error("Searching book error:", error);
     res.status(500).json({error: "Searching book error"});
   }
@@ -422,6 +460,12 @@ app.post('/api/customer/books/search', (req: Request, res: Response) => {
  *                 message:
  *                   type: string
  *                   description: Message confirming the book was added
+ *                 books:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/StoreBook'
+ *       400:
+ *         description: Error adding book (e.g., missing required fields)
  *       500:
  *         description: Internal server error during adding the book
  */
@@ -439,12 +483,25 @@ app.post('/api/customer/books/add', upload.single('image'), (req: Request, res: 
       image: imageUrl
     }, 0, 1);
 
-    customer.purchasedBooks.push(storeBook);
-    saveCustomerData();
-    res.json({
-      success: true,
-      message: 'Book has been added successfully'
-    });
+    const success = customer.purchasedBooks.push(storeBook);
+    if(success) {
+      saveCustomerData();
+
+      const libraryData = fs.readFileSync('customer.json', 'utf8');
+      const customerData = JSON.parse(libraryData);
+      const updatedBooks = customerData.purchasedBooks;
+
+      res.json({
+        success: true,
+        message: "Book has been added to the library",
+        books: updatedBooks,
+      });
+    } else {
+        res.status(400).json({
+          success: false,
+          error: "Error adding book to the library"
+        });
+      }
   } catch (error) {
     console.error('Error adding book:', error);
     res.status(500).json({error: 'Error adding book'});
@@ -480,8 +537,12 @@ app.post('/api/customer/books/add', upload.single('image'), (req: Request, res: 
  *                 message:
  *                   type: string
  *                   description: Message confirming the book was removed
+ *                 books:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/StoreBook'
  *       400:
- *         description: Error removing book (book not found)
+ *         description: Error removing book (e.g., book not found in the library)
  *       500:
  *         description: Internal server error during removing the book
  */

@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import CustomerCard from '../components/CustomerCard';
 import BookCard from '../components/BookCard';
 import Search from '../components/Search';
+import AddBookForm from '../components/AddBookForm';
+import Header from "../components/Header";
 
 interface BookData {
   title: string;
@@ -32,13 +34,10 @@ const Customer: React.FC = () => {
     fetch('http://localhost:3000/api/customer')
       .then(res => res.json())
       .then(data => setCustomer(data))
-      .catch(error => {
-        console.error("Error loading customer:", error);
-      });
-  }, []);
+      .catch((error) => console.error("Error loading customer:", error));
+  }, [])
 
   const handleIncreaseBalance = () => {
-
     const amount: number = parseFloat(prompt('Please enter the amount, 0') || '0');
     if (isNaN(amount) || amount <= 0) {
       alert('Please enter a valid positive number');
@@ -59,9 +58,7 @@ const Customer: React.FC = () => {
           alert(data.error);
         }
       })
-      .catch(error => {
-        console.error("Increase balance loading error:", error);
-      });
+      .catch((error) => console.error("Error increasing balance:", error));
   }
 
   useEffect(() => {
@@ -72,8 +69,7 @@ const Customer: React.FC = () => {
         setFilteredBooks(data);
       })
       .catch((error) => console.error('Error loading books:', error));
-  }, []);
-
+  }, [])
 
   const handleRemove = (storeBook: StoreBook) => {
     fetch('http://localhost:3000/api/customer/books', {
@@ -86,12 +82,10 @@ const Customer: React.FC = () => {
         if (data.success) {
           setFilteredBooks(data.books);
         } else {
-          console.error(data.error);
+          alert(data.error);
         }
       })
-      .catch(error => {
-        console.error("Error removing book:", error);
-      });
+      .catch((error) => console.error("Error removing book:", error));
   }
 
   const handleSearch = (query: string) => {
@@ -101,14 +95,46 @@ const Customer: React.FC = () => {
       body: JSON.stringify({query}),
     })
       .then((res) => res.json())
-      .then((foundBooks) => {
-        setFilteredBooks(foundBooks);
+      .then(data => {
+        if (data.success) {
+          setFilteredBooks(data.books);
+        } else {
+          alert(data.error);
+        }
       })
       .catch((error) => console.error('Error searching books:', error));
-  };
+  }
+
+  const handleClearSearch = () => {
+    setFilteredBooks(books);
+  }
+
+  const handleAddBook = (title: string, author: string, image: File) => {
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('author', author);
+    formData.append('image', image);
+
+    fetch('http://localhost:3000/api/customer/books/add', {
+      method: 'POST',
+      headers: {'Content-Type': 'multipart/form-data'},
+      body: formData,
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setFilteredBooks(data.books);
+          setTimeout(() => alert(data.message), 1000);
+        } else {
+          alert(data.error);
+        }
+      })
+      .catch((error) => console.error('Error adding book:', error));
+  }
 
   return (
     <div>
+      <Header onClearSearch={handleClearSearch}/>
       <section className="page-header">
         <h2 className="page-header-title">Customer</h2>
         {customer ? (
@@ -120,7 +146,7 @@ const Customer: React.FC = () => {
 
       <section className="page-header">
         <h2 className="page-header-title">Library</h2>
-      <Search onSearch={handleSearch}/>
+        <Search onSearch={handleSearch} onClearSearch={handleClearSearch}/>
       </section>
 
       <section className="book-list">
@@ -135,6 +161,11 @@ const Customer: React.FC = () => {
         ) : (
           <p>No books found</p>
         )}
+      </section>
+
+      <section className="add-book">
+        <h2 className="add-book-title">Add a Book to the Library</h2>
+        <AddBookForm onAddBook={handleAddBook} />
       </section>
     </div>
   );

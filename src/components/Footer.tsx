@@ -1,7 +1,29 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  onSubscribe: (email: string) => void;
+  message: string;
+}
+
+const Footer: React.FC<FooterProps> = ({ onSubscribe, message }) => {
+  const [subscribeEmail, setSubscribeEmail] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const emailRegexp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const trimmedEmail = subscribeEmail.trim().toLowerCase();
+
+    if (!trimmedEmail || !emailRegexp.test(trimmedEmail)) {
+      alert('Please enter a valid email!');
+      return;
+    }
+
+    onSubscribe(trimmedEmail);
+    setSubscribeEmail('');
+  };
+
   return (
     <footer className="footer">
       <div className="container">
@@ -14,17 +36,17 @@ const Footer: React.FC = () => {
           <p className="newsletter-text">
             Get information about discounts, new arrivals, and exclusive offers directly to your email.
           </p>
-          <form action="#" method="post" id="newsletter-form" className="newsletter-form-container">
+          <form onSubmit={handleSubmit} className="newsletter-form-container">
             <input
               type="email"
-              name="email"
-              id="newsletter-email"
               placeholder="Enter your email"
+              value={subscribeEmail}
+              onChange={(e) => setSubscribeEmail(e.target.value)}
               required
             />
             <button type="submit" className="newsletter-button">Subscribe</button>
           </form>
-          <p id="newsletter-message" className="newsletter-message" style={{ display: 'none' }}></p>
+          {message && <p className="newsletter-message">{message}</p>}
         </div>
         <nav className="navigation">
           <ul className="nav-list">

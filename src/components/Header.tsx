@@ -1,12 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Header: React.FC = ()=> {
+interface HeaderProps {
+  onClearSearch: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ onClearSearch }) => {
+  const navigate = useNavigate();
+
+  const handleHomeClick = () => {
+    onClearSearch();
+    navigate("/");
+  };
+
   return (
     <header className="header">
       <div className="container">
         <div className="branding">
-          <Link to="/" className="header-title">KNIGBOOM</Link>
+          <Link to="/" className="header-title" onClick={handleHomeClick}>KNIGBOOM</Link>
           <p className="header-tagline">THE CORNER STORE</p>
         </div>
         <nav className="navigation">

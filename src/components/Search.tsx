@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 
-const Search: React.FC<{ onSearch: (query: string) => void }> = ({ onSearch }) => {
+interface SearchProps {
+  onSearch: (query: string) => void;
+  onClearSearch: () => void;
+}
+
+const Search: React.FC<SearchProps> = ({ onSearch, onClearSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = () => {
-
     const query = searchTerm.toLowerCase().trim();
-    onSearch(query);
+
+    if (query === '') {
+      onClearSearch();
+    } else {
+      onSearch(query);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

@@ -16,11 +16,11 @@ interface StoreBook {
 
 interface BookCardProps {
   storeBook: StoreBook;
-  onPurchase?: () => void;
+  onSale?: () => void;
   onRemove?: () => void;
 }
 
-const BookCard: React.FC<BookCardProps> = ({ storeBook, onPurchase, onRemove }) => {
+const BookCard: React.FC<BookCardProps> = ({ storeBook, onSale, onRemove }) => {
   const bookMedia = storeBook.book.image.endsWith('.mp4') ? (
     <video className="video" autoPlay muted loop>
       <source src={storeBook.book.image} type="video/mp4" />
@@ -37,8 +37,8 @@ const BookCard: React.FC<BookCardProps> = ({ storeBook, onPurchase, onRemove }) 
       <p className="author">{storeBook.book.author}</p>
       <p className="price">{storeBook.book.price.toFixed(2)} €</p>
       <div>
-        {onPurchase && (
-          <button className="book-button" onClick={onPurchase}>
+        {onSale && (
+          <button className="book-button" onClick={onSale}>
             Purchase
           </button>
         )}

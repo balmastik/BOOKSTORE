@@ -25,7 +25,11 @@ interface CustomerData {
   image: string;
 }
 
-const Customer: React.FC = () => {
+interface CustomerProps {
+  reloadLibrary: boolean;
+}
+
+const Customer: React.FC<CustomerProps> = ({reloadLibrary}) => {
   const [customer, setCustomer] = useState<CustomerData | null>(null);
   const [books, setBooks] = useState<StoreBook[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<StoreBook[]>([]);
@@ -69,7 +73,7 @@ const Customer: React.FC = () => {
         setFilteredBooks(data);
       })
       .catch((error) => console.error('Error loading books:', error));
-  }, [])
+  }, [reloadLibrary])
 
   const handleRemove = (storeBook: StoreBook) => {
     fetch('http://localhost:3000/api/customer/books', {

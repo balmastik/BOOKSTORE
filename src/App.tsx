@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import './dist/css/style.css';
 import Footer from './components/Footer';
 import Catalogue from './pages/Catalogue';
 import Customer from './pages/Customer';
 
 const App = () => {
+  const [reloadLibrary, setReloadLibrary] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
+
+  const handleSaleSuccess = () => {
+    setReloadLibrary(prev => !prev);
+  };
 
   const handleSubscribe = (email: string) => {
     fetch('http://localhost:3000/api/subscriber', {
@@ -31,8 +36,8 @@ const App = () => {
       <div className="App">
         <main>
           <Routes>
-            <Route path="/" element={<Catalogue />} />
-            <Route path="/customer" element={<Customer />} />
+            <Route path="/" element={<Catalogue onSaleSuccess={handleSaleSuccess} />} />
+            <Route path="/customer" element={<Customer reloadLibrary={reloadLibrary} />} />
           </Routes>
         </main>
         <Footer onSubscribe={handleSubscribe} message={message} />

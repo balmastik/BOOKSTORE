@@ -93,7 +93,7 @@ function saveSubscriberData() {
 app.get('/api/books', (req: Request, res: Response) => {
   try {
     const data = fs.readFileSync('catalogue.json', 'utf8');
-    const books: [StoreBook][] = JSON.parse(data);
+    const books: StoreBook[] = JSON.parse(data);
     res.json(books);
   } catch (error) {
     console.error("Error loading books:", error);
@@ -620,9 +620,14 @@ app.post('/api/purchase', (req: Request, res: Response) => {
         store.removeBook(storeBook);
         saveCatalogue();
         saveCustomerData();
+
+        const data = fs.readFileSync('catalogue.json', 'utf8');
+        const updatedBooks: StoreBook[] = JSON.parse(data);
+
         res.json({
           success: true,
           message: "Book has been successfully sold from the store",
+          books: updatedBooks,
         });
       } else {
         return res.status(400).json({
@@ -638,10 +643,7 @@ app.post('/api/purchase', (req: Request, res: Response) => {
     }
   } catch (error) {
     console.error("Error loading purchase:", error);
-    res.status(500).json({
-      success: false,
-      error: "Error loading purchase",
-    });
+    res.status(500).json({error: "Error loading purchase"});
   }
 });
 

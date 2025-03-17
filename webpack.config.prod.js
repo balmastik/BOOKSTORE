@@ -26,13 +26,13 @@ module.exports = merge(common, {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html',
+      template: 'public/index.html',
       filename: 'index.html',
       inject: 'body',
       chunks: ['index'],
     }),
     new HtmlWebpackPlugin({
-      template: './public/customer.html',
+      template: 'public/customer.html',
       filename: 'customer.html',
       inject: 'body',
       chunks: ['index'],
@@ -42,7 +42,6 @@ module.exports = merge(common, {
         { from: 'public/img', to: 'img' },
         { from: 'public/video', to: 'video' },
         { from: 'public/icon', to: 'icon' },
-        { from: 'public/css', to: 'css' },
         { from: 'public/favicon.ico', to: 'favicon.ico' },
         { from: 'public/robots.txt', to: 'robots.txt' },
         { from: 'public/icon.png', to: 'icon.png' },

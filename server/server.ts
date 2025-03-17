@@ -583,7 +583,7 @@ app.delete('/api/customer/books', (req: Request, res: Response) => {
  *       - Store
  *       - Customer
  *     summary: Sell a book from the store and purchase a book by the customer
- *     description: Allows a customer to purchase book from the store and to remove sold book from the store catalogue
+ *     description: Allows a customer to purchase a book from the store and removes the sold book from the store catalogue. The response includes the updated list of available books in the store.
  *     requestBody:
  *       required: true
  *       content:
@@ -592,7 +592,7 @@ app.delete('/api/customer/books', (req: Request, res: Response) => {
  *             $ref: '#/components/schemas/StoreBook'
  *     responses:
  *       200:
- *         description: Successfully sold the book from the store catalogue
+ *         description: Successfully sold the book from the store catalogue and returned updated list of books
  *         content:
  *           application/json:
  *             schema:
@@ -604,6 +604,11 @@ app.delete('/api/customer/books', (req: Request, res: Response) => {
  *                 message:
  *                   type: string
  *                   example: "Book has been successfully sold from the store"
+ *                 books:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/StoreBook'
+ *                   description: Updated list of books in the store catalogue after the purchase
  *       400:
  *         description: Purchase error (customer balance issues or unavailable book)
  *       500:

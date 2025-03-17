@@ -192,7 +192,7 @@ textarea {
   text-transform: uppercase;
 }
 
-.store-search-container, .library-search-container {
+.search-container {
   display: flex;
   width: 100%;
   justify-content: center;
@@ -201,7 +201,7 @@ textarea {
   gap: 10px;
 }
 
-.store-search-input, .library-search-input {
+.search-input {
   max-width: 400px;
   width: 100%;
   padding: 9px;
@@ -213,7 +213,7 @@ textarea {
   background-color: #f8f8f8;
 }
 
-.store-search-button, .library-search-button {
+.search-button {
   padding: 10px 20px;
   text-align: center;
   font-size: 14px;
@@ -227,7 +227,7 @@ textarea {
   transition: background 0.3s;
   background-color: #f99462;
 }
-.store-search-button:hover, .library-search-button:hover {
+.search-button:hover {
   background-color: #ED6019;
 }
 

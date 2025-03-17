@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import './dist/css/style.css';
+import '../public/css/style.css';
 import Footer from './components/Footer';
 import Catalogue from './pages/Catalogue';
 import Customer from './pages/Customer';

@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 interface FilterProps {
+  isOpen: boolean;
+  onCloseFilter: () => void;
   onApplyFilter: (priceMin: number, priceMax: number, yearMin: number, yearMax: number) => void;
   onClearFilter: () => void;
 }
 
-const Filter: React.FC<FilterProps> = ({ onApplyFilter, onClearFilter }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const Filter: React.FC<FilterProps> = ({ isOpen, onCloseFilter, onApplyFilter, onClearFilter }) => {
   const [priceMin, setPriceMin] = useState(0);
   const [priceMax, setPriceMax] = useState(100);
   const [yearMin, setYearMin] = useState(1800);
@@ -14,10 +15,6 @@ const Filter: React.FC<FilterProps> = ({ onApplyFilter, onClearFilter }) => {
 
   const priceTrackRef = useRef<HTMLDivElement>(null);
   const yearTrackRef = useRef<HTMLDivElement>(null);
-
-  const toggleFilter = () => {
-    setIsOpen(!isOpen);
-  };
 
   const handlePriceMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPriceMin(Number(e.target.value));
@@ -73,7 +70,7 @@ const Filter: React.FC<FilterProps> = ({ onApplyFilter, onClearFilter }) => {
 
   return (
     <div className={`filter-panel ${isOpen ? 'open' : ''}`}>
-      <button className="filter-panel-close" onClick={toggleFilter}>X</button>
+      <button className="filter-panel-close" onClick={onCloseFilter}>X</button>
       <div className="filter-content">
         <h2>Filter</h2>
         <div className="range">

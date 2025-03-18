@@ -25,7 +25,6 @@ export class Customer {
       this.balance += amount;
       return true;
     } else {
-      console.log(`Amount is not valid`)
       return false;
     }
   }

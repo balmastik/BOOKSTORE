@@ -1,6 +1,18 @@
 {
   "name": "John Doe",
-  "balance": 40,
-  "image": "./dist/img/first_customer.jpeg",
-  "purchasedBooks": []
+  "balance": 12,
+  "image": "/img/first_customer.jpeg",
+  "purchasedBooks": [
+    {
+      "book": {
+        "title": "Casino Royale",
+        "author": "Ian Fleming",
+        "genre": "Novel",
+        "year": 1953,
+        "image": "/video/casino_royale.mp4",
+        "price": 28,
+        "quantity": 1
+      }
+    }
+  ]
 }

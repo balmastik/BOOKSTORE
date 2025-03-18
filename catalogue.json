@@ -64,16 +64,5 @@
       "price": 12.99,
       "quantity": 1
     }
-  },
-  {
-    "book": {
-      "title": "Casino Royale",
-      "author": "Ian Fleming",
-      "genre": "Novel",
-      "year": 1953,
-      "image": "/video/casino_royale.mp4",
-      "price": 28,
-      "quantity": 1
-    }
   }
 ]

@@ -9,14 +9,14 @@ interface FooterProps {
 const Footer: React.FC<FooterProps> = ({ onSubscribe, message }) => {
   const [subscribeEmail, setSubscribeEmail] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
 
     const emailRegexp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const trimmedEmail = subscribeEmail.trim().toLowerCase();
 
     if (!trimmedEmail || !emailRegexp.test(trimmedEmail)) {
-      alert('Please enter a valid email!');
+      alert('Please enter a valid email');
       return;
     }
 
@@ -36,13 +36,12 @@ const Footer: React.FC<FooterProps> = ({ onSubscribe, message }) => {
           <p className="newsletter-text">
             Get information about discounts, new arrivals, and exclusive offers directly to your email.
           </p>
-          <form onSubmit={handleSubmit} className="newsletter-form-container">
+          <form onSubmit={handleSubmit} className="newsletter-form-container" noValidate>
             <input
               type="email"
               placeholder="Enter your email"
               value={subscribeEmail}
               onChange={(e) => setSubscribeEmail(e.target.value)}
-              required
             />
             <button type="submit" className="newsletter-button">Subscribe</button>
           </form>
@@ -50,11 +49,11 @@ const Footer: React.FC<FooterProps> = ({ onSubscribe, message }) => {
         </div>
         <nav className="navigation">
           <ul className="nav-list">
-            <li><Link to="/payment" className="nav-list-link">PAYMENT</Link>
+            <li><Link to="/" className="nav-list-link">PAYMENT</Link>
             </li>
-            <li><Link to="/delivery" className="nav-list-link">DELIVERY</Link>
+            <li><Link to="/" className="nav-list-link">DELIVERY</Link>
             </li>
-            <li><Link to="/terms" className="nav-list-link">TERMS</Link>
+            <li><Link to="/" className="nav-list-link">TERMS</Link>
             </li>
           </ul>
         </nav>

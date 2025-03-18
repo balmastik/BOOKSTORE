@@ -4,13 +4,6 @@ module.exports = {
   entry: {
     index: './src/index.tsx',
     globals: './src/globals.ts',
-    book: './server/storeBook/book.ts',
-    storeBook: './server/storeBook/storeBook.ts',
-    storeBooksData: './server/storeBook/storeBooksData.ts',
-    store: './server/store/store.ts',
-    customer: './server/customer/customer.ts',
-    customerData: './server/customer/customerData.ts',
-    emails: './server/mail/emails.ts',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),

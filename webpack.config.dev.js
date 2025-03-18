@@ -6,6 +6,7 @@ module.exports = merge(common, {
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
+    port: 63342,
     liveReload: true,
     hot: true,
     open: true,
@@ -18,7 +19,6 @@ module.exports = merge(common, {
         changeOrigin: true,
       }
     ],
-    port: 63342,
   },
 });
 

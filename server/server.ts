@@ -289,6 +289,12 @@ app.get('/api/customer', (req: Request, res: Response) => {
  *                   description: Success status
  *                 message:
  *                   type: string
+ *                 customer:
+ *                   description: Customer data
+ *                   content:
+ *                     application/json:
+ *                       schema:
+ *                         $ref: '#/components/schemas/Customer'
  *       400:
  *         description: Invalid amount
  *       500:
@@ -302,9 +308,13 @@ app.post('/api/customer/balance/increase', (req: Request, res: Response) => {
     if (success) {
       saveCustomerData();
 
+      const customerData = fs.readFileSync('customer.json', 'utf8'); // читаем файл
+      const updatedCustomer = JSON.parse(customerData);
+
       res.json({
         success: true,
-        message: "Balance has been successfully increased"
+        message: "Balance has been successfully increased",
+        customer: updatedCustomer,
       });
     } else {
       res.status(400).json({

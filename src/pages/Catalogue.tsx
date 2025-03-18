@@ -26,6 +26,7 @@ const Catalogue: React.FC<CatalogueProps> = ({onSaleSuccess}) => {
   const [popupShown, setPopupShown] = useState<boolean>(false);
   const [books, setBooks] = useState<StoreBook[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<StoreBook[]>([]);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const linkRef = useRef<HTMLAnchorElement | null>(null);
 
   useEffect(() => {
@@ -105,6 +106,14 @@ const Catalogue: React.FC<CatalogueProps> = ({onSaleSuccess}) => {
     setFilteredBooks(books);
   }
 
+  const handleOpenFilter = () => {
+    setIsFilterOpen(true);
+  };
+
+  const handleCloseFilter = () => {
+    setIsFilterOpen(false);
+  };
+
   const downloadCatalogue = () => {
     if (window.jspdf) {
       const {jsPDF} = window.jspdf;
@@ -150,7 +159,6 @@ const Catalogue: React.FC<CatalogueProps> = ({onSaleSuccess}) => {
             <h1 className="header-title">KNIGBOOM</h1>
             <p className="header-tagline">THE CORNER STORE</p>
             <p className="popup-text">Book and cup of coffee is always a great combo, right?</p>
-
             <div className="popup-container">
               <button className="deny-popup" onClick={hidePopup}>A cup of tea, please</button>
               <button className="confirm-popup" onClick={hidePopup}>I agree</button>
@@ -158,15 +166,21 @@ const Catalogue: React.FC<CatalogueProps> = ({onSaleSuccess}) => {
           </div>
         </div>
       )}
+
       <Header onClearSearch={handleClearSearch}/>
+
       <section className="page-header">
         <h2 className="page-header-title">Catalogue</h2>
-        <Search onSearch={handleSearch} onClearSearch={handleClearSearch}/>
-        <img src="./dist/icon/filter_book_icon.svg" alt="Open filter" className="open-filter-img"/>
+        <Search onSearch={handleSearch} onClearSearch={handleClearSearch} onOpenFilter={handleOpenFilter}/>
       </section>
 
       <section className="filter-section">
-        <Filter onApplyFilter={handleApplyFilter} onClearFilter={handleClearFilter}/>
+        <Filter
+          isOpen={isFilterOpen}
+          onCloseFilter={handleCloseFilter}
+          onApplyFilter={handleApplyFilter}
+          onClearFilter={handleClearFilter}
+        />
       </section>
 
       <section className="book-list">
@@ -179,7 +193,7 @@ const Catalogue: React.FC<CatalogueProps> = ({onSaleSuccess}) => {
             />
           ))
         ) : (
-          <p>No books found</p>
+          <p className="inform-message">No books found</p>
         )}
       </section>
 

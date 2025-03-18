@@ -578,6 +578,11 @@ $main-text-transform: uppercase;
   }
 }
 
+.inform-message {
+    font-size: $font-size-tagline;
+    color: $light-text-color;
+  }
+
 // Catalogue download section
 .download-catalogue {
   display: flex;

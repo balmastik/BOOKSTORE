@@ -57,7 +57,7 @@ const Customer: React.FC<CustomerProps> = ({reloadLibrary}) => {
       .then(data => {
         if (data.success) {
           alert(data.message);
-          setCustomer(data);
+          setCustomer(data.customer);
         } else {
           alert(data.error);
         }
@@ -121,7 +121,6 @@ const Customer: React.FC<CustomerProps> = ({reloadLibrary}) => {
 
     fetch('http://localhost:3000/api/customer/books/add', {
       method: 'POST',
-      headers: {'Content-Type': 'multipart/form-data'},
       body: formData,
     })
       .then(res => res.json())
@@ -139,8 +138,12 @@ const Customer: React.FC<CustomerProps> = ({reloadLibrary}) => {
   return (
     <div>
       <Header onClearSearch={handleClearSearch}/>
+
       <section className="page-header">
         <h2 className="page-header-title">Customer</h2>
+      </section>
+
+      <section className="customer-list">
         {customer ? (
           <CustomerCard customer={customer} onIncreaseBalance={handleIncreaseBalance}/>
         ) : (
@@ -148,22 +151,25 @@ const Customer: React.FC<CustomerProps> = ({reloadLibrary}) => {
         )}
       </section>
 
+      <hr />
+
       <section className="page-header">
         <h2 className="page-header-title">Library</h2>
         <Search onSearch={handleSearch} onClearSearch={handleClearSearch}/>
       </section>
 
-      <section className="book-list">
+      <section className="customer-book-list">
         {filteredBooks.length > 0 ? (
           filteredBooks.map((storeBook) => (
             <BookCard
               key={storeBook.book.title}
               storeBook={storeBook}
+              showPrice={false}
               onRemove={() => handleRemove(storeBook)}
             />
           ))
         ) : (
-          <p>No books found</p>
+          <p className="inform-message">No books found</p>
         )}
       </section>
 

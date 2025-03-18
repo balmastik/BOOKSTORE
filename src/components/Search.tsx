@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 interface SearchProps {
   onSearch: (query: string) => void;
   onClearSearch: () => void;
+  onOpenFilter?: () => void;
 }
 
-const Search: React.FC<SearchProps> = ({ onSearch, onClearSearch }) => {
+const Search: React.FC<SearchProps> = ({ onSearch, onClearSearch, onOpenFilter }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = () => {
@@ -35,6 +36,14 @@ const Search: React.FC<SearchProps> = ({ onSearch, onClearSearch }) => {
         onKeyDown={handleKeyDown}
       />
       <button className="search-button" onClick={handleSearch}>Search</button>
+      {onOpenFilter && (
+      <img
+          className="open-filter-img"
+          src={"/icon/filter_book_icon.svg"}
+          alt={'Open filter'}
+          onClick={onOpenFilter}
+        />
+        )}
     </div>
   );
 };

@@ -8,11 +8,14 @@ const AddBookForm: React.FC<AddBookFormProps> = ({onAddBook}) => {
   const [bookTitle, setBookTitle] = useState('');
   const [bookAuthor, setBookAuthor] = useState('');
   const [bookImage, setBookImage] = useState<File | null>(null);
+  const [imageName, setImageName] = useState<string>('Cover');
 
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files?.[0]) {
-      setBookImage(event.target.files[0]);
+    const file = event.target.files?.[0];
+    if (file) {
+      setBookImage(file);
+      setImageName(file.name); // Обновляем имя файла
     }
   };
 
@@ -20,7 +23,7 @@ const AddBookForm: React.FC<AddBookFormProps> = ({onAddBook}) => {
     event.preventDefault();
 
     if (!bookTitle || !bookAuthor || !bookImage) {
-      alert('Please fill in all fields and upload an image!');
+      alert('Please fill in all fields and upload an image');
       return;
     }
 
@@ -28,12 +31,14 @@ const AddBookForm: React.FC<AddBookFormProps> = ({onAddBook}) => {
     setBookTitle('');
     setBookAuthor('');
     setBookImage(null);
+    setImageName('Cover');
   };
 
   const handleClear = () => {
     setBookTitle('');
     setBookAuthor('');
     setBookImage(null);
+    setImageName('Cover');
   };
 
   return (
@@ -43,30 +48,28 @@ const AddBookForm: React.FC<AddBookFormProps> = ({onAddBook}) => {
         value={bookTitle}
         onChange={e => setBookTitle(e.target.value)}
         placeholder="Title"
-        required
       />
       <input
         type="text"
         value={bookAuthor}
         onChange={e => setBookAuthor(e.target.value)}
         placeholder="Author"
-        required
       />
       <div className="add-container">
         <label htmlFor="add-image" className="add-image">
-          Cover
+          {imageName}
         </label>
         <input
           type="file"
           accept="image/*"
+          id="add-image"
           onChange={handleImageChange}
-          required
           style={{display: 'none'}}
         />
         <button type="submit" className="add-button">
           Add
         </button>
-        <button type="button" className="clear-button" onClick={handleClear}>
+        <button type="button" className="clear-form" onClick={handleClear}>
           Clear
         </button>
       </div>

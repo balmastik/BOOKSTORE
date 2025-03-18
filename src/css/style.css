@@ -533,6 +533,11 @@ textarea {
   background-color: #ED6019;
 }
 
+.inform-message {
+  font-size: 16px;
+  color: #666;
+}
+
 .download-catalogue {
   display: flex;
   width: 100%;

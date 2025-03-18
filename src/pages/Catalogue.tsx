@@ -152,13 +152,16 @@ const Catalogue: React.FC<CatalogueProps> = ({onSaleSuccess}) => {
   }
 
   return (
-    <div>
+    <>
       {popupShown && (
         <div className="popup" style={{ display: 'flex' }}>
           <div className="popup-content">
+
             <h1 className="header-title">KNIGBOOM</h1>
             <p className="header-tagline">THE CORNER STORE</p>
+
             <p className="popup-text">Book and cup of coffee is always a great combo, right?</p>
+
             <div className="popup-container">
               <button className="deny-popup" onClick={hidePopup}>A cup of tea, please</button>
               <button className="confirm-popup" onClick={hidePopup}>I agree</button>
@@ -203,7 +206,7 @@ const Catalogue: React.FC<CatalogueProps> = ({onSaleSuccess}) => {
           Download Catalogue
         </button>
       </section>
-    </div>
+    </>
   );
 };
 

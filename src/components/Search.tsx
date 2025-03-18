@@ -27,6 +27,7 @@ const Search: React.FC<SearchProps> = ({ onSearch, onClearSearch, onOpenFilter }
 
   return (
     <div className="search-container">
+
       <input
         type="text"
         className="search-input"
@@ -35,7 +36,9 @@ const Search: React.FC<SearchProps> = ({ onSearch, onClearSearch, onOpenFilter }
         onChange={(e) => setSearchTerm(e.target.value)}
         onKeyDown={handleKeyDown}
       />
+
       <button className="search-button" onClick={handleSearch}>Search</button>
+
       {onOpenFilter && (
       <img
           className="open-filter-img"

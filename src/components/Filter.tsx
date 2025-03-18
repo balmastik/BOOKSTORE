@@ -70,15 +70,20 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onCloseFilter, onApplyFilter, o
 
   return (
     <div className={`filter-panel ${isOpen ? 'open' : ''}`}>
+
       <button className="filter-panel-close" onClick={onCloseFilter}>X</button>
+
       <div className="filter-content">
         <h2>Filter</h2>
+
         <div className="range">
           <label htmlFor="price-range-container" className="range-label">PRICE RANGE</label>
+
           <div className="range-values">
             <span className="price-range-min">{priceMin} €</span>
             <span className="price-range-max">{priceMax} €</span>
           </div>
+
           <div className="range-container">
             <div ref={priceTrackRef} className="price-track"></div>
             <input
@@ -104,6 +109,7 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onCloseFilter, onApplyFilter, o
             <span className="year-range-min">{yearMin}</span>
             <span className="year-range-max">{yearMax}</span>
           </div>
+
           <div className="range-container">
             <div ref={yearTrackRef} className="year-track"></div>
             <input

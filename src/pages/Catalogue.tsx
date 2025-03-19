@@ -153,28 +153,15 @@ const Catalogue: React.FC<CatalogueProps> = ({onSaleSuccess}) => {
 
   return (
     <>
-      {popupShown && (
-        <div className="popup" style={{ display: 'flex' }}>
-          <div className="popup-content">
-
-            <h1 className="header-title">KNIGBOOM</h1>
-            <p className="header-tagline">THE CORNER STORE</p>
-
-            <p className="popup-text">Book and cup of coffee is always a great combo, right?</p>
-
-            <div className="popup-container">
-              <button className="deny-popup" onClick={hidePopup}>A cup of tea, please</button>
-              <button className="confirm-popup" onClick={hidePopup}>I agree</button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <Header onClearSearch={handleClearSearch}/>
+      <Header onClearSearch={handleClearSearch} />
 
       <section className="page-header">
         <h2 className="page-header-title">Catalogue</h2>
-        <Search onSearch={handleSearch} onClearSearch={handleClearSearch} onOpenFilter={handleOpenFilter}/>
+        <Search
+          onSearch={handleSearch}
+          onClearSearch={handleClearSearch}
+          onOpenFilter={handleOpenFilter}
+        />
       </section>
 
       <section className="filter-section">
@@ -201,11 +188,26 @@ const Catalogue: React.FC<CatalogueProps> = ({onSaleSuccess}) => {
       </section>
 
       <section className="download-catalogue">
-        <a ref={linkRef} style={{display: 'none'}}/>
+        <a ref={linkRef} style={{display: 'none'}} />
         <button onClick={downloadCatalogue} className="catalogueButton">
           Download Catalogue
         </button>
       </section>
+
+      {popupShown && (
+        <div className="popup" style={{ display: 'flex' }}>
+          <div className="popup-content">
+
+            <h1 className="header-title">KNIGBOOM</h1>
+            <p className="header-tagline">THE CORNER STORE</p>
+            <p className="popup-text">Book and cup of coffee is always a great combo, right?</p>
+            <div className="popup-container">
+              <button className="deny-popup" onClick={hidePopup}>A cup of tea, please</button>
+              <button className="confirm-popup" onClick={hidePopup}>I agree</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

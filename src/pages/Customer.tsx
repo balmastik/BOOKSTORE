@@ -136,8 +136,8 @@ const Customer: React.FC<CustomerProps> = ({reloadLibrary}) => {
   }
 
   return (
-    <div>
-      <Header onClearSearch={handleClearSearch}/>
+    <>
+      <Header onClearSearch={handleClearSearch} />
 
       <section className="page-header">
         <h2 className="page-header-title">Customer</h2>
@@ -145,9 +145,9 @@ const Customer: React.FC<CustomerProps> = ({reloadLibrary}) => {
 
       <section className="customer-list">
         {customer ? (
-          <CustomerCard customer={customer} onIncreaseBalance={handleIncreaseBalance}/>
+          <CustomerCard customer={customer} onIncreaseBalance={handleIncreaseBalance} />
         ) : (
-          <p>Loading customer data...</p>
+          <p className="inform-message">Loading customer data...</p>
         )}
       </section>
 
@@ -155,7 +155,7 @@ const Customer: React.FC<CustomerProps> = ({reloadLibrary}) => {
 
       <section className="page-header">
         <h2 className="page-header-title">Library</h2>
-        <Search onSearch={handleSearch} onClearSearch={handleClearSearch}/>
+        <Search onSearch={handleSearch} onClearSearch={handleClearSearch} />
       </section>
 
       <section className="customer-book-list">
@@ -177,7 +177,7 @@ const Customer: React.FC<CustomerProps> = ({reloadLibrary}) => {
         <h2 className="add-book-title">Add a Book to the Library</h2>
         <AddBookForm onAddBook={handleAddBook} />
       </section>
-    </div>
+    </>
   );
 };
 

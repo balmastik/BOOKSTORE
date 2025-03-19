@@ -93,6 +93,7 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onCloseFilter, onApplyFilter, o
               value={priceMin}
               onChange={handlePriceMinChange}
             />
+
             <input
               type="range"
               min="0"
@@ -119,6 +120,7 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onCloseFilter, onApplyFilter, o
               value={yearMin}
               onChange={handleYearMinChange}
             />
+
             <input
               type="range"
               min="1800"
@@ -133,6 +135,7 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onCloseFilter, onApplyFilter, o
           <button className="filter-button-clear" onClick={clearFilters}>Clear</button>
           <button className="filter-button-apply" onClick={applyFilters}>Apply</button>
         </div>
+
       </div>
     </div>
   );

@@ -27,7 +27,6 @@ const Search: React.FC<SearchProps> = ({ onSearch, onClearSearch, onOpenFilter }
 
   return (
     <div className="search-container">
-
       <input
         type="text"
         className="search-input"

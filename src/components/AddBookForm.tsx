@@ -49,16 +49,19 @@ const AddBookForm: React.FC<AddBookFormProps> = ({onAddBook}) => {
         onChange={e => setBookTitle(e.target.value)}
         placeholder="Title"
       />
+
       <input
         type="text"
         value={bookAuthor}
         onChange={e => setBookAuthor(e.target.value)}
         placeholder="Author"
       />
+
       <div className="add-container">
         <label htmlFor="add-image" className="add-image">
           {imageName}
         </label>
+
         <input
           type="file"
           accept="image/*"
@@ -66,12 +69,15 @@ const AddBookForm: React.FC<AddBookFormProps> = ({onAddBook}) => {
           onChange={handleImageChange}
           style={{display: 'none'}}
         />
+
         <button type="submit" className="add-button">
           Add
         </button>
+
         <button type="button" className="clear-form" onClick={handleClear}>
           Clear
         </button>
+
       </div>
     </form>
   );

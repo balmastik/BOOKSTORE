@@ -37,6 +37,7 @@ const BookCard: React.FC<BookCardProps> = ({ storeBook, showPrice = true, onSale
       <h3>{storeBook.book.title}</h3>
       <p className="author">{storeBook.book.author}</p>
       {showPrice && <p className="price">{storeBook.book.price.toFixed(2)} €</p>}
+
       <div>
         {onSale && (
           <button className="book-button" onClick={onSale}>
@@ -49,6 +50,7 @@ const BookCard: React.FC<BookCardProps> = ({ storeBook, showPrice = true, onSale
           </button>
         )}
       </div>
+
     </div>
   );
 };

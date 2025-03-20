@@ -14,7 +14,6 @@ const Footer: React.FC<FooterProps> = ({ onSubscribe, message }) => {
 
     const emailRegexp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const trimmedEmail = subscribeEmail.trim().toLowerCase();
-
     if (!trimmedEmail || !emailRegexp.test(trimmedEmail)) {
       alert('Please enter a valid email');
       return;

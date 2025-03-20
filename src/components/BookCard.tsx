@@ -1,18 +1,5 @@
 import React from 'react';
-
-interface Book {
-  title: string;
-  author: string;
-  genre: string;
-  year: number;
-  image: string;
-  price: number;
-  quantity: number;
-}
-
-interface StoreBook {
-  book: Book;
-}
+import {StoreBook} from '../interfaces/entities/BookData';
 
 interface BookCardProps {
   storeBook: StoreBook;

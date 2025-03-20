@@ -1,44 +1,40 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './css/style.css';
+
+import Header from './components/Header';
+import Routes from './components/Routes';
 import Footer from './components/Footer';
-import Catalogue from './pages/Catalogue';
-import Customer from './pages/Customer';
+
+import {subscriberService} from './components/customerServices/SubscriberService';
 
 const App = () => {
-  const [reloadLibrary, setReloadLibrary] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
 
-  const handleSaleSuccess = () => {
-    setReloadLibrary(prev => !prev);
-  };
 
   const handleSubscribe = (email: string) => {
-    fetch('http://localhost:3000/api/subscriber', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({email}),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
+    subscriberService.subscribe(email)
+      .then(() => {
           setMessage('You have successfully subscribed to our newsletter!');
           setTimeout(() => setMessage(''), 3000);
+        })
+      .catch((error) => {
+        if (error.message.includes('already been subscribed')) {
+          setMessage('You are already subscribed to the newsletter.');
+          setTimeout(() => setMessage(''), 3000);
         } else {
-          alert(data.error);
+          setMessage('An error occurred while subscribing. Please try again later.');
+          setTimeout(() => setMessage(''), 3000);
         }
-      })
-      .catch((error) => console.error('Error subscribing mail:', error));
+      });
   }
 
   return (
     <Router>
       <div className="App">
+        <Header onClearSearch={handleClearSearch} />
         <main>
-          <Routes>
-            <Route path="/" element={<Catalogue onSaleSuccess={handleSaleSuccess} />} />
-            <Route path="/customer" element={<Customer reloadLibrary={reloadLibrary} />} />
-          </Routes>
+          <Routes />
         </main>
         <Footer onSubscribe={handleSubscribe} message={message} />
       </div>

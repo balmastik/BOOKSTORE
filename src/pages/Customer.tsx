@@ -1,38 +1,18 @@
 import React, {useEffect, useState} from 'react';
+
+import {StoreBook} from '../interfaces/types/BookData';
 import CustomerCard from '../components/CustomerCard';
 import BookCard from '../components/BookCard';
 import Search from '../components/Search';
 import AddBookForm from '../components/AddBookForm';
-import Header from "../components/Header";
 
-interface BookData {
-  title: string;
-  author: string;
-  genre: string;
-  year: number;
-  image: string;
-  price: number;
-  quantity: number;
-}
+import {useReloadLibrary} from '../context/ReloadLibraryContext';
 
-interface StoreBook {
-  book: BookData;
-}
-
-interface CustomerData {
-  name: string;
-  balance: number;
-  image: string;
-}
-
-interface CustomerProps {
-  reloadLibrary: boolean;
-}
-
-const Customer: React.FC<CustomerProps> = ({reloadLibrary}) => {
+const Customer: React.FC<CustomerProps> = () => {
   const [customer, setCustomer] = useState<CustomerData | null>(null);
   const [books, setBooks] = useState<StoreBook[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<StoreBook[]>([]);
+  const {reloadLibrary} = useReloadLibrary();
 
   useEffect(() => {
     fetch('http://localhost:3000/api/customer')
@@ -137,8 +117,6 @@ const Customer: React.FC<CustomerProps> = ({reloadLibrary}) => {
 
   return (
     <>
-      <Header onClearSearch={handleClearSearch} />
-
       <section className="page-header">
         <h2 className="page-header-title">Customer</h2>
       </section>

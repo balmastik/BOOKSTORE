@@ -700,20 +700,13 @@ app.post('/api/purchase', (req: Request, res: Response) => {
  *                   type: boolean
  *                   description: Indicates if the subscription was successful
  *       400:
- *         description: Subscription error (invalid email format or already subscribed)
+ *         description: Subscription error (already subscribed)
  *       500:
  *         description: Internal server error during processing subscription
  */
 app.post('/api/subscriber', (req: Request, res: Response) => {
   try {
     const email: string = req.body.email;
-    const emailRegexp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || !emailRegexp.test(email)) {
-      return res.status(400).json({
-        success: false,
-        error: 'Invalid email format'
-      });
-    }
 
     if (newsletter.subscribers.includes(email)) {
       return res.status(400).json({

@@ -1,33 +1,19 @@
 import React, {useState, useEffect, useRef} from 'react';
-import Header from '../components/Header';
+
+import {StoreBook} from '../interfaces/types/BookData';
 import BookCard from '../components/BookCard';
 import Search from '../components/Search';
 import Filter from '../components/Filter';
 
-interface BookData {
-  title: string;
-  author: string;
-  genre: string;
-  year: number;
-  image: string;
-  price: number;
-  quantity: number;
-}
+import { useReloadLibrary } from '../context/ReloadLibraryContext';
 
-interface StoreBook {
-  book: BookData;
-}
-
-interface CatalogueProps {
-  onSaleSuccess: () => void;
-}
-
-const Catalogue: React.FC<CatalogueProps> = ({onSaleSuccess}) => {
+const Catalogue: React.FC<CatalogueProps> = () => {
   const [popupShown, setPopupShown] = useState<boolean>(false);
   const [books, setBooks] = useState<StoreBook[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<StoreBook[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const linkRef = useRef<HTMLAnchorElement | null>(null);
+  const {setReloadLibrary} = useReloadLibrary();
 
   useEffect(() => {
     const popupStatus = localStorage.getItem('popupShown');
@@ -62,7 +48,7 @@ const Catalogue: React.FC<CatalogueProps> = ({onSaleSuccess}) => {
         if (data.success) {
           setBooks(data.books);
           setFilteredBooks(data.books);
-          onSaleSuccess();
+          setReloadLibrary(prev => !prev);
         } else {
           alert(data.error);
         }
@@ -115,8 +101,8 @@ const Catalogue: React.FC<CatalogueProps> = ({onSaleSuccess}) => {
   };
 
   const downloadCatalogue = () => {
-    if (window.jspdf) {
-      const {jsPDF} = window.jspdf;
+    if ((window as any).jspdf) {
+      const {jsPDF} = (window as any).jspdf;
       const doc = new jsPDF();
 
       doc.setFont('Helvetica');
@@ -153,8 +139,6 @@ const Catalogue: React.FC<CatalogueProps> = ({onSaleSuccess}) => {
 
   return (
     <>
-      <Header onClearSearch={handleClearSearch} />
-
       <section className="page-header">
         <h2 className="page-header-title">Catalogue</h2>
         <Search

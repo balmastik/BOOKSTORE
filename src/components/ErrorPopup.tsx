@@ -1,11 +1,11 @@
 import React from 'react';
 
-interface ErrorProps {
+interface ErrorPopupProps {
   message: string;
   onClose: () => void;
 }
 
-const ErrorModal: React.FC<ErrorProps> = ({ message, onclose }) => {
+const ErrorPopup: React.FC<ErrorPopupProps> = ({ message, onClose }) => {
   return (
     <div className="popup" style={{ display: message ? 'flex' : 'none' }}>
       <div className="popup-content">
@@ -21,4 +21,4 @@ const ErrorModal: React.FC<ErrorProps> = ({ message, onclose }) => {
   );
 };
 
-export default ErrorPopUp;
+export default ErrorPopup;

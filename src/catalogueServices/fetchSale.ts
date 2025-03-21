@@ -1,5 +1,5 @@
-import {BookApi} from '../../interfaces/Api';
-import {StoreBook} from '../../interfaces/Entities';
+import {BookApi} from '../interfaces/Api';
+import {StoreBook} from '../interfaces/Entities';
 
 class FetchSale implements BookApi {
   public async sale(storeBook: StoreBook): Promise<StoreBook[]> {

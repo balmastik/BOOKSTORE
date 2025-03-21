@@ -1,4 +1,4 @@
-import SubscribeApi from '../../interfaces/Api';
+import SubscribeApi from '../interfaces/Api';
 
 class FetchSubscribe implements SubscribeApi {
   public async subscribe(email: string): Promise<string> {

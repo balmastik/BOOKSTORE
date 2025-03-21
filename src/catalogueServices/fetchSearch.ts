@@ -1,5 +1,5 @@
-import {BookApi} from '../../interfaces/Api';
-import {StoreBook} from '../../interfaces/Entities';
+import {BookApi} from '../interfaces/Api';
+import {StoreBook} from '../interfaces/Entities';
 
 class FetchSearch implements BookApi {
   public async seacrh(query: string): Promise<StoreBook[]> {

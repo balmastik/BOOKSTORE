@@ -1,13 +1,15 @@
 import React, {useState, useEffect} from 'react';
 
-import {StoreBook} from '../interfaces/Entities';
-import {fetchDisplay} from '../components/catalogueServices/FetchDisplay';
-import {fetchSale} from '../components/catalogueServices/FetchSale';
-import {fetchSearch} from '../components/catalogueServices/FetchSearch';
+import {StoreBook} from '../interfaces/entities';
+import {fetchDisplay} from '../catalogueServices/fetchDisplay';
+import {fetchSale} from '../catalogueServices/fetchSale';
+import {fetchSearch} from '../catalogueServices/fetchSearch';
+import {fetchFilter} from '../catalogueServices/fetchFilter';
 
 import BookCard from '../components/BookCard';
 import Search from '../components/Search';
 import Filter from '../components/Filter';
+import WelcomePopUp from '../components/WelcomePopUp';
 import ErrorPopUp from '../components/ErrorPopUp';
 
 import {useReloadLibrary} from '../context/ReloadLibraryContext';
@@ -18,7 +20,7 @@ const Catalogue: React.FC<CatalogueProps> = () => {
   const [message, setMessage] = useState<string | null>(null);
   const [books, setBooks] = useState<StoreBook[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<StoreBook[]>([]);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const {setReloadLibrary} = useReloadLibrary();
 
   useEffect(() => {
@@ -50,45 +52,35 @@ const Catalogue: React.FC<CatalogueProps> = () => {
         setFilteredBooks(data);
         setReloadLibrary(prev => !prev);
         setMessage(null);
-      });
+      })
       .catch((error) => setMessage(error.message));
-  }
+  };
 
   const handleSearch = (query: string) => {
     fetchSearch.search(query)
-      .then(data => {
+      .then((data) => {
         setFilteredBooks(data);
         setMessage(null);
-      });
+      })
     .catch((error) => setMessage(error.message));
-  }
-
-  const handleClearSearch = () => {
-    setFilteredBooks(books);
   };
 
-  const handleApplyFilter = (priceMin: number, priceMax: number, yearMin: number, yearMax: number) => {
-    fetch('http://localhost:3000/api/books/filter', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({priceMin, priceMax, yearMin, yearMax})
-    })
-      .then((res) => res.json())
-      .then((foundBooks) => setFilteredBooks(foundBooks))
-      .catch((error) => console.error("Error applying filters:", error));
-  }
+  const clearSearch = () => setFilteredBooks(books);
 
-  const handleClearFilter = () => {
-    setFilteredBooks(books);
-  }
-
-  const handleOpenFilter = () => {
-    setIsFilterOpen(true);
+  const handleFilter = (priceMin: number, priceMax: number, yearMin: number, yearMax: number) => {
+    fetchFilter.filter(priceMin, priceMax, yearMin, yearMax)
+      .then((data) => {
+        setFilteredBooks(data);
+        setMessage(null);
+      })
+      .catch((error) => setMessage(error.message));
   };
 
-  const handleCloseFilter = () => {
-    setIsFilterOpen(false);
-  };
+  const clearFilter = () => setFilteredBooks(books);
+
+  const openFilter = () => setIsFilterOpen(true);
+  const closeFilter = () => setIsFilterOpen(false);
+
 
   const downloadCatalogue = () => {
     const pdfContent = books
@@ -100,7 +92,7 @@ const Catalogue: React.FC<CatalogueProps> = () => {
       .join('\n\n');
 
     generatePDF('KNIGBOOM Catalogue', pdfContent);
-  }
+  };
 
   return (
     <>
@@ -108,17 +100,17 @@ const Catalogue: React.FC<CatalogueProps> = () => {
         <h2 className="page-header-title">Catalogue</h2>
         <Search
           onSearch={handleSearch}
-          onClearSearch={handleClearSearch}
-          onOpenFilter={handleOpenFilter}
+          onClearSearch={clearSearch}
+          onOpenFilter={openFilter}
         />
       </section>
 
       <section className="filter-section">
         <Filter
           isOpen={isFilterOpen}
-          onCloseFilter={handleCloseFilter}
-          onApplyFilter={handleApplyFilter}
-          onClearFilter={handleClearFilter}
+          onCloseFilter={closeFilter}
+          onApplyFilter={handleFilter}
+          onClearFilter={clearFilter}
         />
       </section>
 
@@ -143,21 +135,7 @@ const Catalogue: React.FC<CatalogueProps> = () => {
       </section>
 
       <ErrorPopUp message={message} onClose={() => setMessage(null)} />
-
-      {popupShown && (
-        <div className="popup" style={{ display: 'flex' }}>
-          <div className="popup-content">
-
-            <h1 className="header-title">KNIGBOOM</h1>
-            <p className="header-tagline">THE CORNER STORE</p>
-            <p className="popup-text">Book and cup of coffee is always a great combo, right?</p>
-            <div className="popup-container">
-              <button className="deny-popup" onClick={hidePopup}>A cup of tea, please</button>
-              <button className="confirm-popup" onClick={hidePopup}>I agree</button>
-            </div>
-          </div>
-        </div>
-      )}
+      {popupShown && (<WelcomePopup onDeny={hidePopup} onConfirm={hidePopup} />)}
     </>
   );
 };

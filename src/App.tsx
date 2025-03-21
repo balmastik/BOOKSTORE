@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './css/style.css';
 
+import {fetchSubscribe} from './customerServices/fetchSubscribe';
+
 import Routes from './components/Routes';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import ErrorPopUp from './components/ErrorPopUp';
-
-import {fetchSubscribe} from './components/customerServices/FetchSubscribe';
+import ErrorPopup from './components/ErrorPopup';
 
 const App = () => {
   const [message, setMessage] = useState<string>('');

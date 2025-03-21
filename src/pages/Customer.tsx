@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import {StoreBook} from '../interfaces/types/BookData';
+import {StoreBook, CustomerData} from '../interfaces/Entitites';
 import CustomerCard from '../components/CustomerCard';
 import BookCard from '../components/BookCard';
 import Search from '../components/Search';

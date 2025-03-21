@@ -84,9 +84,15 @@ function saveSubscriberData() {
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/StoreBook'
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: Indicates whether the request was successful
+ *                 books:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/StoreBook'
  *       500:
  *         description: Internal server error during loading books
  */
@@ -94,7 +100,7 @@ app.get('/api/books', (req: Request, res: Response) => {
   try {
     const data = fs.readFileSync('catalogue.json', 'utf8');
     const books: StoreBook[] = JSON.parse(data);
-    res.json(books);
+    res.json({ success: true, books });
   } catch (error) {
     console.error("Error loading books:", error);
     res.status(500).json({error: "Error loading books"});
@@ -610,10 +616,7 @@ app.delete('/api/customer/books', (req: Request, res: Response) => {
  *               properties:
  *                 success:
  *                   type: boolean
- *                   example: true
- *                 message:
- *                   type: string
- *                   example: "Book has been successfully sold from the store"
+ *                   description: Indicates if the sale/purchase was successful
  *                 books:
  *                   type: array
  *                   items:
@@ -641,7 +644,6 @@ app.post('/api/purchase', (req: Request, res: Response) => {
 
         res.json({
           success: true,
-          message: "Book has been successfully sold from the store",
           books: updatedBooks,
         });
       } else {
@@ -699,6 +701,9 @@ app.post('/api/purchase', (req: Request, res: Response) => {
  *                 success:
  *                   type: boolean
  *                   description: Indicates if the subscription was successful
+ *                 message:
+ *                   type: string
+ *                   description: Success message for the subscription
  *       400:
  *         description: Subscription error (already subscribed)
  *       500:
@@ -717,7 +722,10 @@ app.post('/api/subscriber', (req: Request, res: Response) => {
 
     newsletter.subscribers.push(email);
     saveSubscriberData();
-    return res.json({success: true});
+    return res.json({
+      success: true,
+      message: 'You have successfully subscribed to our newsletter'
+    });
   } catch (error) {
     console.error('Subscribing email error:', error);
     res.status(500).json({error: "Subscribing email error"});

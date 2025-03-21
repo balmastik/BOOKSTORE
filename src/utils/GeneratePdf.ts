@@ -1,0 +1,30 @@
+export const generatePDF = (title: string, pdfContent: string) => {
+  if ((window as any).jspdf) {
+    const {jsPDF} = (window as any).jspdf;
+    const doc = new jsPDF();
+
+    doc.setFont('Helvetica');
+    doc.setFontSize(16);
+    doc.setTextColor(0, 0, 0);
+    doc.text(title, 80, 20);
+
+    doc.setFontSize(12);
+    doc.text(pdfContent, 20, 40);
+
+    const pdfBlob = doc.output("blob");
+    const url = URL.createObjectURL(pdfBlob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${title}.pdf`;
+    link.style.display = 'none';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+  } else {
+    alert('jsPDF has not been loaded, please try again later');
+  }
+};

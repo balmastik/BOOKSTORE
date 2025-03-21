@@ -716,12 +716,6 @@ $main-text-transform: uppercase;
   &-button {
     @include button-style($primary-color, $secondary-color);
   }
-
-  &-message {
-    margin-top: -60px;
-    font-size: $font-size-tagline;
-    color: $light-text-color;
-  }
 }
 
 .site-finish {

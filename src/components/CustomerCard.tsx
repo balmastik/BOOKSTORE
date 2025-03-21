@@ -1,5 +1,5 @@
 import React from 'react';
-import {CustomerData} from '../interfaces/entities/CustomerData';
+import {CustomerData} from '../interfaces/Entities';
 
 interface CustomerCardProps {
   customer: CustomerData;

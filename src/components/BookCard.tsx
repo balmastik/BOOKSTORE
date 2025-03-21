@@ -1,5 +1,5 @@
 import React from 'react';
-import {StoreBook} from '../interfaces/entities/BookData';
+import {StoreBook} from '../interfaces/Entities';
 
 interface BookCardProps {
   storeBook: StoreBook;

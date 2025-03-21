@@ -1,18 +1,24 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 
-import {StoreBook} from '../interfaces/types/BookData';
+import {StoreBook} from '../interfaces/Entities';
+import {fetchDisplay} from '../components/catalogueServices/FetchDisplay';
+import {fetchSale} from '../components/catalogueServices/FetchSale';
+import {fetchSearch} from '../components/catalogueServices/FetchSearch';
+
 import BookCard from '../components/BookCard';
 import Search from '../components/Search';
 import Filter from '../components/Filter';
+import ErrorPopUp from '../components/ErrorPopUp';
 
-import { useReloadLibrary } from '../context/ReloadLibraryContext';
+import {useReloadLibrary} from '../context/ReloadLibraryContext';
+import {generatePDF} from '../utils/generatePDF';
 
 const Catalogue: React.FC<CatalogueProps> = () => {
   const [popupShown, setPopupShown] = useState<boolean>(false);
+  const [message, setMessage] = useState<string | null>(null);
   const [books, setBooks] = useState<StoreBook[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<StoreBook[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const linkRef = useRef<HTMLAnchorElement | null>(null);
   const {setReloadLibrary} = useReloadLibrary();
 
   useEffect(() => {
@@ -28,49 +34,33 @@ const Catalogue: React.FC<CatalogueProps> = () => {
   };
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/books')
-      .then((res) => res.json())
+    fetchDisplay.display()
       .then((data) => {
         setBooks(data);
         setFilteredBooks(data);
+        setMessage(null);
       })
-      .catch((error) => console.error('Error loading books:', error));
-  }, [])
+      .catch((error) => setMessage(error.message));
+  }, []);
 
   const handleSale = (storeBook: StoreBook) => {
-    fetch('http://localhost:3000/api/purchase', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(storeBook),
-    })
-      .then((res) => res.json())
+    fetchSale.sale(storeBook)
       .then((data) => {
-        if (data.success) {
-          setBooks(data.books);
-          setFilteredBooks(data.books);
-          setReloadLibrary(prev => !prev);
-        } else {
-          alert(data.error);
-        }
-      })
-      .catch((error) => console.error('Error selling book:', error));
+        setBooks(data);
+        setFilteredBooks(data);
+        setReloadLibrary(prev => !prev);
+        setMessage(null);
+      });
+      .catch((error) => setMessage(error.message));
   }
 
   const handleSearch = (query: string) => {
-    fetch('http://localhost:3000/api/books/search', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({query}),
-    })
-      .then((res) => res.json())
+    fetchSearch.search(query)
       .then(data => {
-        if (data.success) {
-          setFilteredBooks(data.books);
-        } else {
-          alert(data.error);
-        }
-      })
-      .catch((error) => console.error('Error searching books:', error));
+        setFilteredBooks(data);
+        setMessage(null);
+      });
+    .catch((error) => setMessage(error.message));
   }
 
   const handleClearSearch = () => {
@@ -101,40 +91,15 @@ const Catalogue: React.FC<CatalogueProps> = () => {
   };
 
   const downloadCatalogue = () => {
-    if ((window as any).jspdf) {
-      const {jsPDF} = (window as any).jspdf;
-      const doc = new jsPDF();
+    const pdfContent = books
+      .map((item: StoreBook) => {
+        return `Book: "${item.book.title}". Author: ${item.book.author}.\n` +
+          `Genre: ${item.book.genre}. Publication year: ${item.book.year}.\n` +
+          `Price: ${item.book.price.toFixed(2)} EUR. In stock: ${item.book.quantity}.`
+      })
+      .join('\n\n');
 
-      doc.setFont('Helvetica');
-      doc.setFontSize(16);
-      doc.setTextColor(0, 0, 0);
-      doc.text("KNIGBOOM Catalogue", 80, 20);
-
-      doc.setFontSize(12);
-
-      const catalogueText = books
-        .map((item: StoreBook) => {
-          return `Book: "${item.book.title}". Author: ${item.book.author}.\n` +
-            `Genre: ${item.book.genre}. Publication year: ${item.book.year}.\n` +
-            `Price: ${item.book.price.toFixed(2)} EUR. In stock: ${item.book.quantity}.`
-        })
-        .join('\n\n');
-
-      doc.text(catalogueText, 20, 40);
-
-      const pdfBlob = doc.output("blob");
-      const url = URL.createObjectURL(pdfBlob);
-
-      if (linkRef.current) {
-        linkRef.current.href = url;
-        linkRef.current.download = "KNIGBOOM Catalogue.pdf";
-        linkRef.current.click();
-
-        URL.revokeObjectURL(url);
-      }
-    } else {
-      console.log('jsPDF is not loaded');
-    }
+    generatePDF('KNIGBOOM Catalogue', pdfContent);
   }
 
   return (
@@ -172,11 +137,12 @@ const Catalogue: React.FC<CatalogueProps> = () => {
       </section>
 
       <section className="download-catalogue">
-        <a ref={linkRef} style={{display: 'none'}} />
         <button onClick={downloadCatalogue} className="catalogueButton">
           Download Catalogue
         </button>
       </section>
+
+      <ErrorPopUp message={message} onClose={() => setMessage(null)} />
 
       {popupShown && (
         <div className="popup" style={{ display: 'flex' }}>

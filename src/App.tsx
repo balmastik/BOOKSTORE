@@ -2,41 +2,33 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './css/style.css';
 
-import Header from './components/Header';
 import Routes from './components/Routes';
+import Header from './components/Header';
 import Footer from './components/Footer';
+import ErrorPopUp from './components/ErrorPopUp';
 
-import {subscriberService} from './components/customerServices/SubscriberService';
+import {fetchSubscribe} from './components/customerServices/FetchSubscribe';
 
 const App = () => {
   const [message, setMessage] = useState<string>('');
 
-
   const handleSubscribe = (email: string) => {
-    subscriberService.subscribe(email)
-      .then(() => {
-          setMessage('You have successfully subscribed to our newsletter!');
-          setTimeout(() => setMessage(''), 3000);
+    fetchSubscribe.subscribe(email)
+      .then((data) => {
+          setMessage(data);
         })
-      .catch((error) => {
-        if (error.message.includes('already been subscribed')) {
-          setMessage('You are already subscribed to the newsletter.');
-          setTimeout(() => setMessage(''), 3000);
-        } else {
-          setMessage('An error occurred while subscribing. Please try again later.');
-          setTimeout(() => setMessage(''), 3000);
-        }
-      });
+      .catch((error) => setMessage(error.message));
   }
 
   return (
     <Router>
-      <div className="App">
-        <Header onClearSearch={handleClearSearch} />
+      <div>
+        <Header />
         <main>
           <Routes />
         </main>
-        <Footer onSubscribe={handleSubscribe} message={message} />
+        <Footer onSubscribe={handleSubscribe} />
+        <ErrorPopUp message={message} onClose={() => setMessage(null)} />
       </div>
     </Router>
   );

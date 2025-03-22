@@ -1,8 +1,8 @@
 import React from 'react';
-import {CustomerData} from '../interfaces/Entities';
+import { Customer } from '../interfaces/entities';
 
 interface CustomerCardProps {
-  customer: CustomerData;
+  customer: Customer;
   onIncreaseBalance: () => void;
 }
 

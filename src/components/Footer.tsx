@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 interface FooterProps {
   onSubscribe: (email: string) => void;
-  message: string;
 }
 
-const Footer: React.FC<FooterProps> = ({ onSubscribe, message }) => {
+const Footer: React.FC<FooterProps> = ({ onSubscribe }) => {
   const [subscribeEmail, setSubscribeEmail] = useState('');
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -47,8 +46,6 @@ const Footer: React.FC<FooterProps> = ({ onSubscribe, message }) => {
             />
             <button type="submit" className="newsletter-button">Subscribe</button>
           </form>
-
-          {message && <p className="newsletter-message">{message}</p>}
         </div>
 
         <nav className="navigation">

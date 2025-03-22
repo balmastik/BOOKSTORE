@@ -12,7 +12,7 @@ const ReloadLibraryContext = createContext<ReloadLibraryContextType>({
 
 export const useReloadLibrary = () => useContext(ReloadLibraryContext);
 
-export const ReloadLibraryProvider: React.FC = ({ children }) => {
+export const ReloadLibraryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [reloadLibrary, setReloadLibrary] = useState<boolean>(false);
 
   return (

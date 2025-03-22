@@ -699,11 +699,6 @@ textarea {
 .newsletter-button:hover {
   background-color: #ED6019;
 }
-.newsletter-message {
-  margin-top: -60px;
-  font-size: 16px;
-  color: #666;
-}
 
 .site-finish {
   font-size: 16px;
@@ -725,7 +720,7 @@ textarea {
 .popup-content {
   width: 580px;
   height: 370px;
-  padding: 10px 30px;
+  padding: 20px 50px;
   text-align: center;
   border-radius: 5px;
   background-color: #f8f8f8;

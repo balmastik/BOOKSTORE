@@ -1,4 +1,4 @@
-export const generatePDF = (title: string, pdfContent: string) => {
+export const generatePdf = (title: string, pdfContent: string) => {
   if ((window as any).jspdf) {
     const {jsPDF} = (window as any).jspdf;
     const doc = new jsPDF();

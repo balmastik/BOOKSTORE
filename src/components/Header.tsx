@@ -1,7 +1,7 @@
 import React from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Header: React.FC<HeaderProps> = () => {
+const Header: React.FC = () => {
   const navigate = useNavigate();
 
   const handleHomeClick = () => {

@@ -100,7 +100,10 @@ app.get('/api/books', (req: Request, res: Response) => {
   try {
     const data = fs.readFileSync('catalogue.json', 'utf8');
     const books: StoreBook[] = JSON.parse(data);
-    res.json({ success: true, books });
+    res.json({
+      success: true,
+      books: books,
+    });
   } catch (error) {
     console.error("Error loading books:", error);
     res.status(500).json({error: "Error loading books"});
@@ -247,7 +250,13 @@ app.post('/api/books/filter', (req: Request, res: Response) => {
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Customer'
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: Indicates if the request was successful
+ *                 customer:
+ *                   $ref: '#/components/schemas/Customer'
  *       500:
  *         description: Internal server error during loading customer data
  */
@@ -255,7 +264,10 @@ app.get('/api/customer', (req: Request, res: Response) => {
   try {
     const customerData = fs.readFileSync('customer.json', 'utf8'); // читаем файл
     const customer = JSON.parse(customerData);
-    res.json(customer);
+    res.json({
+      success: true,
+      customer: customer
+    });
   } catch (error) {
     console.error('Error loading customer data:', error);
     res.status(500).json({error: 'Error loading customer data'});
@@ -293,8 +305,6 @@ app.get('/api/customer', (req: Request, res: Response) => {
  *                 success:
  *                   type: boolean
  *                   description: Success status
- *                 message:
- *                   type: string
  *                 customer:
  *                   description: Customer data
  *                   content:
@@ -319,7 +329,6 @@ app.post('/api/customer/balance/increase', (req: Request, res: Response) => {
 
       res.json({
         success: true,
-        message: "Balance has been successfully increased",
         customer: updatedCustomer,
       });
     } else {
@@ -348,9 +357,16 @@ app.post('/api/customer/balance/increase', (req: Request, res: Response) => {
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/StoreBook'
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: Indicates whether the request was successful
+ *                 books:
+ *                   type: array
+ *                   description: List of books in the customer's library
+ *                   items:
+ *                     $ref: '#/components/schemas/StoreBook'
  *       500:
  *         description: Internal server error during loading customer books
  */
@@ -360,7 +376,10 @@ app.get('/api/customer/books', (req: Request, res: Response) => {
     const customerData = JSON.parse(data);
     const books = customerData.purchasedBooks;
 
-    res.json(books);
+    res.json({
+      success: true,
+      books: books,
+    });
   } catch (error) {
     console.error("Error loading customer books:", error);
     res.status(500).json({error: 'Error loading customer books'});
@@ -473,9 +492,6 @@ app.post('/api/customer/books/search', (req: Request, res: Response) => {
  *                 success:
  *                   type: boolean
  *                   description: Indicates if the book was successfully added
- *                 message:
- *                   type: string
- *                   description: Message confirming the book was added
  *                 books:
  *                   type: array
  *                   items:
@@ -509,7 +525,6 @@ app.post('/api/customer/books/add', upload.single('image'), (req: Request, res: 
 
       res.json({
         success: true,
-        message: "Book has been added to the library",
         books: updatedBooks,
       });
     } else {
@@ -550,9 +565,6 @@ app.post('/api/customer/books/add', upload.single('image'), (req: Request, res: 
  *                 success:
  *                   type: boolean
  *                   description: Indicates if the book was successfully removed
- *                 message:
- *                   type: string
- *                   description: Message confirming the book was removed
  *                 books:
  *                   type: array
  *                   items:
@@ -576,7 +588,6 @@ app.delete('/api/customer/books', (req: Request, res: Response) => {
 
       res.json({
         success: true,
-        message: "Book has been successfully removed from the library",
         books: updatedBooks,
       });
     } else {

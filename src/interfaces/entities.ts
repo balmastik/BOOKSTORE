@@ -1,4 +1,4 @@
-export interface BookData {
+export interface Book {
   title: string;
   author: string;
   genre: string;
@@ -9,10 +9,10 @@ export interface BookData {
 }
 
 export interface StoreBook {
-  book: BookData;
+  book: Book;
 }
 
-export interface CustomerData {
+export interface Customer {
   name: string;
   balance: number;
   image: string;

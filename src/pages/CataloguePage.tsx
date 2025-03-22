@@ -1,27 +1,23 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
-import {StoreBook} from '../interfaces/entities';
-import {fetchDisplay} from '../catalogueServices/fetchDisplay';
-import {fetchSale} from '../catalogueServices/fetchSale';
-import {fetchSearch} from '../catalogueServices/fetchSearch';
-import {fetchFilter} from '../catalogueServices/fetchFilter';
+import { StoreBook } from '../interfaces/entities';
+import { catalogueServices } from '../services/catalogueServices';
 
 import BookCard from '../components/BookCard';
 import Search from '../components/Search';
 import Filter from '../components/Filter';
-import WelcomePopUp from '../components/WelcomePopUp';
-import ErrorPopUp from '../components/ErrorPopUp';
+import WelcomePopup from '../components/WelcomePopup';
+import ErrorPopup from '../components/ErrorPopup';
+import { useReloadLibrary } from '../context/ReloadLibraryContext';
+import {generatePdf} from '../utils/generatePdf';
 
-import {useReloadLibrary} from '../context/ReloadLibraryContext';
-import {generatePDF} from '../utils/generatePDF';
-
-const Catalogue: React.FC<CatalogueProps> = () => {
+const CataloguePage: React.FC = () => {
   const [popupShown, setPopupShown] = useState<boolean>(false);
-  const [message, setMessage] = useState<string | null>(null);
   const [books, setBooks] = useState<StoreBook[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<StoreBook[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-  const {setReloadLibrary} = useReloadLibrary();
+  const [message, setMessage] = useState<string>('');
+  const { setReloadLibrary } = useReloadLibrary();
 
   useEffect(() => {
     const popupStatus = localStorage.getItem('popupShown');
@@ -36,51 +32,62 @@ const Catalogue: React.FC<CatalogueProps> = () => {
   };
 
   useEffect(() => {
-    fetchDisplay.display()
-      .then((data) => {
+    const fetchData = async () => {
+      try {
+        const data = await catalogueServices.display();
         setBooks(data);
         setFilteredBooks(data);
-        setMessage(null);
-      })
-      .catch((error) => setMessage(error.message));
+        setMessage('');
+      } catch (error) {
+        setMessage(error as string);
+      }
+    };
+    fetchData();
   }, []);
 
-  const handleSale = (storeBook: StoreBook) => {
-    fetchSale.sale(storeBook)
-      .then((data) => {
-        setBooks(data);
-        setFilteredBooks(data);
-        setReloadLibrary(prev => !prev);
-        setMessage(null);
-      })
-      .catch((error) => setMessage(error.message));
+  const handleSale = async (storeBook: StoreBook) => {
+    try {
+      const data = await catalogueServices.sale(storeBook);
+      setBooks(data);
+      setFilteredBooks(data);
+      setReloadLibrary((prev) => !prev);
+      setMessage('');
+    } catch (error) {
+      setMessage(error as string);
+    }
   };
 
-  const handleSearch = (query: string) => {
-    fetchSearch.search(query)
-      .then((data) => {
-        setFilteredBooks(data);
-        setMessage(null);
-      })
-    .catch((error) => setMessage(error.message));
+  const handleSearch = async (query: string) => {
+    try {
+      const data = await catalogueServices.search(query);
+      setFilteredBooks(data);
+      setMessage('');
+    } catch (error) {
+      setMessage(error as string);
+    }
   };
 
   const clearSearch = () => setFilteredBooks(books);
 
-  const handleFilter = (priceMin: number, priceMax: number, yearMin: number, yearMax: number) => {
-    fetchFilter.filter(priceMin, priceMax, yearMin, yearMax)
-      .then((data) => {
-        setFilteredBooks(data);
-        setMessage(null);
-      })
-      .catch((error) => setMessage(error.message));
+  const handleFilter = async (
+    priceMin: number,
+    priceMax: number,
+    yearMin: number,
+    yearMax: number
+  ) => {
+    try {
+      const data = await catalogueServices.filter(priceMin, priceMax, yearMin, yearMax);
+      setFilteredBooks(data);
+      setMessage('');
+    } catch (error) {
+      setMessage(error as string);
+    }
   };
 
   const clearFilter = () => setFilteredBooks(books);
 
   const openFilter = () => setIsFilterOpen(true);
   const closeFilter = () => setIsFilterOpen(false);
-
 
   const downloadCatalogue = () => {
     const pdfContent = books
@@ -91,7 +98,7 @@ const Catalogue: React.FC<CatalogueProps> = () => {
       })
       .join('\n\n');
 
-    generatePDF('KNIGBOOM Catalogue', pdfContent);
+    generatePdf('KNIGBOOM Catalogue', pdfContent);
   };
 
   return (
@@ -134,13 +141,10 @@ const Catalogue: React.FC<CatalogueProps> = () => {
         </button>
       </section>
 
-      <ErrorPopUp message={message} onClose={() => setMessage(null)} />
+      <ErrorPopup message={message} onClose={() => setMessage('')} />
       {popupShown && (<WelcomePopup onDeny={hidePopup} onConfirm={hidePopup} />)}
     </>
   );
 };
 
-export default Catalogue;
-
-
-
+export default CataloguePage;

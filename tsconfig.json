@@ -23,7 +23,7 @@
     "noEmit": false,
     "isolatedModules": true,
   },
-  "include": ["src/*", "server/**/*",],
+  "include": ["src/**/*", "server/**/*",],
   "exclude": ["node_modules"]
 }
 

@@ -1,0 +1,214 @@
+.filterPanel {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 400px;
+  height: 100%;
+  z-index: 999;
+  padding: 30px;
+  background-color: #fff;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  transition: right 0.3s ease;
+}
+
+.filterPanel.open {
+  right: 0;
+}
+
+.filterPanelClose {
+  position: absolute;
+  right: 20px;
+  font-size: 24px;
+  color: #ccc;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.filterContent {
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  margin-top: 50px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-align: center;
+  color: #333;
+  text-transform: uppercase;
+}
+
+.range {
+  position: relative;
+}
+
+.rangeLabel {
+  display: block;
+  margin-top: 50px;
+  margin-bottom: 65px;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.rangeValues {
+  position: absolute;
+  margin-top: -50px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  font-weight: 400;
+  color: #333;
+  letter-spacing: 1px;
+}
+
+.rangeContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 90px;
+}
+
+.input {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  margin: auto;
+  background: transparent;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  pointer-events: none;
+}
+
+.priceTrack {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  background: #ccc;
+}
+
+.yearTrack {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  background: #ccc;
+}
+
+.rangeСontainer input::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  height: 8px;
+}
+
+.rangeСontainer input::-moz-range-track {
+  -moz-appearance: none;
+  height: 8px;
+}
+
+.rangeСontainer input::-ms-track {
+  appearance: none;
+  height: 8px;
+}
+
+.rangeСontainer input::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  margin-top: -6.2px;
+  border: 2px solid #ED6019;
+  border-radius: 50%;
+  background: #f99462;
+  cursor: pointer;
+  -webkit-appearance: none;
+  pointer-events: auto;
+}
+
+.rangeСontainer input::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ED6019;
+  border-radius: 50%;
+  background: #f99462;
+  cursor: pointer;
+  -webkit-appearance: none;
+  pointer-events: auto;
+}
+
+.rangeСontainer input::-ms-thumb {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ED6019;
+  border-radius: 50%;
+  background: #f99462;
+  cursor: pointer;
+  appearance: none;
+  pointer-events: auto;
+}
+
+.rangeСontainer input:active::-webkit-slider-thumb {
+  background: #f99462;
+  border: 2px solid #ED6019;
+}
+
+.filterButton {
+  display: flex;
+  width: 100%;
+  margin-top: 50px;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.filterButtonClear {
+  flex: 1;
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  background-color: #999;
+}
+
+.filterButtonClear:hover {
+  background-color: #ccc;
+}
+
+.filterButtonApply {
+  flex: 1;
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  background-color: #f99462;
+}
+
+.filterButtonApply:hover {
+  background-color: #ED6019;
+}

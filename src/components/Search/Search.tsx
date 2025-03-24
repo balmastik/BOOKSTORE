@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
+import styles from './Search.module.css';
 
 interface SearchProps {
   onSearch: (query: string) => void;
@@ -6,12 +7,11 @@ interface SearchProps {
   onOpenFilter?: () => void;
 }
 
-const Search: React.FC<SearchProps> = ({ onSearch, onClearSearch, onOpenFilter }) => {
+const Search: React.FC<SearchProps> = ({onSearch, onClearSearch, onOpenFilter}) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = () => {
     const query = searchTerm.toLowerCase().trim();
-
     if (query === '') {
       onClearSearch();
     } else {
@@ -26,27 +26,22 @@ const Search: React.FC<SearchProps> = ({ onSearch, onClearSearch, onOpenFilter }
   };
 
   return (
-    <div className="search-container">
-      <input
+      <div className={styles.searchContainer}>
+        <input
         type="text"
-        className="search-input"
+        className={styles.searchInput}
         placeholder="Book title, author, genre"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         onKeyDown={handleKeyDown}
-      />
-
-      <button className="search-button" onClick={handleSearch}>Search</button>
-
-      {onOpenFilter && (
-      <img
-          className="open-filter-img"
-          src={"/icon/filter_book_icon.svg"}
-          alt={'Open filter'}
-          onClick={onOpenFilter}
         />
+
+        <button className={styles.searchButton} onClick={handleSearch}>Search</button>
+
+        {onOpenFilter && (
+        <img className={styles.openFilterImg} src={"/icon/filter_book_icon.svg"} alt={'Open filter'} onClick={onOpenFilter}/>
         )}
-    </div>
+      </div>
   );
 };
 

@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
+import styles from './Filter.module.css';
 
 interface FilterProps {
   isOpen: boolean;
@@ -7,7 +8,7 @@ interface FilterProps {
   onClearFilter: () => void;
 }
 
-const Filter: React.FC<FilterProps> = ({ isOpen, onCloseFilter, onApplyFilter, onClearFilter }) => {
+const Filter: React.FC<FilterProps> = ({isOpen, onCloseFilter, onApplyFilter, onClearFilter}) => {
   const [priceMin, setPriceMin] = useState(0);
   const [priceMax, setPriceMax] = useState(100);
   const [yearMin, setYearMin] = useState(1800);
@@ -69,25 +70,26 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onCloseFilter, onApplyFilter, o
   };
 
   return (
-    <div className={`filter-panel ${isOpen ? 'open' : ''}`}>
+    <div className={`${styles.filterPanel} ${isOpen ? styles.open : ''}`}>
 
-      <button className="filter-panel-close" onClick={onCloseFilter}>X</button>
+      <button className={styles.filterPanelClose} onClick={onCloseFilter}>X</button>
 
-      <div className="filter-content">
+      <div className={styles.filterContent}>
         <h2>Filter</h2>
 
-        <div className="range">
-          <label htmlFor="price-range-container" className="range-label">PRICE RANGE</label>
+        <div className={styles.range}>
+          <label htmlFor="price-range-container" className={styles.rangeLabel}>PRICE RANGE</label>
 
-          <div className="range-values">
-            <span className="price-range-min">{priceMin} €</span>
-            <span className="price-range-max">{priceMax} €</span>
+          <div className={styles.rangeValues}>
+            <span>{priceMin} €</span>
+            <span>{priceMax} €</span>
           </div>
 
-          <div className="range-container">
-            <div ref={priceTrackRef} className="price-track"></div>
+          <div className={styles.rangeContainer}>
+            <div ref={priceTrackRef} className={styles.priceTrack}></div>
             <input
               type="range"
+              className={styles.input}
               min="0"
               max="100"
               value={priceMin}
@@ -96,6 +98,7 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onCloseFilter, onApplyFilter, o
 
             <input
               type="range"
+              className={styles.input}
               min="0"
               max="100"
               value={priceMax}
@@ -104,17 +107,18 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onCloseFilter, onApplyFilter, o
           </div>
         </div>
 
-        <div className="range">
-          <label htmlFor="year-range-container" className="range-label">PUBLICATION DATE</label>
-          <div className="range-values">
-            <span className="year-range-min">{yearMin}</span>
-            <span className="year-range-max">{yearMax}</span>
+        <div className={styles.range}>
+          <label htmlFor="year-range-container" className={styles.rangeLabel}>PUBLICATION DATE</label>
+          <div className={styles.rangeValues}>
+            <span>{yearMin}</span>
+            <span>{yearMax}</span>
           </div>
 
-          <div className="range-container">
-            <div ref={yearTrackRef} className="year-track"></div>
+          <div className={styles.rangeContainer}>
+            <div ref={yearTrackRef} className={styles.yearTrack}></div>
             <input
               type="range"
+              className={styles.input}
               min="1800"
               max="2025"
               value={yearMin}
@@ -123,6 +127,7 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onCloseFilter, onApplyFilter, o
 
             <input
               type="range"
+              className={styles.input}
               min="1800"
               max="2025"
               value={yearMax}
@@ -131,9 +136,9 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onCloseFilter, onApplyFilter, o
           </div>
         </div>
 
-        <div className="filter-button">
-          <button className="filter-button-clear" onClick={clearFilters}>Clear</button>
-          <button className="filter-button-apply" onClick={applyFilters}>Apply</button>
+        <div className={styles.filterButton}>
+          <button className={styles.filterButtonClear} onClick={clearFilters}>Clear</button>
+          <button className={styles.filterButtonApply} onClick={applyFilters}>Apply</button>
         </div>
 
       </div>

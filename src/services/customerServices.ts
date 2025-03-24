@@ -1,5 +1,5 @@
-import { Customer, StoreBook } from '../interfaces/entities';
-import { CustomerPageApi, CustomerApiResponse, BookApiResponse} from '../interfaces/api';
+import {Customer, StoreBook} from '../interfaces/entities';
+import {CustomerPageApi, CustomerApiResponse, BookApiResponse} from '../interfaces/api';
 
 class CustomerServices implements CustomerPageApi {
 
@@ -16,7 +16,7 @@ class CustomerServices implements CustomerPageApi {
       }
     } catch (error) {
       console.error('Error while customer display:', error);
-      throw new Error ('Server error occurred while loading customer. Please try again later');
+      throw new Error('Server error occurred while loading customer. Please try again later');
     }
   }
 
@@ -25,7 +25,7 @@ class CustomerServices implements CustomerPageApi {
       const res = await fetch('http://localhost:3000/api/customer/balance/increase', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ amount }),
+        body: JSON.stringify({amount}),
       });
       const data: CustomerApiResponse = await res.json();
 
@@ -37,7 +37,7 @@ class CustomerServices implements CustomerPageApi {
       }
     } catch (error) {
       console.error('Error while balance increase:', error);
-      throw new Error ('Server error occurred while increasing balance. Please try again later');
+      throw new Error('Server error occurred while increasing balance. Please try again later');
     }
   }
 
@@ -54,7 +54,7 @@ class CustomerServices implements CustomerPageApi {
       }
     } catch (error) {
       console.error('Error while books display:', error);
-      throw new Error ('Server error occurred while loading books. Please try again later');
+      throw new Error('Server error occurred while loading books. Please try again later');
     }
   }
 
@@ -75,7 +75,7 @@ class CustomerServices implements CustomerPageApi {
       }
     } catch (error) {
       console.error('Error while book remove:', error);
-      throw new Error ('Server error occurred while removing book. Please try again later');
+      throw new Error('Server error occurred while removing book. Please try again later');
     }
   }
 
@@ -84,7 +84,7 @@ class CustomerServices implements CustomerPageApi {
       const res = await fetch('http://localhost:3000/api/customer/books/search', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({query}),
       });
       const data: BookApiResponse = await res.json();
 
@@ -96,7 +96,7 @@ class CustomerServices implements CustomerPageApi {
       }
     } catch (error) {
       console.error('Error while book search:', error);
-      throw new Error ('Server error occurred while searching book. Please try again later');
+      throw new Error('Server error occurred while searching book. Please try again later');
     }
   }
 
@@ -121,7 +121,7 @@ class CustomerServices implements CustomerPageApi {
       }
     } catch (error) {
       console.error('Error while book add:', error);
-      throw new Error ('Server error occurred while ading book. Please try again later');
+      throw new Error('Server error occurred while ading book. Please try again later');
     }
   }
 };

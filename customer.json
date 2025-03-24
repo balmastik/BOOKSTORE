@@ -1,16 +1,16 @@
 {
   "name": "John Doe",
-  "balance": 37.010000000000005,
+  "balance": 20,
   "image": "/img/first_customer.jpeg",
   "purchasedBooks": [
     {
       "book": {
-        "title": "Gone with the wind",
-        "author": "Margaret Mitchell",
-        "genre": "not specified",
-        "year": 0,
-        "image": "/uploads/f4f174d26cf3aece3f9a4d0e2bdf803c",
-        "price": 0,
+        "title": "The Razor's Edge",
+        "author": "Somerset Maugham",
+        "genre": "Novel",
+        "year": 1944,
+        "image": "/img/the_razors_edge.jpeg",
+        "price": 20,
         "quantity": 1
       }
     }

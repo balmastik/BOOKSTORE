@@ -1,5 +1,5 @@
-import { StoreBook } from '../interfaces/entities';
-import { CataloguePageApi, BookApiResponse } from '../interfaces/api';
+import {StoreBook} from '../interfaces/entities';
+import {CataloguePageApi, BookApiResponse} from '../interfaces/api';
 
 
 class CatalogueServices implements CataloguePageApi {
@@ -17,7 +17,7 @@ class CatalogueServices implements CataloguePageApi {
       }
     } catch (error) {
       console.error('Error loading books:', error);
-      throw new Error ('Server error occurred while loading books. Please try again later');
+      throw new Error('Server error occurred while loading books. Please try again later');
     }
   };
 
@@ -38,7 +38,7 @@ class CatalogueServices implements CataloguePageApi {
       }
     } catch (error) {
       console.error('Error while book search:', error);
-      throw new Error ('Server error occurred while searching book. Please try again later');
+      throw new Error('Server error occurred while searching book. Please try again later');
     }
   };
 
@@ -59,7 +59,7 @@ class CatalogueServices implements CataloguePageApi {
       }
     } catch (error) {
       console.error('Error while books filter:', error);
-      throw new Error ('Server error occurred while filtering books. Please try again later');
+      throw new Error('Server error occurred while filtering books. Please try again later');
     }
   };
 
@@ -67,7 +67,7 @@ class CatalogueServices implements CataloguePageApi {
     try {
       const res = await fetch('http://localhost:3000/api/purchase', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(storeBook),
       })
       const data: BookApiResponse = await res.json();
@@ -80,7 +80,7 @@ class CatalogueServices implements CataloguePageApi {
       }
     } catch (error) {
       console.error('Error selling book:', error);
-      throw new Error ('Server error occurred while purchasing book. Please try again later');
+      throw new Error('Server error occurred while purchasing book. Please try again later');
     }
   };
 };

@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import './css/style.css';
-
-import { fetchSubscribe } from './services/appServices';
-
+import React, {useState} from 'react';
+import {BrowserRouter as Router} from 'react-router-dom';
+import './styles/globals.module.css';
+import Header from './components/Header/Header';
 import AppRoutes from './components/AppRoutes';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import ErrorPopup from './components/ErrorPopup';
+import Footer from './components/Footer/Footer';
+import {fetchSubscribe} from './services/appServices';
 
 const App = () => {
   const [message, setMessage] = useState<string>('');
@@ -16,20 +13,21 @@ const App = () => {
     try {
       const data = await fetchSubscribe.subscribe(email);
       setMessage(data);
+      setTimeout(() => setMessage(''), 2000);
     } catch (error) {
       setMessage(error as string);
+      setTimeout(() => setMessage(''), 2000);
     }
   };
 
   return (
     <Router>
       <div>
-        <Header />
+        <Header/>
         <main>
-          <AppRoutes />
+          <AppRoutes/>
         </main>
-        <Footer onSubscribe={handleSubscribe} />
-        <ErrorPopup message={message} onClose={() => setMessage('')} />
+        <Footer onSubscribe={handleSubscribe} message={message}/>
       </div>
     </Router>
   );

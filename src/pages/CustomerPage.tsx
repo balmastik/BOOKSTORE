@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from 'react';
-
-import { StoreBook, Customer } from '../interfaces/entities';
-import { customerServices } from '../services/customerServices';
-
-import CustomerCard from '../components/CustomerCard';
-import BookCard from '../components/BookCard';
-import Search from '../components/Search';
-import AddBookForm from '../components/AddBookForm';
-import ErrorPopup from '../components/ErrorPopup';
-import { useReloadLibrary } from '../context/ReloadLibraryContext';
+import React, {useEffect, useState} from 'react';
+import styles from './CustomerPage.module.css';
+import {StoreBook, Customer} from '../interfaces/entities';
+import {customerServices} from '../services/customerServices';
+import CustomerCard from '../components/CustomerCard/CustomerCard';
+import BookCard from '../components/BookCard/BookCard';
+import Search from '../components/Search/Search';
+import AddBook from '../components/AddBook/AddBook';
+import ErrorPopup from '../components/ErrorPopup/ErrorPopup';
+import {useReloadLibrary} from '../context/ReloadLibraryContext';
 
 const CustomerPage: React.FC = () => {
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [books, setBooks] = useState<StoreBook[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<StoreBook[]>([]);
   const [message, setMessage] = useState<string>('');
-  const { reloadLibrary } = useReloadLibrary();
+  const {reloadLibrary} = useReloadLibrary();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,20 +30,20 @@ const CustomerPage: React.FC = () => {
   }, []);
 
   const handleIncreaseBalance = async () => {
-      const amount: number = parseFloat(prompt('Please enter the amount, 0') || '0');
-      if (isNaN(amount) || amount <= 0) {
-        setMessage('Please enter a valid positive number');
-        return;
-      }
+    const amount: number = parseFloat(prompt('Please enter the amount, 0') || '0');
+    if (isNaN(amount) || amount <= 0) {
+      setMessage('Please enter a valid positive number');
+      return;
+    }
 
-      try {
-        const data = await customerServices.increase(amount);
-        setCustomer(data);
-        setMessage('Balance has been successfully increased');
-      } catch (error) {
-        setMessage(error as string);
-      }
-    };
+    try {
+      const data = await customerServices.increase(amount);
+      setCustomer(data);
+      setMessage('Balance has been successfully increased');
+    } catch (error) {
+      setMessage(error as string);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,56 +85,47 @@ const CustomerPage: React.FC = () => {
 
   const handleAddBook = async (title: string, author: string, image: File) => {
     try {
-        const data = await customerServices.add(title, author, image);
-        setFilteredBooks(data);
-        setMessage('Book has been added to the library');
-      } catch (error) {
-        setMessage(error as string);
-      }
-    };
+      const data = await customerServices.add(title, author, image);
+      setFilteredBooks(data);
+      setMessage('Book has been added to the library');
+    } catch (error) {
+      setMessage(error as string);
+    }
+  };
 
   return (
     <>
-      <section className="page-header">
-        <h2 className="page-header-title">Customer</h2>
+      <section className={styles.pageHeader}>
+        <h2 className={styles.pageHeaderTitle}>Customer</h2>
       </section>
 
-      <section className="customer-list">
-        {customer ? (
-          <CustomerCard customer={customer} onIncreaseBalance={handleIncreaseBalance} />
-        ) : (
-          <p className="inform-message">Loading customer data...</p>
-        )}
+      <section className={styles.customerList}>
+        {customer && <CustomerCard customer={customer} onIncreaseBalance={handleIncreaseBalance} />}
       </section>
 
-      <hr />
+      <hr/>
 
-      <section className="page-header">
-        <h2 className="page-header-title">Library</h2>
-        <Search onSearch={handleSearch} onClearSearch={handleClearSearch} />
+      <section className={styles.pageHeader}>
+        <h2 className={styles.pageHeaderTitle}>Library</h2>
+        <Search onSearch={handleSearch} onClearSearch={handleClearSearch}/>
       </section>
 
-      <section className="customer-book-list">
+      <section className={styles.libraryList}>
         {filteredBooks.length > 0 ? (
           filteredBooks.map((storeBook) => (
             <BookCard
               key={storeBook.book.title}
               storeBook={storeBook}
-              showPrice={false}
               onRemove={() => handleRemove(storeBook)}
             />
           ))
         ) : (
-          <p className="inform-message">No books found</p>
+          <p className={styles.informMessage}>No books found</p>
         )}
       </section>
 
-      <section className="add-book">
-        <h2 className="add-book-title">Add a Book to the Library</h2>
-        <AddBookForm onAddBook={handleAddBook} />
-      </section>
-
-      <ErrorPopup message={message} onClose={() => setMessage('')} />
+      <AddBook onAddBook={handleAddBook}/>
+      <ErrorPopup message={message} onClose={() => setMessage('')}/>
     </>
   );
 };

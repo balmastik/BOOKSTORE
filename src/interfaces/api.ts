@@ -1,18 +1,26 @@
-import { StoreBook, Customer} from './entities';
+import {StoreBook, Customer} from './entities';
 
 export interface CataloguePageApi {
   display(): Promise<StoreBook[]>;
+
   sale(storeBook: StoreBook): Promise<StoreBook[]>;
+
   search(query: string): Promise<StoreBook[]>;
+
   filter(priceMin: number, priceMax: number, yearMin: number, yearMax: number): Promise<StoreBook[]>;
 }
 
 export interface CustomerPageApi {
   displayCustomer(): Promise<Customer>;
+
   increase(amount: number): Promise<Customer>;
+
   displayLibrary(): Promise<StoreBook[]>;
+
   remove(storeBook: StoreBook): Promise<StoreBook[]>;
+
   search(query: string): Promise<StoreBook[]>;
+
   add(title: string, author: string, image: File): Promise<StoreBook[]>;
 }
 

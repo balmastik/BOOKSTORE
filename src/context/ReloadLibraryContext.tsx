@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, {createContext, useState, useContext} from 'react';
 
 interface ReloadLibraryContextType {
   reloadLibrary: boolean;
@@ -7,16 +7,17 @@ interface ReloadLibraryContextType {
 
 const ReloadLibraryContext = createContext<ReloadLibraryContextType>({
   reloadLibrary: false,
-  setReloadLibrary: () => {},
+  setReloadLibrary: () => {
+  },
 });
 
 export const useReloadLibrary = () => useContext(ReloadLibraryContext);
 
-export const ReloadLibraryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const ReloadLibraryProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
   const [reloadLibrary, setReloadLibrary] = useState<boolean>(false);
 
   return (
-    <ReloadLibraryContext.Provider value={{ reloadLibrary, setReloadLibrary }}>
+    <ReloadLibraryContext.Provider value={{reloadLibrary, setReloadLibrary}}>
       {children}
     </ReloadLibraryContext.Provider>
   );

@@ -6,12 +6,17 @@ class CustomerServices implements CustomerPageApi {
   public async displayCustomer(): Promise<Customer> {
     try {
       const res = await fetch('http://localhost:3000/api/customer');
-      const data: CustomerApiResponse = await res.json();
 
+      if (!res.ok) {
+        const errorMessage = `HTTP Error: ${res.status} - ${res.statusText}`;
+        console.error(errorMessage);
+        throw new Error(errorMessage);
+      }
+
+      const data: CustomerApiResponse = await res.json();
       if (data.success) {
         return data.customer;
       } else {
-        console.error('Error displaying customer:', data.error);
         throw new Error(data.error || 'Unknown error');
       }
     } catch (error) {
@@ -25,14 +30,19 @@ class CustomerServices implements CustomerPageApi {
       const res = await fetch('http://localhost:3000/api/customer/balance/increase', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({amount}),
+        body: JSON.stringify({amount})
       });
-      const data: CustomerApiResponse = await res.json();
 
+      if (!res.ok) {
+        const errorMessage = `HTTP Error: ${res.status} - ${res.statusText}`;
+        console.error(errorMessage);
+        throw new Error(errorMessage);
+      }
+
+      const data: CustomerApiResponse = await res.json();
       if (data.success) {
         return data.customer;
       } else {
-        console.error('Error increasing balance:', data.error);
         throw new Error(data.error || 'Unknown error');
       }
     } catch (error) {
@@ -44,12 +54,17 @@ class CustomerServices implements CustomerPageApi {
   public async displayLibrary(): Promise<StoreBook[]> {
     try {
       const res = await fetch('http://localhost:3000/api/customer/books');
-      const data: BookApiResponse = await res.json();
 
+      if (!res.ok) {
+        const errorMessage = `HTTP Error: ${res.status} - ${res.statusText}`;
+        console.error(errorMessage);
+        throw new Error(errorMessage);
+      }
+
+      const data: BookApiResponse = await res.json();
       if (data.success) {
         return data.books;
       } else {
-        console.error('Error displaying books:', data.error);
         throw new Error(data.error || 'Unknown error');
       }
     } catch (error) {
@@ -62,15 +77,20 @@ class CustomerServices implements CustomerPageApi {
     try {
       const res = await fetch('http://localhost:3000/api/customer/books', {
         method: 'DELETE',
-        headers: {'Content-Type': 'application/json',},
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(storeBook)
       });
-      const data: BookApiResponse = await res.json();
 
+      if (!res.ok) {
+        const errorMessage = `HTTP Error: ${res.status} - ${res.statusText}`;
+        console.error(errorMessage);
+        throw new Error(errorMessage);
+      }
+
+      const data: BookApiResponse = await res.json();
       if (data.success) {
         return data.books;
       } else {
-        console.error('Error removing book:', data.error);
         throw new Error(data.error || 'Unknown error');
       }
     } catch (error) {
@@ -84,14 +104,19 @@ class CustomerServices implements CustomerPageApi {
       const res = await fetch('http://localhost:3000/api/customer/books/search', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({query}),
+        body: JSON.stringify({query})
       });
-      const data: BookApiResponse = await res.json();
 
+      if (!res.ok) {
+        const errorMessage = `HTTP Error: ${res.status} - ${res.statusText}`;
+        console.error(errorMessage);
+        throw new Error(errorMessage);
+      }
+
+      const data: BookApiResponse = await res.json();
       if (data.success) {
         return data.books;
       } else {
-        console.error('Error searching book:', data.error);
         throw new Error(data.error || 'Unknown error');
       }
     } catch (error) {
@@ -111,12 +136,17 @@ class CustomerServices implements CustomerPageApi {
         method: 'POST',
         body: formData,
       });
-      const data: BookApiResponse = await res.json();
 
+      if (!res.ok) {
+        const errorMessage = `HTTP Error: ${res.status} - ${res.statusText}`;
+        console.error(errorMessage);
+        throw new Error(errorMessage);
+      }
+
+      const data: BookApiResponse = await res.json();
       if (data.success) {
         return data.books;
       } else {
-        console.error('Error adding book:', data.error);
         throw new Error(data.error || 'Unknown error');
       }
     } catch (error) {
@@ -124,6 +154,6 @@ class CustomerServices implements CustomerPageApi {
       throw new Error('Server error occurred while ading book. Please try again later');
     }
   }
-};
+}
 
 export const customerServices = new CustomerServices();

@@ -108,7 +108,7 @@ app.get('/api/books', (req: Request, res: Response) => {
     console.error("Error loading books:", error);
     res.status(500).json({error: "Error loading books"});
   }
-});
+})
 
 /**
  * @swagger
@@ -146,30 +146,32 @@ app.get('/api/books', (req: Request, res: Response) => {
  *                   items:
  *                     $ref: '#/components/schemas/StoreBook'
  *       400:
- *         description: Bad request, no books found or invalid query.
+ *         description:  Invalid request data, search failed
  *       500:
  *         description: Internal server error during the search process.
  */
 app.post('/api/books/search', (req: Request, res: Response) => {
   try {
     const query: string = req.body.query;
+
+    if (query == null) {
+      return res.status(400).json({
+        success: false,
+        error: "Missing required search parameters"
+      });
+    }
+
     const book = {
       title: query,
       author: query,
       genre: query
     }
+
     const foundBooks = store.searchBook(book);
-    if(foundBooks.length >= 0) {
-      res.json({
-        success: true,
-        books: foundBooks,
-      });
-    } else {
-      res.status(400).json({
-        success: false,
-        error: "Error searching book"
-      });
-    }
+    res.status(200).json({
+      success: true,
+      books: foundBooks
+    });
   } catch (error) {
     console.error("Searching book error:", error);
     res.status(500).json({error: "Searching book error"});
@@ -215,21 +217,36 @@ app.post('/api/books/search', (req: Request, res: Response) => {
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/StoreBook'
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: Indicates the success of the filtering operation
+ *                 books:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/StoreBook'
+ *       400:
+ *         description: Invalid request data, filtering failed
  *       500:
  *         description: Internal server error during filtering books
  */
 app.post('/api/books/filter', (req: Request, res: Response) => {
   try {
-    const priceMin: number = req.body.priceMin;
-    const priceMax: number = req.body.priceMax;
-    const yearMin: number = req.body.yearMin;
-    const yearMax: number = req.body.yearMax;
+    const {priceMin, priceMax, yearMin, yearMax} = req.body;
+
+    if (priceMin == null || priceMax == null || yearMin == null || yearMax == null) {
+      return res.status(400).json({
+        success: false,
+        error: "Missing required filter parameters"
+      });
+    }
 
     const foundBooks = store.filterBooks(priceMin, priceMax, yearMin, yearMax);
-    res.json(foundBooks);
+    res.status(200).json({
+      success: true,
+      books: foundBooks
+    });
   } catch (error) {
     console.error("Error filtering books:", error);
     res.status(500).json({error: "Error filtering books"});
@@ -262,7 +279,7 @@ app.post('/api/books/filter', (req: Request, res: Response) => {
  */
 app.get('/api/customer', (req: Request, res: Response) => {
   try {
-    const customerData = fs.readFileSync('customer.json', 'utf8'); // читаем файл
+    const customerData = fs.readFileSync('customer.json', 'utf8');
     const customer = JSON.parse(customerData);
     res.json({
       success: true,
@@ -272,7 +289,7 @@ app.get('/api/customer', (req: Request, res: Response) => {
     console.error('Error loading customer data:', error);
     res.status(500).json({error: 'Error loading customer data'});
   }
-});
+})
 
 /**
  * @swagger
@@ -312,36 +329,39 @@ app.get('/api/customer', (req: Request, res: Response) => {
  *                       schema:
  *                         $ref: '#/components/schemas/Customer'
  *       400:
- *         description: Invalid amount
+ *         description: Invalid request data
  *       500:
  *         description: Internal server error during increasing balance
  */
 app.post('/api/customer/balance/increase', (req: Request, res: Response) => {
   try {
     const amount: number = req.body.amount;
+
+    if (amount == null) {
+      return res.status(400).json({
+        success: false,
+        error: "Please enter a valid positive number"
+      });
+    }
+
     const success = customer.addFunds(amount);
 
     if (success) {
       saveCustomerData();
 
-      const customerData = fs.readFileSync('customer.json', 'utf8'); // читаем файл
+      const customerData = fs.readFileSync('customer.json', 'utf8');
       const updatedCustomer = JSON.parse(customerData);
 
       res.json({
         success: true,
-        customer: updatedCustomer,
-      });
-    } else {
-      res.status(400).json({
-        success: false,
-        error: "Please enter a valid positive number"
+        customer: updatedCustomer
       });
     }
   } catch (error) {
     console.error("Error increasing customer balance:", error);
-    res.status(500).json({ error: 'Error increasing customer balance'});
+    res.status(500).json({error: 'Error increasing customer balance'});
   }
-});
+})
 
 /**
  * @swagger
@@ -378,13 +398,13 @@ app.get('/api/customer/books', (req: Request, res: Response) => {
 
     res.json({
       success: true,
-      books: books,
+      books: books
     });
   } catch (error) {
     console.error("Error loading customer books:", error);
     res.status(500).json({error: 'Error loading customer books'});
   }
-});
+})
 
 /**
  * @swagger
@@ -422,7 +442,7 @@ app.get('/api/customer/books', (req: Request, res: Response) => {
  *                   items:
  *                     $ref: '#/components/schemas/StoreBook'
  *       400:
- *         description: Bad request, no books found or invalid query.
+ *         description:  Invalid request data, search failed
  *       500:
  *         description: Internal server error during the search process.
  */
@@ -430,6 +450,14 @@ app.get('/api/customer/books', (req: Request, res: Response) => {
 app.post('/api/customer/books/search', (req: Request, res: Response) => {
   try {
     const query: string = req.body.query;
+
+    if (query == null) {
+      return res.status(400).json({
+        success: false,
+        error: "Missing required search parameters"
+      });
+    }
+
     const book = {
       title: query,
       author: query,
@@ -437,19 +465,11 @@ app.post('/api/customer/books/search', (req: Request, res: Response) => {
     }
 
     const foundBooks = customer.searchBook(book);
-
-    if(foundBooks.length >= 0) {
-      res.json({
+    res.status(200).json({
       success: true,
-      books: foundBooks,
+      books: foundBooks
     });
-  } else {
-      res.status(400).json({
-      success: false,
-      error: "Error searching book"
-    });
-  }
-} catch (error) {
+  } catch (error) {
     console.error("Searching book error:", error);
     res.status(500).json({error: "Searching book error"});
   }
@@ -497,7 +517,7 @@ app.post('/api/customer/books/search', (req: Request, res: Response) => {
  *                   items:
  *                     $ref: '#/components/schemas/StoreBook'
  *       400:
- *         description: Error adding book (e.g., missing required fields)
+ *         description: Invalid request data
  *       500:
  *         description: Internal server error during adding the book
  */
@@ -506,6 +526,13 @@ app.post('/api/customer/books/add', upload.single('image'), (req: Request, res: 
     const title: string = req.body.title;
     const author: string = req.body.author;
     const imageUrl = `/uploads/${req.file?.filename}`;
+
+    if (title == null || author == null || imageUrl == null) {
+      return res.status(400).json({
+        success: false,
+        error: "Missing required book parameters"
+      });
+    }
 
     let storeBook = new StoreBook({
       title: title,
@@ -516,7 +543,7 @@ app.post('/api/customer/books/add', upload.single('image'), (req: Request, res: 
     }, 0, 1);
 
     const success = customer.purchasedBooks.push(storeBook);
-    if(success) {
+    if (success) {
       saveCustomerData();
 
       const libraryData = fs.readFileSync('customer.json', 'utf8');
@@ -527,12 +554,7 @@ app.post('/api/customer/books/add', upload.single('image'), (req: Request, res: 
         success: true,
         books: updatedBooks,
       });
-    } else {
-        res.status(400).json({
-          success: false,
-          error: "Error adding book to the library"
-        });
-      }
+    }
   } catch (error) {
     console.error('Error adding book:', error);
     res.status(500).json({error: 'Error adding book'});
@@ -598,7 +620,7 @@ app.delete('/api/customer/books', (req: Request, res: Response) => {
     }
   } catch (error) {
     console.error('Error removing book:', error);
-    res.status(500).json({ error: 'Error removing book' });
+    res.status(500).json({error: 'Error removing book'});
   }
 });
 
@@ -673,7 +695,7 @@ app.post('/api/purchase', (req: Request, res: Response) => {
     console.error("Error loading purchase:", error);
     res.status(500).json({error: "Error loading purchase"});
   }
-});
+})
 
 /**
  * @swagger
@@ -748,4 +770,4 @@ app.listen(port, () => {
   saveCatalogue();
   saveCustomerData();
   console.log('The server is running on http://localhost:3000');
-});
+})

@@ -102,8 +102,9 @@ const CataloguePage: React.FC = () => {
       <section className={styles.pageHeader}>
         <h2 className={styles.pageHeaderTitle}>Catalogue</h2>
         <Search onSearch={handleSearch} onClearSearch={clearSearch} onOpenFilter={openFilter}/>
-        <Filter isOpen={isFilterOpen} onCloseFilter={closeFilter} onApplyFilter={handleFilter} onClearFilter={clearFilter}/>
       </section>
+
+      <Filter isOpen={isFilterOpen} onCloseFilter={closeFilter} onApplyFilter={handleFilter} onClearFilter={clearFilter}/>
 
       <section className={styles.bookList}>
         {filteredBooks.length > 0 ? (

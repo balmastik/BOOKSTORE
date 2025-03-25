@@ -17,20 +17,38 @@ const Filter: React.FC<FilterProps> = ({isOpen, onCloseFilter, onApplyFilter, on
   const priceTrackRef = useRef<HTMLDivElement>(null);
   const yearTrackRef = useRef<HTMLDivElement>(null);
 
+  const minGap = 1;
+
   const handlePriceMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPriceMin(Number(e.target.value));
+    let value = Number(e.target.value);
+    if (value > priceMax - minGap) {
+      value = priceMax - minGap;
+    }
+    setPriceMin(value);
   };
 
   const handlePriceMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPriceMax(Number(e.target.value));
+    let value = Number(e.target.value);
+    if (value < priceMin + minGap) {
+      value = priceMin + minGap;
+    }
+    setPriceMax(value);
   };
 
   const handleYearMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setYearMin(Number(e.target.value));
+    let value = Number(e.target.value);
+    if (value > yearMax - minGap) {
+      value = yearMax - minGap;
+    }
+    setYearMin(value);
   };
 
   const handleYearMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setYearMax(Number(e.target.value));
+    let value = Number(e.target.value);
+    if (value < yearMin + minGap) {
+      value = yearMin + minGap;
+    }
+    setYearMax(value);
   };
 
   const applyFilters = () => {
@@ -85,7 +103,7 @@ const Filter: React.FC<FilterProps> = ({isOpen, onCloseFilter, onApplyFilter, on
             <span>{priceMax} €</span>
           </div>
 
-          <div className={styles.rangeContainer}>
+          <div id="price-range-container" className={styles.rangeContainer}>
             <div ref={priceTrackRef} className={styles.priceTrack}></div>
             <input
               type="range"
@@ -108,13 +126,13 @@ const Filter: React.FC<FilterProps> = ({isOpen, onCloseFilter, onApplyFilter, on
         </div>
 
         <div className={styles.range}>
-          <label htmlFor="year-range-container" className={styles.rangeLabel}>PUBLICATION DATE</label>
+        <label htmlFor="year-range-container" className={styles.rangeLabel}>PUBLICATION DATE</label>
           <div className={styles.rangeValues}>
             <span>{yearMin}</span>
             <span>{yearMax}</span>
           </div>
 
-          <div className={styles.rangeContainer}>
+          <div id="year-range-container" className={styles.rangeContainer}>
             <div ref={yearTrackRef} className={styles.yearTrack}></div>
             <input
               type="range"

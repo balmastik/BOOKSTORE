@@ -45,17 +45,6 @@
   },
   {
     "book": {
-      "title": "Goodbye, Mr. Chips",
-      "author": "James Hilton",
-      "genre": "Adventure",
-      "year": 1934,
-      "image": "/img/goodbye_mr_chips.jpeg",
-      "price": 12.99,
-      "quantity": 1
-    }
-  },
-  {
-    "book": {
       "title": "Casino Royale",
       "author": "Ian Fleming",
       "genre": "Novel",

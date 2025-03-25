@@ -1,8 +1,19 @@
 {
   "name": "John Doe",
-  "balance": 20,
+  "balance": 7.009999999999998,
   "image": "/img/first_customer.jpeg",
   "purchasedBooks": [
+    {
+      "book": {
+        "title": "Goodbye, Mr. Chips",
+        "author": "James Hilton",
+        "genre": "Adventure",
+        "year": 1934,
+        "image": "/img/goodbye_mr_chips.jpeg",
+        "price": 12.99,
+        "quantity": 1
+      }
+    },
     {
       "book": {
         "title": "The Razor's Edge",

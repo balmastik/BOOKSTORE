@@ -1,6 +1,6 @@
 {
   "name": "John Doe",
-  "balance": 7.009999999999998,
+  "balance": 27.009999999999998,
   "image": "/img/first_customer.jpeg",
   "purchasedBooks": [
     {
@@ -11,17 +11,6 @@
         "year": 1934,
         "image": "/img/goodbye_mr_chips.jpeg",
         "price": 12.99,
-        "quantity": 1
-      }
-    },
-    {
-      "book": {
-        "title": "The Razor's Edge",
-        "author": "Somerset Maugham",
-        "genre": "Novel",
-        "year": 1944,
-        "image": "/img/the_razors_edge.jpeg",
-        "price": 20,
         "quantity": 1
       }
     }

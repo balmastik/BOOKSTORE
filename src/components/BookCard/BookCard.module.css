@@ -1,87 +1,37 @@
 .card {
-  position: relative;
-  width: 370px;
-  padding: 20px;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  overflow: hidden;
+  @apply relative w-[370px] p-5 text-center border border-gray-300 rounded-lg shadow-lg bg-white overflow-hidden;
 }
 
-.image {
-  width: 100%;
-  height: 350px;
-  object-fit: cover;
-  border-radius: 5px;
+.image,
+.video {
+  @apply w-full h-[350px] object-cover rounded-lg;
 }
 
 .video {
-  width: 100%;
-  height: 350px;
-  object-fit: cover;
-  border-radius: 5px;
-  object-position: top;
+  @apply object-top;
 }
 
 h3 {
-  position: relative;
-  padding-bottom: 5px;
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: #333;
-  text-transform: uppercase;
+  @apply relative mt-3 pb-1 text-xl font-bold tracking-wider text-gray-800 uppercase;
 }
 
 h3::after {
   content: "";
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: #ED6019;
+  @apply absolute bottom-[-5px] left-0 w-full h-[2px] bg-[#ED6019];
 }
 
 .author {
-  margin: 0;
-  line-height: 2;
-  font-size: 14px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  @apply mt-3 leading-8 text-sm tracking-widest uppercase;
 }
 
 .author.bottom {
-  padding-bottom : 7px;
+  @apply mb-2;
 }
 
 .price {
-  margin: 0;
-  line-height: 2;
-  font-size: 14px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding-bottom: 6px;
-  font-weight: 700;
+  @apply m-0 pb-2 leading-8 text-sm tracking-widest uppercase font-bold;
 }
 
 .bookButton {
-  padding: 10px 20px;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
-  background-color: #f99462;
-}
-
-.bookButton:hover {
-  background-color: #ED6019;
+  @apply py-2 px-5 text-center text-sm font-medium tracking-wider uppercase text-white border-none rounded-lg cursor-pointer transition-all bg-[#f99462] hover:bg-[#ED6019];
 }

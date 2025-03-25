@@ -34,6 +34,17 @@
   },
   {
     "book": {
+      "title": "The Razor's Edge",
+      "author": "Somerset Maugham",
+      "genre": "Novel",
+      "year": 1944,
+      "image": "/img/the_razors_edge.jpeg",
+      "price": 20,
+      "quantity": 1
+    }
+  },
+  {
+    "book": {
       "title": "Beware of Pity",
       "author": "Stefan Zweig",
       "genre": "Novel",

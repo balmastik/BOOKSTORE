@@ -95,22 +95,22 @@ const CustomerPage: React.FC = () => {
 
   return (
     <>
-      <section className={styles.pageHeader}>
-        <h2 className={styles.pageHeaderTitle}>Customer</h2>
+      <section className={styles.customerHeader}>
+        <h2 className={styles.customerTitle}>Customer</h2>
       </section>
 
-      <section className={styles.customerList}>
+      <section className={styles.customer}>
         {customer && <CustomerCard customer={customer} onIncreaseBalance={handleIncreaseBalance} />}
       </section>
 
       <hr/>
 
-      <section className={styles.pageHeader}>
-        <h2 className={styles.pageHeaderTitle}>Library</h2>
+      <section className={styles.customerHeader}>
+        <h2 className={styles.customerTitle}>Library</h2>
         <Search onSearch={handleSearch} onClearSearch={handleClearSearch}/>
       </section>
 
-      <section className={styles.libraryList}>
+      <section className={styles.library}>
         {filteredBooks.length > 0 ? (
           filteredBooks.map((storeBook) => (
             <BookCard
@@ -120,7 +120,7 @@ const CustomerPage: React.FC = () => {
             />
           ))
         ) : (
-          <p className={styles.informMessage}>No books found</p>
+          <p className={styles.customerMessage}>No books found</p>
         )}
       </section>
 

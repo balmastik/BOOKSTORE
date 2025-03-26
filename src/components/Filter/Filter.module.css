@@ -1,214 +1,69 @@
 .filterPanel {
-  position: fixed;
-  top: 0;
-  right: -400px;
-  width: 400px;
-  height: 100%;
-  z-index: 999;
-  padding: 30px;
-  background-color: #fff;
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
-  transition: right 0.3s ease;
+  @apply fixed top-0 right-[-400px] w-[400px] h-full z-[999] p-[30px] bg-white shadow-[-2px_0_10px_rgba(0,0,0,0.1)] overflow-y-auto transition-all duration-[0.3s] ease-in-out;
 }
 
 .filterPanel.open {
-  right: 0;
+  @apply right-0;
 }
 
 .filterPanelClose {
-  position: absolute;
-  right: 20px;
-  font-size: 24px;
-  color: #ccc;
-  border: none;
-  background: transparent;
-  cursor: pointer;
+  @apply absolute right-[20px] text-[24px] text-[#ccc] border-none bg-transparent cursor-pointer;
 }
 
 .filterContent {
-  display: flex;
-  flex-direction: column;
+  @apply flex flex-col;
 }
 
-h2 {
-  margin-top: 50px;
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-align: center;
-  color: #333;
-  text-transform: uppercase;
+.filterTitle {
+  @apply mt-[50px] text-[22px] font-[700] tracking-[1px] text-[#333] text-center uppercase;
 }
 
 .range {
-  position: relative;
+  @apply relative;
 }
 
 .rangeLabel {
-  display: block;
-  margin-top: 50px;
-  margin-bottom: 65px;
-  font-size: 16px;
-  font-weight: 400;
-  letter-spacing: 1px;
-  color: #666;
-  text-transform: uppercase;
+  @apply block mt-[50px] mb-[65px] text-[16px] font-[400] tracking-[1px] text-[#666] uppercase;
 }
 
 .rangeValues {
-  position: absolute;
-  margin-top: -50px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  font-size: 15px;
-  font-weight: 400;
-  color: #333;
-  letter-spacing: 1px;
+  @apply absolute mt-[-50px] w-full flex justify-between text-[15px] font-[400] text-[#333] tracking-[1px];
 }
 
 .rangeContainer {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  margin-bottom: 90px;
+  @apply relative w-full h-full mb-[90px];
 }
 
-.input {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  margin: auto;
-  background: transparent;
-  outline: none;
+.filterInput {
+  @apply absolute top-0 bottom-0 w-full m-auto bg-transparent outline-none pointer-events-none;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  pointer-events: none;
 }
 
-.priceTrack {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  width: 100%;
-  height: 8px;
-  border-radius: 5px;
-  background: #ccc;
+.priceTrack, .yearTrack {
+  @apply absolute top-0 bottom-0 m-auto w-full h-[8px] rounded-[5px] bg-[#ccc];
 }
 
-.yearTrack {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  width: 100%;
-  height: 8px;
-  border-radius: 5px;
-  background: #ccc;
-}
-
-.input::-webkit-slider-runnable-track {
+.filterInput::-webkit-slider-runnable-track {
+  @apply h-[8px];
   -webkit-appearance: none;
-  height: 8px;
 }
 
-.input::-moz-range-track {
-  -moz-appearance: none;
-  height: 8px;
-}
-
-.input::-ms-track {
-  appearance: none;
-  height: 8px;
-}
-
-.input::-webkit-slider-thumb {
-  width: 20px;
-  height: 20px;
-  margin-top: -6.2px;
-  border: 2px solid #ED6019;
-  border-radius: 50%;
-  background: #f99462;
-  cursor: pointer;
+.filterInput::-webkit-slider-thumb {
+  @apply w-[20px] h-[20px] mt-[-6.2px] rounded-full bg-[#f99462] cursor-pointer pointer-events-auto;
   -webkit-appearance: none;
-  pointer-events: auto;
-}
-
-.input::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #ED6019;
-  border-radius: 50%;
-  background: #f99462;
-  cursor: pointer;
-  -webkit-appearance: none;
-  pointer-events: auto;
-}
-
-.input::-ms-thumb {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #ED6019;
-  border-radius: 50%;
-  background: #f99462;
-  cursor: pointer;
-  appearance: none;
-  pointer-events: auto;
-}
-
-.input:active::-webkit-slider-thumb {
-  background: #f99462;
   border: 2px solid #ED6019;
 }
 
 .filterButton {
-  display: flex;
-  width: 100%;
-  margin-top: 50px;
-  justify-content: space-between;
-  gap: 10px;
+  @apply flex w-full mt-[50px] justify-between gap-[10px];
 }
 
 .filterButtonClear {
-  flex: 1;
-  padding: 10px 20px;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
-  background-color: #999;
-}
-
-.filterButtonClear:hover {
-  background-color: #ccc;
+  @apply flex-1 py-[10px] px-[20px] text-center text-[14px] font-[500] tracking-[1px] uppercase text-white border-none rounded-[5px] cursor-pointer transition-all bg-[#999] hover:bg-[#ccc];
 }
 
 .filterButtonApply {
-  flex: 1;
-  padding: 10px 20px;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
-  background-color: #f99462;
-}
-
-.filterButtonApply:hover {
-  background-color: #ED6019;
+  @apply flex-1 py-[10px] px-[20px] text-center text-[14px] font-[500] tracking-[1px] uppercase text-white border-none rounded-[5px] cursor-pointer transition-all bg-[#f99462] hover:bg-[#ED6019];
 }

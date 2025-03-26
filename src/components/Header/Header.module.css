@@ -1,46 +1,24 @@
 .header {
-  padding: 35px 20px;
-  text-align: center;
-  background-color: #f8f8f8;
+  @apply py-[35px] px-[20px] text-center bg-[#f8f8f8];
 }
 
 .headerTitle {
-  margin-bottom: -5px;
-  text-decoration: none;
-  font-size: 56px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: #333;
-  text-transform: uppercase;
+  @apply mb-[-5px] no-underline text-[56px] font-[700] tracking-[2px] text-[#333] uppercase;
 }
 
 .headerTagline {
-  margin-bottom: 80px;
-  font-size: 16px;
-  font-weight: 400;
-  letter-spacing: 1px;
-  color: #666;
-  text-transform: uppercase;
+  @apply mb-[80px] text-[16px] font-[400] tracking-[1px] text-[#666] uppercase;
 }
 
-.navList {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  padding: 0;
-  text-transform: uppercase;
+.headerNav {
+  @apply list-none flex justify-center gap-[40px] p-0 uppercase;
 }
 
-.navListLink {
-  padding: 5px 10px;
-  text-decoration: none;
-  font-size: 16px;
-  font-weight: 500;
-  color: #333;
-  transition: color 0.3s;
+.headerNavLink {
+  @apply py-[5px] px-[10px] no-underline text-[16px] font-[500] text-[#333] transition-all;
 }
 
-.navListLink:hover {
-  color: #ED6019;
+.headerNavLink:hover {
+  @apply text-[#ED6019];
 }
+

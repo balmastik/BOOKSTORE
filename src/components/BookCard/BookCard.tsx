@@ -21,7 +21,7 @@ const BookCard: React.FC<BookCardProps> = ({storeBook, onSale, onRemove}) => {
   return (
     <div className={styles.card}>
       {bookMedia}
-      <h3>{storeBook.book.title}</h3>
+      <h3 className={styles.title} >{storeBook.book.title}</h3>
       <p className={`${styles.author} ${onRemove ? styles.bottom : ''}`}>{storeBook.book.author}</p>
       {onSale && <p className={styles.price}>{storeBook.book.price.toFixed(2)} €</p>}
       {onSale && <button className={styles.bookButton} onClick={onSale}>Purchase</button>}

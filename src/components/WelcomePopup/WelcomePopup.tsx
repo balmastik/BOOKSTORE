@@ -10,8 +10,8 @@ const WelcomePopup: React.FC<WelcomePopupProps> = ({ onDeny, onConfirm }) => {
   return (
     <div className={styles.popup} style={{ display: 'flex' }}>
       <div className={styles.popupContent}>
-        <h1 className={styles.headerTitle}>KNIGBOOM</h1>
-        <p className={styles.headerTagline}>THE CORNER STORE</p>
+        <h1 className={styles.popupTitle}>KNIGBOOM</h1>
+        <p className={styles.popupTagline}>THE CORNER STORE</p>
         <p className={styles.popupText}>Book and cup of coffee is always a great combo, right?</p>
         <div className={styles.popupContainer}>
           <button className={styles.denyPopup} onClick={onDeny}>A cup of tea, please</button>

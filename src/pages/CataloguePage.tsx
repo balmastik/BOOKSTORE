@@ -99,14 +99,14 @@ const CataloguePage: React.FC = () => {
 
   return (
     <>
-      <section className={styles.pageHeader}>
-        <h2 className={styles.pageHeaderTitle}>Catalogue</h2>
+      <section className={styles.catalogueHeader}>
+        <h2 className={styles.catalogueTitle}>Catalogue</h2>
         <Search onSearch={handleSearch} onClearSearch={clearSearch} onOpenFilter={openFilter}/>
       </section>
 
       <Filter isOpen={isFilterOpen} onCloseFilter={closeFilter} onApplyFilter={handleFilter} onClearFilter={clearFilter}/>
 
-      <section className={styles.bookList}>
+      <section className={styles.catalogue}>
         {filteredBooks.length > 0 ? (
           filteredBooks.map((storeBook) => (
             <BookCard
@@ -116,7 +116,7 @@ const CataloguePage: React.FC = () => {
             />
           ))
         ) : (
-          <p className={styles.informMessage}>No books found</p>
+          <p className={styles.catalogueMessage}>No books found</p>
         )}
       </section>
 

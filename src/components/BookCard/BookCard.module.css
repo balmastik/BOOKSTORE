@@ -1,27 +1,27 @@
 .card {
-  @apply relative w-[370px] p-5 text-center border border-gray-300 rounded-lg shadow-lg bg-white overflow-hidden;
+  @apply relative w-[370px] p-5 text-center border border-[#ccc] rounded-[5px] shadow-[0_2px_5px_rgba(0,0,0,0.1)] bg-white overflow-hidden;
 }
 
 .image,
 .video {
-  @apply w-full h-[350px] object-cover rounded-lg;
+  @apply w-full h-[350px] object-cover rounded-[5px];
 }
 
 .video {
   @apply object-top;
 }
 
-h3 {
-  @apply relative mt-3 pb-1 text-xl font-bold tracking-wider text-gray-800 uppercase;
+.title {
+  @apply relative py-[10px] text-[18px] font-[700] tracking-[1px] text-[#333] uppercase;
 }
 
-h3::after {
+.title::after {
   content: "";
-  @apply absolute bottom-[-5px] left-0 w-full h-[2px] bg-[#ED6019];
+  @apply absolute bottom-[-2px] left-0 w-full h-[2px] bg-[#ED6019];
 }
 
 .author {
-  @apply mt-3 leading-8 text-sm tracking-widest uppercase;
+  @apply pt-[10px] leading-8 text-[14px] tracking-[1px] uppercase;
 }
 
 .author.bottom {
@@ -29,9 +29,9 @@ h3::after {
 }
 
 .price {
-  @apply m-0 pb-2 leading-8 text-sm tracking-widest uppercase font-bold;
+  @apply pb-[8px] leading-8 text-[14px] font-[700] tracking-[1px] uppercase;
 }
 
 .bookButton {
-  @apply py-2 px-5 text-center text-sm font-medium tracking-wider uppercase text-white border-none rounded-lg cursor-pointer transition-all bg-[#f99462] hover:bg-[#ED6019];
+  @apply py-[8px] px-[18px] text-center text-[14px] font-[500] tracking-[1px] uppercase text-white border-none rounded-[5px] cursor-pointer transition-all bg-[#f99462] hover:bg-[#ED6019];
 }

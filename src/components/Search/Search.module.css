@@ -1,54 +1,16 @@
 .searchContainer {
-  margin-top: 30px;
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
+  @apply mt-[30px] flex w-full justify-center items-center flex-wrap gap-[10px];
 }
 
 .searchInput {
-  max-width: 400px;
-  width: 100%;
-  padding: 9px;
-  font-size: 15px;
-  color: #666;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  outline: none;
-  background-color: #f8f8f8;
+  @apply max-w-[400px] w-full p-[9px] text-[15px] text-[#666] border border-[#ccc] rounded-[5px] outline-none bg-[#f8f8f8];
 }
 
 .searchButton {
-  padding: 10px 20px;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
-  background-color: #f99462;
-}
-.searchButton:hover {
-  background-color: #ED6019;
+  @apply py-[10px] px-[20px] text-center text-[14px] font-[500] tracking-[1px] uppercase text-white border-none rounded-[5px] cursor-pointer transition-all bg-[#f99462] hover:bg-[#ED6019];
 }
 
 .openFilterImg {
-  width: 29px;
-  height: 29px;
-  margin-left: 20px;
-  cursor: pointer;
-  transition: transform 0.3s;
-  fill: #333;
+  @apply w-[29px] h-[29px] ml-[20px] cursor-pointer transition-transform duration-[0.3s] fill-[#333] rotate-[90deg] hover:scale-[1.1];
   filter: brightness(0) saturate(20%) invert(70%) sepia(10%) hue-rotate(40deg);
-  transform: translateY(0%);
-  rotate: 90deg;
-}
-.openFilterImg:hover {
-  transform: scale(1.1);
 }

@@ -45,12 +45,12 @@ const AddBook: React.FC<AddBookProps> = ({onAddBook}) => {
   };
 
   return (
-    <section className={styles.addBook}>
-      <h2 className={styles.addBookTitle}>Add a Book to the Library</h2>
-      <form onSubmit={handleSubmit} className={styles.addBookForm}>
+    <section className={styles.add}>
+      <h2 className={styles.addTitle}>Add a Book to the Library</h2>
+      <form onSubmit={handleSubmit} className={styles.addForm}>
         <input
           type="text"
-          className={styles.addBookInput}
+          className={styles.addInput}
           value={bookTitle}
           onChange={e => setBookTitle(e.target.value)}
           placeholder="Title"
@@ -58,14 +58,14 @@ const AddBook: React.FC<AddBookProps> = ({onAddBook}) => {
 
         <input
           type="text"
-          className={styles.addBookInput}
+          className={styles.addInput}
           value={bookAuthor}
           onChange={e => setBookAuthor(e.target.value)}
           placeholder="Author"
         />
 
         <div className={styles.addContainer}>
-          <label htmlFor="add-image" className={styles.button}>{imageName}</label>
+          <label htmlFor="add-image" className={styles.addButton}>{imageName}</label>
 
           <input
             type="file"
@@ -75,8 +75,8 @@ const AddBook: React.FC<AddBookProps> = ({onAddBook}) => {
             style={{display: 'none'}}
           />
 
-          <button type="submit" className={styles.button}>Add</button>
-          <button type="button" className={styles.button} onClick={handleClear}>Clear</button>
+          <button type="submit" className={styles.addButton}>Add</button>
+          <button type="button" className={styles.addButton} onClick={handleClear}>Clear</button>
         </div>
       </form>
       <ErrorPopup message={message} onClose={() => setMessage('')}/>

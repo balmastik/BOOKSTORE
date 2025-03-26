@@ -1,41 +1,19 @@
-.pageHeader {
-  position: relative;
-  margin: 40px auto;
-  text-align: center;
+.customerHeader {
+  @apply relative my-[40px] mx-auto text-center;
 }
 
-.pageHeaderTitle {
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: #f99462;
-  text-transform: uppercase;
+.customerTitle {
+  @apply text-[24px] font-[700] tracking-[2px] text-[#f99462] uppercase;
 }
 
-.customerList {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: -10px;
-  padding-bottom: 50px;
-  padding-left: 3rem;
-  padding-right: 3rem;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 3rem;
+.customer {
+  @apply flex flex-wrap mt-[-10px] pb-[50px] px-[3rem] justify-center items-start gap-[3rem];
 }
 
-.libraryList {
-  display: flex;
-  flex-wrap: wrap;
-  padding-bottom: 30px;
-  padding-left: 3rem;
-  padding-right: 3rem;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 3rem;
+.library {
+  @apply flex flex-wrap pb-[30px] px-[3rem] justify-center items-start gap-[3rem];
 }
 
-.informMessage {
-  font-size: 16px;
-  color: #666;
+.customerMessage {
+  @apply text-[16px] text-[#666];
 }

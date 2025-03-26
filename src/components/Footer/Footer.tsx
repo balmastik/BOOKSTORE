@@ -40,7 +40,7 @@ const Footer: React.FC<FooterProps> = ({ onSubscribe, message }) => {
 
         <form className={styles.newsletterForm} onSubmit={handleSubmit} noValidate>
           <input
-            className={styles.input}
+            className={styles.newsletterInput}
             type="email"
             placeholder="Enter your email"
             value={subscribeEmail}

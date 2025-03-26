@@ -42,7 +42,7 @@ const DownloadPdf: React.FC<DownloadPdfProps> = ({title, pdfContent}) => {
   return (
     <section className={styles.downloadCatalogue}>
       <a ref={linkRef} style={{display: 'none'}}/>
-      <button onClick={handleDownload} className={styles.button}>Download Catalogue</button>
+      <button onClick={handleDownload} className={styles.downloadButton}>Download Catalogue</button>
       <ErrorPopup message={message} onClose={() => setMessage('')}/>
     </section>
   );

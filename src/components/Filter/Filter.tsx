@@ -93,7 +93,7 @@ const Filter: React.FC<FilterProps> = ({isOpen, onCloseFilter, onApplyFilter, on
       <button className={styles.filterPanelClose} onClick={onCloseFilter}>X</button>
 
       <div className={styles.filterContent}>
-        <h2>Filter</h2>
+        <h2 className={styles.filterTitle}>Filter</h2>
 
         <div className={styles.range}>
           <label htmlFor="price-range-container" className={styles.rangeLabel}>PRICE RANGE</label>
@@ -107,7 +107,7 @@ const Filter: React.FC<FilterProps> = ({isOpen, onCloseFilter, onApplyFilter, on
             <div ref={priceTrackRef} className={styles.priceTrack}></div>
             <input
               type="range"
-              className={styles.input}
+              className={styles.filterInput}
               min="0"
               max="100"
               value={priceMin}
@@ -116,7 +116,7 @@ const Filter: React.FC<FilterProps> = ({isOpen, onCloseFilter, onApplyFilter, on
 
             <input
               type="range"
-              className={styles.input}
+              className={styles.filterInput}
               min="0"
               max="100"
               value={priceMax}
@@ -136,7 +136,7 @@ const Filter: React.FC<FilterProps> = ({isOpen, onCloseFilter, onApplyFilter, on
             <div ref={yearTrackRef} className={styles.yearTrack}></div>
             <input
               type="range"
-              className={styles.input}
+              className={styles.filterInput}
               min="1800"
               max="2025"
               value={yearMin}
@@ -145,7 +145,7 @@ const Filter: React.FC<FilterProps> = ({isOpen, onCloseFilter, onApplyFilter, on
 
             <input
               type="range"
-              className={styles.input}
+              className={styles.filterInput}
               min="1800"
               max="2025"
               value={yearMax}

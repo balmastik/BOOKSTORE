@@ -17,7 +17,7 @@ const CustomerCard: React.FC<CustomerCardProps> = ({customer, onIncreaseBalance}
   return (
     <div className={styles.card}>
       {customerImage}
-      <h3>{customer.name}</h3>
+      <h3 className={styles.name}>{customer.name}</h3>
       <p className={styles.balance}>{customer.balance.toFixed(2)} €</p>
       <button className={styles.customerButton} onClick={onIncreaseBalance}>
         Increase balance

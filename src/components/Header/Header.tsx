@@ -15,9 +15,9 @@ const Header: React.FC = () => {
       <p className={styles.headerTagline}>THE CORNER STORE</p>
 
       <nav>
-        <ul className={styles.navList}>
-          <li><Link to="/" className={styles.navListLink}>Catalogue</Link></li>
-          <li><Link to="/customer" className={styles.navListLink}>Customer</Link></li>
+        <ul className={styles.headerNav}>
+          <li><Link to="/" className={styles.headerNavLink}>Catalogue</Link></li>
+          <li><Link to="/customer" className={styles.headerNavLink}>Customer</Link></li>
         </ul>
       </nav>
     </header>

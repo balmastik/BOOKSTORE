@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import styles from './CustomerPage.module.css';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState, AppDispatch} from '../redux/store';
+import {loadCustomer, loadLibrary, searchBooks, addBook, removeBook, setMessage, clearSearch} from '../redux/customerSlice';
 import {StoreBook, Customer} from '../interfaces/entities';
-import {customerServices} from '../services/customerServices';
 import CustomerCard from '../components/CustomerCard/CustomerCard';
 import BookCard from '../components/BookCard/BookCard';
 import Search from '../components/Search/Search';
@@ -10,93 +12,49 @@ import ErrorPopup from '../components/ErrorPopup/ErrorPopup';
 import {useReloadLibrary} from '../context/ReloadLibraryContext';
 
 const CustomerPage: React.FC = () => {
-  const [customer, setCustomer] = useState<Customer | null>(null);
-  const [books, setBooks] = useState<StoreBook[]>([]);
-  const [filteredBooks, setFilteredBooks] = useState<StoreBook[]>([]);
-  const [message, setMessage] = useState<string>('');
+  const dispatch = useDispatch<AppDispatch>();
+  const {customer, books, filteredBooks, message, isLoading} = useSelector((state: RootState) => state.customer);
   const {reloadLibrary} = useReloadLibrary();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await customerServices.displayCustomer();
-        setCustomer(data);
-        setMessage('');
-      } catch (error) {
-        setMessage(error as string);
-      }
-    };
-    fetchData();
-  }, []);
+    dispatch(loadCustomer());
+  }, [dispatch]);
 
   const handleIncreaseBalance = async () => {
     const amount: number = parseFloat(prompt('Please enter the amount, 0') || '0');
     if (isNaN(amount) || amount <= 0) {
-      setMessage('Please enter a valid positive number');
+      dispatch(setMessage('Please enter a valid positive number'));
       return;
     }
 
-    try {
-      const data = await customerServices.increase(amount);
-      setCustomer(data);
-      setMessage('Balance has been successfully increased');
-    } catch (error) {
-      setMessage(error as string);
-    }
+    dispatch(increaseBalance(amount));
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await customerServices.displayLibrary();
-        setBooks(data);
-        setFilteredBooks(data);
-        setMessage('');
-      } catch (error) {
-        setMessage(error as string);
-      }
-    };
-    fetchData();
-  }, [reloadLibrary]);
+    dispatch(loadLibrary());
+  }, [dispatch, reloadLibrary]);
 
-  const handleRemove = async (storeBook: StoreBook) => {
-    try {
-      const data = await customerServices.remove(storeBook);
-      setFilteredBooks(data);
-      setMessage('Book has been successfully removed from the library');
-    } catch (error) {
-      setMessage(error as string);
-    }
+  const handleRemove = (storeBook: StoreBook) => {
+    dispatch(removeBook(storeBook));
   };
 
-  const handleSearch = async (query: string) => {
-    try {
-      const data = await customerServices.search(query);
-      setFilteredBooks(data);
-      setMessage('');
-    } catch (error) {
-      setMessage(error as string);
-    }
+  const handleSearch = (query: string) => {
+    dispatch(searchBooks(query));
   };
 
-  const handleClearSearch = () => {
-    setFilteredBooks(books);
-  }
+  const handleClear = () => {
+    dispatch(clearSearch());
+  };
 
-  const handleAddBook = async (title: string, author: string, image: File) => {
-    try {
-      const data = await customerServices.add(title, author, image);
-      setFilteredBooks(data);
-      setMessage('Book has been added to the library');
-    } catch (error) {
-      setMessage(error as string);
-    }
+  const handleAddBook = (title: string, author: string, image: File) => {
+    dispatch(addBook({ title, author, image }));
   };
 
   return (
     <>
       <section className={styles.customerHeader}>
         <h2 className={styles.customerTitle}>Customer</h2>
+        {isLoading && <p className={styles.loadingMessage}>Loading customer...</p>}
       </section>
 
       <section className={styles.customer}>
@@ -107,8 +65,10 @@ const CustomerPage: React.FC = () => {
 
       <section className={styles.customerHeader}>
         <h2 className={styles.customerTitle}>Library</h2>
-        <Search onSearch={handleSearch} onClearSearch={handleClearSearch}/>
+        <Search onSearch={handleSearch} onClearSearch={handleClear}/>
       </section>
+
+      {isLoading && <p className={styles.loadingMessage}>Loading books...</p>}
 
       <section className={styles.library}>
         {filteredBooks.length > 0 ? (
@@ -125,7 +85,7 @@ const CustomerPage: React.FC = () => {
       </section>
 
       <AddBook onAddBook={handleAddBook}/>
-      <ErrorPopup message={message} onClose={() => setMessage('')}/>
+      <ErrorPopup message={message} onClose={() => dispatch(setMessage(''))} />
     </>
   );
 };

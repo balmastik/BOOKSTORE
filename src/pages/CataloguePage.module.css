@@ -10,7 +10,7 @@
   @apply flex flex-wrap pb-[30px] px-[3rem] justify-center items-start gap-[3rem];
 }
 
-.catalogueMessage {
+.catalogueMessage, .loadingMessage {
   @apply text-[16px] text-[#666];
 }
 

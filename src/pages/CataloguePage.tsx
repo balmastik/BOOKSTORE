@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import styles from './CataloguePage.module.css';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState, AppDispatch} from '../redux/store';
+import {loadBooks, searchBooks, filterBooks, saleBook, setMessage, clearSearch} from '../redux/catalogueSlice';
 import {StoreBook} from '../interfaces/entities';
-import {catalogueServices} from '../services/catalogueServices';
 import BookCard from '../components/BookCard/BookCard';
 import Search from '../components/Search/Search';
 import Filter from '../components/Filter/Filter';
@@ -10,13 +12,11 @@ import WelcomePopup from '../components/WelcomePopup/WelcomePopup';
 import ErrorPopup from '../components/ErrorPopup/ErrorPopup';
 import {useReloadLibrary} from '../context/ReloadLibraryContext';
 
-
 const CataloguePage: React.FC = () => {
   const [popupShown, setPopupShown] = useState<boolean>(false);
-  const [books, setBooks] = useState<StoreBook[]>([]);
-  const [filteredBooks, setFilteredBooks] = useState<StoreBook[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>('');
+  const dispatch = useDispatch<AppDispatch>();
+  const {books, filteredBooks, message, isLoading} = useSelector((state: RootState) => state.catalogue);
   const {setReloadLibrary} = useReloadLibrary();
 
   useEffect(() => {
@@ -25,70 +25,33 @@ const CataloguePage: React.FC = () => {
       setPopupShown(true);
     }
 
-    const fetchData = async () => {
-      try {
-        const data = await catalogueServices.display();
-        setBooks(data);
-        setFilteredBooks(data);
-        setMessage('');
-      } catch (error) {
-        setMessage(error as string);
-      }
-    };
-
-    fetchData();
-  }, []);
+    dispatch(loadBooks());
+  }, [dispatch]);
 
   const hidePopup = () => {
     setPopupShown(false);
     localStorage.setItem('popupShown', 'true');
   };
 
-  const handleSearch = async (query: string) => {
-    try {
-      const data = await catalogueServices.search(query);
-      setFilteredBooks(data);
-      setMessage('');
-    } catch (error) {
-      setMessage(error as string);
-    }
+  const handleSearch = (query: string) => {
+    dispatch(searchBooks(query));
   };
 
-  const clearSearch = () => setFilteredBooks(books);
-
-  const handleFilter = async (
-    priceMin: number,
-    priceMax: number,
-    yearMin: number,
-    yearMax: number
-  ) => {
-    try {
-      const data = await catalogueServices.filter(priceMin, priceMax, yearMin, yearMax);
-      setFilteredBooks(data);
-      setMessage('');
-    } catch (error) {
-      setMessage(error as string);
-    }
+  const handleFilter = (priceMin: number, priceMax: number, yearMin: number, yearMax: number) => {
+    dispatch(filterBooks({priceMin, priceMax, yearMin, yearMax}));
   };
 
-  const clearFilter = () => setFilteredBooks(books);
-  const openFilter = () => setIsFilterOpen(true);
-  const closeFilter = () => setIsFilterOpen(false);
+  const handleClear = () => {
+    dispatch(clearSearch());
+  };
 
-  const handleSale = async (storeBook: StoreBook) => {
-    try {
-      const data = await catalogueServices.sale(storeBook);
-      setBooks(data);
-      setFilteredBooks(data);
-      setReloadLibrary((prev) => !prev);
-      setMessage('');
-    } catch (error) {
-      setMessage(error as string);
-    }
+  const handleSale = (storeBook: StoreBook) => {
+    dispatch(saleBook(storeBook));
+    setReloadLibrary((prev) => !prev);
   };
 
   const downloadCatalogue = () => {
-    return  books
+    return books
       .map((item: StoreBook) => {
         return `Book: "${item.book.title}". Author: ${item.book.author}.\n` +
           `Genre: ${item.book.genre}. Publication year: ${item.book.year}.\n` +
@@ -101,10 +64,21 @@ const CataloguePage: React.FC = () => {
     <>
       <section className={styles.catalogueHeader}>
         <h2 className={styles.catalogueTitle}>Catalogue</h2>
-        <Search onSearch={handleSearch} onClearSearch={clearSearch} onOpenFilter={openFilter}/>
+        <Search
+          onSearch={handleSearch}
+          onClearSearch={handleClear}
+          onOpenFilter={() => setIsFilterOpen(true)}
+        />
       </section>
 
-      <Filter isOpen={isFilterOpen} onCloseFilter={closeFilter} onApplyFilter={handleFilter} onClearFilter={clearFilter}/>
+      {isLoading && <p className={styles.loadingMessage}>Loading books...</p>}
+
+      <Filter
+        isOpen={isFilterOpen}
+        onCloseFilter={() => setIsFilterOpen(false)}
+        onApplyFilter={handleFilter}
+        onClearFilter={handleClear}
+      />
 
       <section className={styles.catalogue}>
         {filteredBooks.length > 0 ? (
@@ -121,7 +95,7 @@ const CataloguePage: React.FC = () => {
       </section>
 
       <DownloadPdf title="KNIGBOOM Catalogue" pdfContent={downloadCatalogue()}/>
-      <ErrorPopup message={message} onClose={() => setMessage('')}/>
+      <ErrorPopup message={message} onClose={() => dispatch(setMessage(''))}/>
       {popupShown && (<WelcomePopup onDeny={hidePopup} onConfirm={hidePopup}/>)}
     </>
   );

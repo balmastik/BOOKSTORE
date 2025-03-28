@@ -14,6 +14,10 @@
   @apply max-w-[500px] w-full mb-[17px] p-[10px] text-[15px] text-[#666] border border-[#ccc] rounded-[5px];
 }
 
+.addInput:focus {
+  @apply outline-none;
+}
+
 .addContainer {
   @apply flex max-w-[500px] w-full justify-between gap-[10px];
 }

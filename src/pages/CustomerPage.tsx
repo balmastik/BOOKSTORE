@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import styles from './CustomerPage.module.css';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState, AppDispatch} from '../redux/store';
-import {loadCustomer, loadLibrary, searchBooks, addBook, removeBook, setMessage, clearSearch} from '../redux/customerSlice';
-import {StoreBook, Customer} from '../interfaces/entities';
+import {loadCustomer, increaseBalance, loadLibrary, searchBooks, addBook, removeBook, setMessage, clearSearch} from '../redux/customerSlice';
+import {StoreBook} from '../interfaces/entities';
 import CustomerCard from '../components/CustomerCard/CustomerCard';
 import BookCard from '../components/BookCard/BookCard';
 import Search from '../components/Search/Search';
@@ -13,7 +13,7 @@ import {useReloadLibrary} from '../context/ReloadLibraryContext';
 
 const CustomerPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const {customer, books, filteredBooks, message, isLoading} = useSelector((state: RootState) => state.customer);
+  const {customer, filteredBooks, message} = useSelector((state: RootState) => state.customer);
   const {reloadLibrary} = useReloadLibrary();
 
   useEffect(() => {
@@ -54,7 +54,6 @@ const CustomerPage: React.FC = () => {
     <>
       <section className={styles.customerHeader}>
         <h2 className={styles.customerTitle}>Customer</h2>
-        {isLoading && <p className={styles.loadingMessage}>Loading customer...</p>}
       </section>
 
       <section className={styles.customer}>
@@ -67,8 +66,6 @@ const CustomerPage: React.FC = () => {
         <h2 className={styles.customerTitle}>Library</h2>
         <Search onSearch={handleSearch} onClearSearch={handleClear}/>
       </section>
-
-      {isLoading && <p className={styles.loadingMessage}>Loading books...</p>}
 
       <section className={styles.library}>
         {filteredBooks.length > 0 ? (

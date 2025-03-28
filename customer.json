@@ -1,6 +1,6 @@
 {
   "name": "John Doe",
-  "balance": 20,
+  "balance": 35.010000000000005,
   "image": "/img/first_customer.jpeg",
   "purchasedBooks": [
     {
@@ -11,6 +11,17 @@
         "year": 1944,
         "image": "/img/the_razors_edge.jpeg",
         "price": 20,
+        "quantity": 1
+      }
+    },
+    {
+      "book": {
+        "title": "Gone with the wind",
+        "author": "Margaret Mitchell",
+        "genre": "not specified",
+        "year": 0,
+        "image": "/uploads/924dc483e0918c9cbcc45539817ea917",
+        "price": 0,
         "quantity": 1
       }
     }

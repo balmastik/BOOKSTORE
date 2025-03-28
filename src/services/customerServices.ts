@@ -7,12 +7,6 @@ class CustomerServices implements CustomerPageApi {
     try {
       const res = await fetch('http://localhost:3000/api/customer');
 
-      if (!res.ok) {
-        const errorMessage = `HTTP Error: ${res.status} - ${res.statusText}`;
-        console.error(errorMessage);
-        throw new Error(errorMessage);
-      }
-
       const data: CustomerApiResponse = await res.json();
       if (data.success) {
         return data.customer;
@@ -21,7 +15,7 @@ class CustomerServices implements CustomerPageApi {
       }
     } catch (error) {
       console.error('Error while customer display:', error);
-      throw new Error('Server error occurred while loading customer. Please try again later');
+      throw new Error(error as string || 'Server error while loading customer. Please try again later');
     }
   }
 
@@ -33,12 +27,6 @@ class CustomerServices implements CustomerPageApi {
         body: JSON.stringify({amount})
       });
 
-      if (!res.ok) {
-        const errorMessage = `HTTP Error: ${res.status} - ${res.statusText}`;
-        console.error(errorMessage);
-        throw new Error(errorMessage);
-      }
-
       const data: CustomerApiResponse = await res.json();
       if (data.success) {
         return data.customer;
@@ -47,19 +35,13 @@ class CustomerServices implements CustomerPageApi {
       }
     } catch (error) {
       console.error('Error while balance increase:', error);
-      throw new Error('Server error occurred while increasing balance. Please try again later');
+      throw new Error(error as string || 'Server error while increasing balance. Please try again later');
     }
   }
 
   public async displayLibrary(): Promise<StoreBook[]> {
     try {
       const res = await fetch('http://localhost:3000/api/customer/books');
-
-      if (!res.ok) {
-        const errorMessage = `HTTP Error: ${res.status} - ${res.statusText}`;
-        console.error(errorMessage);
-        throw new Error(errorMessage);
-      }
 
       const data: BookApiResponse = await res.json();
       if (data.success) {
@@ -69,7 +51,7 @@ class CustomerServices implements CustomerPageApi {
       }
     } catch (error) {
       console.error('Error while books display:', error);
-      throw new Error('Server error occurred while loading books. Please try again later');
+      throw new Error(error as string || 'Server error while loading books. Please try again later');
     }
   }
 
@@ -81,12 +63,6 @@ class CustomerServices implements CustomerPageApi {
         body: JSON.stringify(storeBook)
       });
 
-      if (!res.ok) {
-        const errorMessage = `HTTP Error: ${res.status} - ${res.statusText}`;
-        console.error(errorMessage);
-        throw new Error(errorMessage);
-      }
-
       const data: BookApiResponse = await res.json();
       if (data.success) {
         return data.books;
@@ -95,7 +71,7 @@ class CustomerServices implements CustomerPageApi {
       }
     } catch (error) {
       console.error('Error while book remove:', error);
-      throw new Error('Server error occurred while removing book. Please try again later');
+      throw new Error(error as string || 'Server error while removing book. Please try again later');
     }
   }
 
@@ -107,12 +83,6 @@ class CustomerServices implements CustomerPageApi {
         body: JSON.stringify({query})
       });
 
-      if (!res.ok) {
-        const errorMessage = `HTTP Error: ${res.status} - ${res.statusText}`;
-        console.error(errorMessage);
-        throw new Error(errorMessage);
-      }
-
       const data: BookApiResponse = await res.json();
       if (data.success) {
         return data.books;
@@ -120,8 +90,8 @@ class CustomerServices implements CustomerPageApi {
         throw new Error(data.error || 'Unknown error');
       }
     } catch (error) {
-      console.error('Error while book search:', error);
-      throw new Error('Server error occurred while searching book. Please try again later');
+      console.error('Error while books search:', error);
+      throw new Error(error as string || 'Server error while searching books. Please try again later');
     }
   }
 
@@ -137,12 +107,6 @@ class CustomerServices implements CustomerPageApi {
         body: formData,
       });
 
-      if (!res.ok) {
-        const errorMessage = `HTTP Error: ${res.status} - ${res.statusText}`;
-        console.error(errorMessage);
-        throw new Error(errorMessage);
-      }
-
       const data: BookApiResponse = await res.json();
       if (data.success) {
         return data.books;
@@ -151,7 +115,7 @@ class CustomerServices implements CustomerPageApi {
       }
     } catch (error) {
       console.error('Error while book add:', error);
-      throw new Error('Server error occurred while ading book. Please try again later');
+      throw new Error(error as string || 'Server error while adding book. Please try again later');
     }
   }
 }

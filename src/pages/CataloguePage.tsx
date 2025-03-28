@@ -16,7 +16,7 @@ const CataloguePage: React.FC = () => {
   const [popupShown, setPopupShown] = useState<boolean>(false);
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
-  const {books, filteredBooks, message, isLoading} = useSelector((state: RootState) => state.catalogue);
+  const {books, filteredBooks, message} = useSelector((state: RootState) => state.catalogue);
   const {setReloadLibrary} = useReloadLibrary();
 
   useEffect(() => {
@@ -70,8 +70,6 @@ const CataloguePage: React.FC = () => {
           onOpenFilter={() => setIsFilterOpen(true)}
         />
       </section>
-
-      {isLoading && <p className={styles.loadingMessage}>Loading books...</p>}
 
       <Filter
         isOpen={isFilterOpen}

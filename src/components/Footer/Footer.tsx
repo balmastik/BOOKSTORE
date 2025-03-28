@@ -7,7 +7,7 @@ interface FooterProps {
   message: string;
 }
 
-const Footer: React.FC<FooterProps> = ({ onSubscribe, message }) => {
+const Footer: React.FC<FooterProps> = ({onSubscribe, message}) => {
   const [subscribeEmail, setSubscribeEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -48,9 +48,10 @@ const Footer: React.FC<FooterProps> = ({ onSubscribe, message }) => {
           />
           <button type="submit" className={styles.newsletterButton}>Subscribe</button>
         </form>
-        {message && <p className={styles.newsletterMessage}>{message}</p>}
-        {errorMessage && <p className={styles.newsletterMessage}>{errorMessage}</p>}
       </div>
+
+      {message && <p className={styles.newsletterMessage}>{message}</p>}
+      {errorMessage && <p className={styles.newsletterMessage}>{errorMessage}</p>}
 
       <nav>
         <ul className={styles.navList}>

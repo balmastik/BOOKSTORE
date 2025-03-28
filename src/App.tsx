@@ -1,23 +1,20 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {BrowserRouter as Router} from 'react-router-dom';
 import './styles/globals.module.css';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState, AppDispatch} from './redux/store';
+import {subscribeEmail, setMessage} from './redux/appSlice';
 import Header from './components/Header/Header';
 import AppRoutes from './components/AppRoutes';
 import Footer from './components/Footer/Footer';
-import {fetchSubscribe} from './services/appServices';
 
 const App = () => {
-  const [message, setMessage] = useState<string>('');
+  const dispatch = useDispatch<AppDispatch>();
+  const {message} = useSelector((state: RootState) => state.app);
 
   const handleSubscribe = async (email: string) => {
-    try {
-      const data = await fetchSubscribe.subscribe(email);
-      setMessage(data);
-      setTimeout(() => setMessage(''), 2000);
-    } catch (error) {
-      setMessage(error as string);
-      setTimeout(() => setMessage(''), 2000);
-    }
+    dispatch(subscribeEmail(email));
+    setTimeout(() => dispatch(setMessage('')), 2000);
   };
 
   return (

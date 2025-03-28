@@ -1,17 +1,6 @@
 [
   {
     "book": {
-      "title": "Atlas Shrugged",
-      "author": "Ayn Rand",
-      "genre": "Novel",
-      "year": 1957,
-      "image": "/img/atlas_shrugged.jpeg",
-      "price": 24.99,
-      "quantity": 1
-    }
-  },
-  {
-    "book": {
       "title": "The Forsyte Saga",
       "author": "John Galsworthy",
       "genre": "Novel",

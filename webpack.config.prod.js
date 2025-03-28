@@ -6,6 +6,10 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = merge(common, {
   mode: 'production',
   target: 'web',
+  entry: {
+    index: './src/pages/CataloguePage.tsx',
+    customer: './src/pages/CustomerPage.tsx',
+  },
   resolve: {
     fallback: {
       "zlib": require.resolve("browserify-zlib"),
@@ -35,7 +39,7 @@ module.exports = merge(common, {
       template: 'public/customer.html',
       filename: 'customer.html',
       inject: 'body',
-      chunks: ['index'],
+      chunks: ['customer'],
     }),
     new CopyPlugin({
       patterns: [

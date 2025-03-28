@@ -1,5 +1,5 @@
 .footer {
-  @apply py-[35px] px-[20px] text-center bg-[#f8f8f8];
+  @apply relative py-[35px] px-[20px] text-center bg-[#f8f8f8];
 }
 
 .footerTitle {
@@ -35,7 +35,7 @@
 }
 
 .newsletterMessage {
-  @apply mt-[-60px] text-[16px] text-[#666];
+  @apply absolute mt-[-55px] text-[16px] text-[#666] text-center left-1/2 transform -translate-x-1/2;
 }
 
 .navList {

@@ -1,12 +1,12 @@
 [
   {
     "book": {
-      "title": "The Forsyte Saga",
-      "author": "John Galsworthy",
+      "title": "Atlas Shrugged",
+      "author": "Ayn Rand",
       "genre": "Novel",
-      "year": 1906,
-      "image": "/img/the_forsyte_saga.jpeg",
-      "price": 22.99,
+      "year": 1957,
+      "image": "/img/atlas_shrugged.jpeg",
+      "price": 24.99,
       "quantity": 1
     }
   },
@@ -18,6 +18,17 @@
       "year": 1933,
       "image": "/img/lost_horizon.jpeg",
       "price": 17.5,
+      "quantity": 1
+    }
+  },
+  {
+    "book": {
+      "title": "The Razor's Edge",
+      "author": "Somerset Maugham",
+      "genre": "Novel",
+      "year": 1944,
+      "image": "/img/the_razors_edge.jpeg",
+      "price": 20,
       "quantity": 1
     }
   },

@@ -1,5 +1,6 @@
 import React from 'react';
 import {BrowserRouter as Router} from 'react-router-dom';
+import {ReloadLibraryProvider} from './context/ReloadLibraryContext';
 import './styles/globals.module.css';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState, AppDispatch} from './redux/store';
@@ -18,15 +19,17 @@ const App = () => {
   };
 
   return (
-    <Router>
-      <div>
-        <Header/>
-        <main>
-          <AppRoutes/>
-        </main>
-        <Footer onSubscribe={handleSubscribe} message={message}/>
-      </div>
-    </Router>
+    <ReloadLibraryProvider>
+      <Router>
+        <div>
+          <Header/>
+          <main>
+            <AppRoutes/>
+          </main>
+          <Footer onSubscribe={handleSubscribe} message={message}/>
+        </div>
+      </Router>
+    </ReloadLibraryProvider>
   );
 };
 

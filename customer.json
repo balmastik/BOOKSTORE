@@ -1,18 +1,6 @@
 {
   "name": "John Doe",
-  "balance": 17.01,
+  "balance": 40,
   "image": "/img/first_customer.jpeg",
-  "purchasedBooks": [
-    {
-      "book": {
-        "title": "The Forsyte Saga",
-        "author": "John Galsworthy",
-        "genre": "Novel",
-        "year": 1906,
-        "image": "/img/the_forsyte_saga.jpeg",
-        "price": 22.99,
-        "quantity": 1
-      }
-    }
-  ]
+  "purchasedBooks": []
 }

@@ -1,17 +1,11 @@
 import React from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import styles from './Header.module.css';
 
 const Header: React.FC = () => {
-  const navigate = useNavigate();
-
-  const handleHomeClick = () => {
-    navigate('/');
-  };
-
   return (
     <header className={styles.header}>
-      <Link to="/" className={styles.headerTitle} onClick={handleHomeClick}>KNIGBOOM</Link>
+      <Link to="/" className={styles.headerTitle}>KNIGBOOM</Link>
       <p className={styles.headerTagline}>THE CORNER STORE</p>
 
       <nav>

@@ -1,7 +1,7 @@
-import {Customer, StoreBook} from '../interfaces/entities';
-import {CustomerPageApi, CustomerApiResponse, BookApiResponse} from '../interfaces/api';
+import {StoreBook, CatalogueApiResponse} from '../catalogue/catalogueInterface';
+import {Customer, CustomerApi, CustomerApiResponse} from './customerInterface';
 
-class CustomerServices implements CustomerPageApi {
+class CustomerServiceImpl implements CustomerApi {
 
   public async displayCustomer(): Promise<Customer> {
     try {
@@ -43,7 +43,7 @@ class CustomerServices implements CustomerPageApi {
     try {
       const res = await fetch('http://localhost:3000/api/customer/books');
 
-      const data: BookApiResponse = await res.json();
+      const data: CatalogueApiResponse = await res.json();
       if (data.success) {
         return data.books;
       } else {
@@ -63,7 +63,7 @@ class CustomerServices implements CustomerPageApi {
         body: JSON.stringify(storeBook)
       });
 
-      const data: BookApiResponse = await res.json();
+      const data: CatalogueApiResponse = await res.json();
       if (data.success) {
         return data.books;
       } else {
@@ -83,7 +83,7 @@ class CustomerServices implements CustomerPageApi {
         body: JSON.stringify({query})
       });
 
-      const data: BookApiResponse = await res.json();
+      const data: CatalogueApiResponse = await res.json();
       if (data.success) {
         return data.books;
       } else {
@@ -107,7 +107,7 @@ class CustomerServices implements CustomerPageApi {
         body: formData,
       });
 
-      const data: BookApiResponse = await res.json();
+      const data: CatalogueApiResponse = await res.json();
       if (data.success) {
         return data.books;
       } else {
@@ -120,4 +120,4 @@ class CustomerServices implements CustomerPageApi {
   }
 }
 
-export const customerServices = new CustomerServices();
+export const customerServiceImpl = new CustomerServiceImpl();

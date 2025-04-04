@@ -1,6 +1,6 @@
-import {SubscribeApi, SubscribeApiResponse} from '../interfaces/api';
+import {SubscriberApi, SubscriberApiResponse} from './subscriberInterface';
 
-class FetchSubscribe implements SubscribeApi {
+class SubscriberServiceImpl implements SubscriberApi {
 
   public async subscribe(email: string): Promise<string> {
     try {
@@ -10,7 +10,7 @@ class FetchSubscribe implements SubscribeApi {
         body: JSON.stringify({email})
       });
 
-      const data: SubscribeApiResponse = await res.json();
+      const data: SubscriberApiResponse = await res.json();
       if (data.success) {
         return data.message;
       } else {
@@ -23,4 +23,4 @@ class FetchSubscribe implements SubscribeApi {
   }
 }
 
-export const fetchSubscribe = new FetchSubscribe();
+export const subscriberServiceImpl = new SubscriberServiceImpl();

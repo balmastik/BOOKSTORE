@@ -3,7 +3,7 @@ import styles from './CataloguePage.module.css';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState, AppDispatch} from '../redux/store';
 import {loadBooks, searchBooks, filterBooks, saleBook, setMessage, clearSearch} from '../redux/catalogueSlice';
-import {StoreBook} from '../interfaces/entities';
+import {StoreBook} from '../catalogue/catalogueInterface';
 import BookCard from '../components/BookCard/BookCard';
 import Search from '../components/Search/Search';
 import Filter from '../components/Filter/Filter';

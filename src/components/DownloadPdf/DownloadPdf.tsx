@@ -1,6 +1,6 @@
 import React, {useState, useRef} from 'react';
 import styles from './DownloadPdf.module.css';
-import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
+import ErrorPopup from '../ErrorPopup/ErrorPopup';
 
 interface DownloadPdfProps {
   title: string;

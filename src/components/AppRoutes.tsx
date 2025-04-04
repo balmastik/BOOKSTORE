@@ -6,7 +6,7 @@ import CustomerPage from '../pages/CustomerPage';
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
-      <Route path="/catalogue" element={<CataloguePage/>}/>
+      <Route path="/" element={<CataloguePage/>}/>
       <Route path="/customer" element={<CustomerPage/>}/>
     </Routes>
   );

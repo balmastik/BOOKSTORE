@@ -1,5 +1,5 @@
 import React from 'react';
-import {StoreBook} from '../../interfaces/entities';
+import {StoreBook} from '../../catalogue/catalogueInterface';
 import styles from './BookCard.module.css';
 
 interface BookCardProps {

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styles from './AddBook.module.css';
-import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
+import ErrorPopup from '../ErrorPopup/ErrorPopup';
 
 interface AddBookProps {
   onAddBook: (title: string, author: string, image: File) => void;

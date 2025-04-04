@@ -1,5 +1,5 @@
 import React from 'react';
-import {Customer} from '../../interfaces/entities';
+import {Customer} from '../../customer/customerInterface';
 import styles from './CustomerCard.module.css';
 
 interface CustomerCardProps {

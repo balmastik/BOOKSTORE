@@ -1,6 +1,6 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import {StoreBook} from '../interfaces/entities';
-import {catalogueServices} from '../services/catalogueServices';
+import {StoreBook} from '../catalogue/catalogueInterface';
+import {catalogueServiceImpl} from '../catalogue/catalogueServiceImpl';
 
 interface CatalogueState {
   books: StoreBook[];
@@ -17,19 +17,19 @@ const initialState: CatalogueState = {
 };
 
 export const loadBooks = createAsyncThunk('catalogue/loadBooks', async () => {
-  const books = await catalogueServices.display();
+  const books = await catalogueServiceImpl.display();
   return books;
 });
 
 export const searchBooks = createAsyncThunk('catalogue/searchBooks', async (query: string) => {
-  const books = await catalogueServices.search(query);
+  const books = await catalogueServiceImpl.search(query);
   return books;
 });
 
 export const filterBooks = createAsyncThunk(
   'catalogue/filterBooks',
   async (filters: { priceMin: number; priceMax: number; yearMin: number; yearMax: number }) => {
-    const books = await catalogueServices.filter(
+    const books = await catalogueServiceImpl.filter(
       filters.priceMin,
       filters.priceMax,
       filters.yearMin,
@@ -40,7 +40,7 @@ export const filterBooks = createAsyncThunk(
 );
 
 export const saleBook = createAsyncThunk('catalogue/saleBook', async (storeBook: StoreBook) => {
-  const books = await catalogueServices.sale(storeBook);
+  const books = await catalogueServiceImpl.sale(storeBook);
   return books;
 });
 

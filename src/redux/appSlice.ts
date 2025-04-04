@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import {fetchSubscribe} from '../services/appServices';
+import {subscriberServiceImpl} from '../subscriber/subscriberServiceImpl';
 
 interface AppState {
   message: string;
@@ -12,7 +12,7 @@ const initialState: AppState = {
 };
 
 export const subscribeEmail = createAsyncThunk<string, string>('app/subscribeEmail', async (email: string) => {
-  const message = await fetchSubscribe.subscribe(email);
+  const message = await subscriberServiceImpl.subscribe(email);
   return message;
 });
 

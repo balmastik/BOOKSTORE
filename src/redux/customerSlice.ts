@@ -1,6 +1,7 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import {StoreBook, Customer} from '../interfaces/entities';
-import {customerServices} from '../services/customerServices';
+import {StoreBook} from '../catalogue/catalogueInterface';
+import {Customer} from '../customer/customerInterface';
+import {customerServiceImpl} from '../customer/customerServiceImpl';
 
 interface CustomerState {
   customer: Customer | null;
@@ -19,27 +20,27 @@ const initialState: CustomerState = {
 };
 
 export const loadCustomer = createAsyncThunk('customer/loadCustomer', async () => {
-  const customer = await customerServices.displayCustomer();
+  const customer = await customerServiceImpl.displayCustomer();
   return customer;
 });
 
 export const increaseBalance = createAsyncThunk('customer/increaseBalance', async (amount: number) => {
-  const customer = await customerServices.increase(amount);
+  const customer = await customerServiceImpl.increase(amount);
   return customer;
 });
 
 export const loadLibrary = createAsyncThunk('customer/loadLibrary', async () => {
-  const books = await customerServices.displayLibrary();
+  const books = await customerServiceImpl.displayLibrary();
   return books;
 });
 
 export const removeBook = createAsyncThunk('customer/removeBook', async (storeBook: StoreBook) => {
-  const books = await customerServices.remove(storeBook);
+  const books = await customerServiceImpl.remove(storeBook);
   return books;
 });
 
 export const searchBooks = createAsyncThunk('customer/searchBooks', async (query: string) => {
-  const books = await customerServices.search(query);
+  const books = await customerServiceImpl.search(query);
   return books;
 });
 
@@ -48,7 +49,7 @@ export const addBook = createAsyncThunk('customer/addBook', async (bookData: {
   author: string,
   image: File
 }) => {
-  const books = await customerServices.add(bookData.title, bookData.author, bookData.image);
+  const books = await customerServiceImpl.add(bookData.title, bookData.author, bookData.image);
   return books;
 });
 

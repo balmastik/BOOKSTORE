@@ -3,7 +3,7 @@ import styles from './CustomerPage.module.css';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState, AppDispatch} from '../redux/store';
 import {loadCustomer, increaseBalance, loadLibrary, searchBooks, addBook, removeBook, setMessage, clearSearch} from '../redux/customerSlice';
-import {StoreBook} from '../interfaces/entities';
+import {StoreBook} from '../catalogue/catalogueInterface';
 import CustomerCard from '../components/CustomerCard/CustomerCard';
 import BookCard from '../components/BookCard/BookCard';
 import Search from '../components/Search/Search';

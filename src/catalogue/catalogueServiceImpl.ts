@@ -1,13 +1,12 @@
-import {StoreBook} from '../interfaces/entities';
-import {CataloguePageApi, BookApiResponse} from '../interfaces/api';
+import {StoreBook, CatalogueApi, CatalogueApiResponse} from './catalogueInterface';
 
-class CatalogueServices implements CataloguePageApi {
+class CatalogueServiceImpl implements CatalogueApi {
 
   public async display(): Promise<StoreBook[]> {
     try {
       const res = await fetch('http://localhost:3000/api/books');
 
-      const data: BookApiResponse = await res.json();
+      const data: CatalogueApiResponse = await res.json();
       if (data.success) {
         return data.books;
       } else {
@@ -28,7 +27,7 @@ class CatalogueServices implements CataloguePageApi {
         body: JSON.stringify({query})
       });
 
-      const data: BookApiResponse = await res.json();
+      const data: CatalogueApiResponse = await res.json();
       if (data.success) {
         return data.books;
       } else {
@@ -48,7 +47,7 @@ class CatalogueServices implements CataloguePageApi {
         body: JSON.stringify({priceMin, priceMax, yearMin, yearMax})
       });
 
-      const data: BookApiResponse = await res.json();
+      const data: CatalogueApiResponse = await res.json();
       if (data.success) {
         return data.books;
       } else {
@@ -68,7 +67,7 @@ class CatalogueServices implements CataloguePageApi {
         body: JSON.stringify(storeBook)
       });
 
-      const data: BookApiResponse = await res.json();
+      const data: CatalogueApiResponse = await res.json();
       if (data.success) {
         return data.books;
       } else {
@@ -81,4 +80,4 @@ class CatalogueServices implements CataloguePageApi {
   }
 }
 
-export const catalogueServices = new CatalogueServices();
+export const catalogueServiceImpl = new CatalogueServiceImpl();

@@ -1,6 +1,6 @@
 # KNIGBOOM Bookstore (Initial Branch)
 
-This is the initial version of the **KNIGBOOM Bookstore** project. In this branch, we are implementing the project with **pure HTML** and **JavaScript** (without using React or other modern frontend frameworks). The focus is on using plain JavaScript to manipulate the DOM, and the backend is still integrated with the frontend.
+This is the initial version of the **KNIGBOOM Bookstore** project. In this branch, I am implementing the project with **pure HTML** and **JavaScript** (without using React or other modern frontend frameworks). The focus is on using plain JavaScript to manipulate the DOM, and the backend is still integrated with the frontend.
 
 ## Features
 

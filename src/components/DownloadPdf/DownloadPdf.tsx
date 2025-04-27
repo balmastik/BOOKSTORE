@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState } from 'react';
 import styles from './DownloadPdf.module.css';
 import ErrorPopup from '../ErrorPopup/ErrorPopup';
 
@@ -7,13 +7,12 @@ interface DownloadPdfProps {
   pdfContent: string;
 }
 
-const DownloadPdf: React.FC<DownloadPdfProps> = ({title, pdfContent}) => {
+const DownloadPdf: React.FC<DownloadPdfProps> = ({ title, pdfContent }) => {
   const [message, setMessage] = useState<string>('');
-  const linkRef = useRef<HTMLAnchorElement | null>(null);
 
   const handleDownload = () => {
     if ((window as any).jspdf) {
-      const {jsPDF} = (window as any).jspdf;
+      const { jsPDF } = (window as any).jspdf;
       const doc = new jsPDF();
 
       doc.setFont('Helvetica');
@@ -24,16 +23,17 @@ const DownloadPdf: React.FC<DownloadPdfProps> = ({title, pdfContent}) => {
       doc.setFontSize(12);
       doc.text(pdfContent, 20, 40);
 
-      const pdfBlob = doc.output("blob");
+      const pdfBlob = doc.output('blob');
       const url = URL.createObjectURL(pdfBlob);
 
-      if (linkRef.current) {
-        linkRef.current.href = url;
-        linkRef.current.download = `${title}.pdf`;
-        linkRef.current.click();
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${title}.pdf`;
+      document.body.appendChild(link); // не всегда обязательно, но иногда нужно в Safari
+      link.click();
+      document.body.removeChild(link);
 
-        URL.revokeObjectURL(url);
-      }
+      URL.revokeObjectURL(url);
     } else {
       setMessage('jsPDF has not been loaded, please try again later');
     }
@@ -41,9 +41,10 @@ const DownloadPdf: React.FC<DownloadPdfProps> = ({title, pdfContent}) => {
 
   return (
     <section className={styles.downloadCatalogue}>
-      <a ref={linkRef} style={{display: 'none'}}/>
-      <button onClick={handleDownload} className={styles.downloadButton}>Download Catalogue</button>
-      <ErrorPopup message={message} onClose={() => setMessage('')}/>
+      <button onClick={handleDownload} className={styles.downloadButton}>
+        Download Catalogue
+      </button>
+      <ErrorPopup message={message} onClose={() => setMessage('')} />
     </section>
   );
 };

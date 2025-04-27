@@ -24,7 +24,9 @@ const CataloguePage: React.FC = () => {
     if (!popupStatus) {
       setPopupShown(true);
     }
+  }, []);
 
+  useEffect(() => {
     dispatch(loadBooks());
   }, [dispatch]);
 

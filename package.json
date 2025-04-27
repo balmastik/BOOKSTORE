@@ -1,5 +1,5 @@
 {
-  "name": "KNIGBOOM",
+  "name": "knigboom",
   "version": "0.0.1",
   "description": "",
   "private": true,
@@ -17,7 +17,8 @@
     "build": "webpack --config webpack.config.prod.js",
     "server": "webpack --config webpack.config.server.js && node ./dist/server.js",
     "dev": "concurrently \"npm run server\" \"npm run startReact\"",
-    "dev:prod": "concurrently \"npm run server\" \"npm run buildReact\""
+    "dev:prod": "concurrently \"npm run server\" \"npm run buildReact\"",
+    "lint": "eslint src --ext .ts,.tsx"
   },
   "eslintConfig": {
     "extends": [
@@ -53,6 +54,9 @@
     "concurrently": "^9.1.2",
     "copy-webpack-plugin": "^13.0.0",
     "css-loader": "^7.1.2",
+    "eslint": "^8.57.1",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.6.3",
     "mini-css-extract-plugin": "^2.9.2",

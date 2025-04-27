@@ -10,27 +10,27 @@ import AppRoutes from './components/AppRoutes';
 import Footer from './components/Footer/Footer';
 
 const App = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const {message} = useSelector((state: RootState) => state.app);
+    const dispatch = useDispatch<AppDispatch>();
+    const {message} = useSelector((state: RootState) => state.app);
 
-  const handleSubscribe = async (email: string) => {
-    dispatch(subscribeEmail(email));
-    setTimeout(() => dispatch(setMessage('')), 2000);
-  };
+    const handleSubscribe = async (email: string) => {
+        dispatch(subscribeEmail(email));
+        setTimeout(() => dispatch(setMessage('')), 2000);
+    };
 
-  return (
-    <ReloadLibraryProvider>
-      <Router>
-        <div>
-          <Header/>
-          <main>
-            <AppRoutes/>
-          </main>
-          <Footer onSubscribe={handleSubscribe} message={message}/>
-        </div>
-      </Router>
-    </ReloadLibraryProvider>
-  );
+    return (
+        <ReloadLibraryProvider>
+            <Router>
+                <div>
+                    <Header/>
+                    <main>
+                        <AppRoutes/>
+                    </main>
+                    <Footer onSubscribe={handleSubscribe} message={message}/>
+                </div>
+            </Router>
+        </ReloadLibraryProvider>
+    );
 };
 
 export default App;

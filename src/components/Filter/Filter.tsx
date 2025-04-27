@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import styles from './Filter.module.css';
 
 interface FilterProps {
@@ -55,7 +55,7 @@ const Filter: React.FC<FilterProps> = ({isOpen, onCloseFilter, onApplyFilter, on
     onApplyFilter(priceMin, priceMax, yearMin, yearMax);
   };
 
-  const fillColor = () => {
+  const fillColor = useCallback(() => {
 
     const startingPriceMin = 0;
     const startingPriceMax = 100;
@@ -73,11 +73,11 @@ const Filter: React.FC<FilterProps> = ({isOpen, onCloseFilter, onApplyFilter, on
       priceTrackRef.current.style.background = `linear-gradient(to right, #ccc ${percent1}%, #f99462 ${percent1}%, #f99462 ${percent2}%, #ccc ${percent2}%)`;
       yearTrackRef.current.style.background = `linear-gradient(to right, #ccc ${percent3}%, #f99462 ${percent3}%, #f99462 ${percent4}%, #ccc ${percent4}%)`;
     }
-  };
+  }, [priceMin, priceMax, yearMin, yearMax]);
 
   useEffect(() => {
     fillColor();
-  }, [priceMin, priceMax, yearMin, yearMax]);
+  }, [fillColor]);
 
   const clearFilters = () => {
     setPriceMin(0);

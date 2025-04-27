@@ -27,7 +27,11 @@ const CataloguePage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(loadBooks());
+    const loadBooksWithDelay = async () => {
+      await new Promise(resolve => setTimeout(resolve, 300));
+      dispatch(loadBooks());
+    };
+    loadBooksWithDelay();
   }, [dispatch]);
 
   const hidePopup = () => {

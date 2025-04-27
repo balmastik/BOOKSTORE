@@ -34,6 +34,28 @@
   },
   {
     "book": {
+      "title": "The Razor's Edge",
+      "author": "Somerset Maugham",
+      "genre": "Novel",
+      "year": 1944,
+      "image": "/img/the_razors_edge.jpeg",
+      "price": 20,
+      "quantity": 1
+    }
+  },
+  {
+    "book": {
+      "title": "Beware of Pity",
+      "author": "Stefan Zweig",
+      "genre": "Novel",
+      "year": 1939,
+      "image": "/img/beware_of_pity.jpeg",
+      "price": 14.99,
+      "quantity": 1
+    }
+  },
+  {
+    "book": {
       "title": "Goodbye, Mr. Chips",
       "author": "James Hilton",
       "genre": "Adventure",

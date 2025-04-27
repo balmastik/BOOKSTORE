@@ -26,18 +26,19 @@ const CataloguePage: React.FC = () => {
     }
   }, []);
 
-  useEffect(() => {
-    const loadBooksWithDelay = async () => {
-      await new Promise(resolve => setTimeout(resolve, 300));
-      dispatch(loadBooks());
-    };
-    loadBooksWithDelay();
-  }, [dispatch]);
-
   const hidePopup = () => {
     setPopupShown(false);
     localStorage.setItem('popupShown', 'true');
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(loadBooks());
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [dispatch]);
+
 
   const handleSearch = (query: string) => {
     dispatch(searchBooks(query));

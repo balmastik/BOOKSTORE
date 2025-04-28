@@ -17,7 +17,7 @@ const CustomerPage: React.FC = () => {
   const {reloadLibrary} = useReloadLibrary();
 
   useEffect(() => {
-    dispatch(loadCustomer());
+      dispatch(loadCustomer());
   }, [dispatch]);
 
   const handleIncreaseBalance = async () => {
@@ -31,7 +31,10 @@ const CustomerPage: React.FC = () => {
   };
 
   useEffect(() => {
+    const timer = setTimeout(() => {
     dispatch(loadLibrary());
+    }, 300);
+    return () => clearTimeout(timer);
   }, [dispatch, reloadLibrary]);
 
   const handleRemove = (storeBook: StoreBook) => {

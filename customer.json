@@ -1,6 +1,18 @@
 {
   "name": "John Doe",
-  "balance": 40,
+  "balance": 25.009999999999998,
   "image": "/img/first_customer.jpeg",
-  "purchasedBooks": []
+  "purchasedBooks": [
+    {
+      "book": {
+        "title": "Beware of Pity",
+        "author": "Stefan Zweig",
+        "genre": "Novel",
+        "year": 1939,
+        "image": "/img/beware_of_pity.jpeg",
+        "price": 14.99,
+        "quantity": 1
+      }
+    }
+  ]
 }

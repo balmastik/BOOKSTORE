@@ -1,16 +1,16 @@
 {
   "name": "John Doe",
-  "balance": 25.009999999999998,
+  "balance": 22.5,
   "image": "/img/first_customer.jpeg",
   "purchasedBooks": [
     {
       "book": {
-        "title": "Beware of Pity",
-        "author": "Stefan Zweig",
-        "genre": "Novel",
-        "year": 1939,
-        "image": "/img/beware_of_pity.jpeg",
-        "price": 14.99,
+        "title": "Lost Horizon",
+        "author": "James Hilton",
+        "genre": "Adventure",
+        "year": 1933,
+        "image": "/img/lost_horizon.jpeg",
+        "price": 17.5,
         "quantity": 1
       }
     }

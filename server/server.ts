@@ -1,4 +1,5 @@
 import express, {Request, Response} from 'express';
+import dotenv from 'dotenv';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
@@ -27,12 +28,13 @@ const swaggerOptions = {
 };
 
 const app = express();
+dotenv.config();
+const port = process.env.PORT || 3000;
 const swaggerDocs = swaggerJSDoc(swaggerOptions);
 const upload = multer({
   dest: 'uploads/',
   limits: {fileSize: 10 * 1024 * 1024}
 });
-const port = 3000;
 const store = new Store();
 const newsletter = new Newsletter();
 
@@ -769,5 +771,5 @@ app.listen(port, () => {
   books.forEach(storeBook => store.addBook(storeBook));
   saveCatalogue();
   saveCustomerData();
-  console.log('The server is running on http://localhost:3000');
+  console.log('The server is running on ${port}');
 })

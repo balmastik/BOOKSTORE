@@ -15,7 +15,9 @@
     "eject": "react-scripts eject",
     "start": "webpack serve --config webpack.config.dev.js",
     "build": "webpack --config webpack.config.prod.js",
-    "server": "webpack --config webpack.config.server.js && node ./dist/server.js",
+    "buildServer": "webpack --config webpack.config.server.js",
+    "startServer": "node ./dist/server.js",
+    "server": "npm run buildServer && npm run startServer",
     "dev": "concurrently \"npm run server\" \"npm run startReact\"",
     "dev:prod": "concurrently \"npm run server\" \"npm run buildReact\"",
     "lint": "eslint src --ext .ts,.tsx"
@@ -98,6 +100,7 @@
     "cors": "^2.8.5",
     "crypto-browserify": "^3.12.1",
     "dompurify": "^3.2.4",
+    "dotenv": "^16.5.0",
     "express": "^4.21.2",
     "multer": "^1.4.5-lts.1",
     "node-fetch": "^3.3.2",

@@ -25,7 +25,7 @@ const swaggerOptions = {
       schemas: JSON.parse(fs.readFileSync('openapi.json', 'utf-8')).components.schemas
     }
   },
-  apis: ['./src/backend/server.ts'],
+  apis: ['./dist/server.js'],
 };
 
 const app = express();

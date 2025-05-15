@@ -33,6 +33,7 @@ WORKDIR /app
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/build ./build
 COPY --from=build /app/package*.json ./
+COPY --from=build /app/openapi.json ./openapi.json
 
 # Install only production dependencies
 RUN npm install --only=production

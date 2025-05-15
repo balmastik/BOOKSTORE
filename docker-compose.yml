@@ -1,13 +1,12 @@
-
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
+    image: balmastik/knigboom:v1
     container_name: knigboom-container
     ports:
       - "3000:3000"
-      - "3001:3001"
     environment:
       NODE_ENV: ${NODE_ENV}
       PORT: ${PORT}

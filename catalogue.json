@@ -12,12 +12,12 @@
   },
   {
     "book": {
-      "title": "The Forsyte Saga",
-      "author": "John Galsworthy",
-      "genre": "Novel",
-      "year": 1906,
-      "image": "/img/the_forsyte_saga.jpeg",
-      "price": 22.99,
+      "title": "Lost Horizon",
+      "author": "James Hilton",
+      "genre": "Adventure",
+      "year": 1933,
+      "image": "/img/lost_horizon.jpeg",
+      "price": 17.5,
       "quantity": 1
     }
   },
@@ -29,17 +29,6 @@
       "year": 1944,
       "image": "/img/the_razors_edge.jpeg",
       "price": 20,
-      "quantity": 1
-    }
-  },
-  {
-    "book": {
-      "title": "Beware of Pity",
-      "author": "Stefan Zweig",
-      "genre": "Novel",
-      "year": 1939,
-      "image": "/img/beware_of_pity.jpeg",
-      "price": 14.99,
       "quantity": 1
     }
   },

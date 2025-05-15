@@ -37,9 +37,6 @@ COPY --from=build /app/package*.json ./
 # Install only production dependencies
 RUN npm install --only=production
 
-# Install development dependencies (including concurrently)
-RUN npm install --only=dev
-
 # Expose the backend port
 EXPOSE 3000
 EXPOSE 3001

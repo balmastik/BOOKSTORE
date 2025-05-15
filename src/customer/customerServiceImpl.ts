@@ -1,11 +1,13 @@
 import {StoreBook, CatalogueApiResponse} from '../catalogue/catalogueInterface';
 import {Customer, CustomerApi, CustomerApiResponse} from './customerInterface';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 class CustomerServiceImpl implements CustomerApi {
 
   public async displayCustomer(): Promise<Customer> {
     try {
-      const res = await fetch('http://localhost:3000/api/customer');
+      const res = await fetch(`${API_URL}/api/customer`);
 
       const data: CustomerApiResponse = await res.json();
       if (data.success) {
@@ -21,7 +23,7 @@ class CustomerServiceImpl implements CustomerApi {
 
   public async increase(amount: number): Promise<Customer> {
     try {
-      const res = await fetch('http://localhost:3000/api/customer/balance/increase', {
+      const res = await fetch(`${API_URL}/api/customer/balance/increase`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({amount})
@@ -41,7 +43,7 @@ class CustomerServiceImpl implements CustomerApi {
 
   public async displayLibrary(): Promise<StoreBook[]> {
     try {
-      const res = await fetch('http://localhost:3000/api/customer/books');
+      const res = await fetch(`${API_URL}/api/customer/books`);
 
       const data: CatalogueApiResponse = await res.json();
       if (data.success) {
@@ -57,7 +59,7 @@ class CustomerServiceImpl implements CustomerApi {
 
   public async remove(storeBook: StoreBook): Promise<StoreBook[]> {
     try {
-      const res = await fetch('http://localhost:3000/api/customer/books', {
+      const res = await fetch(`${API_URL}/api/customer/books`, {
         method: 'DELETE',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(storeBook)
@@ -77,7 +79,7 @@ class CustomerServiceImpl implements CustomerApi {
 
   public async search(query: string): Promise<StoreBook[]> {
     try {
-      const res = await fetch('http://localhost:3000/api/customer/books/search', {
+      const res = await fetch(`${API_URL}/api/customer/books/search`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({query})
@@ -102,7 +104,7 @@ class CustomerServiceImpl implements CustomerApi {
     formData.append('image', image);
 
     try {
-      const res = await fetch('http://localhost:3000/api/customer/books/add', {
+      const res = await fetch(`${API_URL}/api/customer/books/add`, {
         method: 'POST',
         body: formData,
       });

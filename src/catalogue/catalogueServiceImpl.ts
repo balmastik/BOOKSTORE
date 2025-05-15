@@ -1,10 +1,12 @@
 import {StoreBook, CatalogueApi, CatalogueApiResponse} from './catalogueInterface';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 class CatalogueServiceImpl implements CatalogueApi {
 
   public async display(): Promise<StoreBook[]> {
     try {
-      const res = await fetch('http://localhost:3000/api/books');
+      const res = await fetch(`${API_URL}/api/books`);
 
       const data: CatalogueApiResponse = await res.json();
       if (data.success) {
@@ -21,7 +23,7 @@ class CatalogueServiceImpl implements CatalogueApi {
 
   public async search(query: string): Promise<StoreBook[]> {
     try {
-      const res = await fetch('http://localhost:3000/api/books/search', {
+      const res = await fetch(`${API_URL}/api/books/search`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({query})
@@ -41,7 +43,7 @@ class CatalogueServiceImpl implements CatalogueApi {
 
   public async filter(priceMin: number, priceMax: number, yearMin: number, yearMax: number): Promise<StoreBook[]> {
     try {
-      const res = await fetch('http://localhost:3000/api/books/filter', {
+      const res = await fetch(`${API_URL}/api/books/filter`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({priceMin, priceMax, yearMin, yearMax})
@@ -61,7 +63,7 @@ class CatalogueServiceImpl implements CatalogueApi {
 
   public async sale(storeBook: StoreBook): Promise<StoreBook[]> {
     try {
-      const res = await fetch('http://localhost:3000/api/purchase', {
+      const res = await fetch(`${API_URL}/api/purchase`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(storeBook)

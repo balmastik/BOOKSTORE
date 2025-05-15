@@ -1,10 +1,12 @@
 import {SubscriberApi, SubscriberApiResponse} from './subscriberInterface';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 class SubscriberServiceImpl implements SubscriberApi {
 
   public async subscribe(email: string): Promise<string> {
     try {
-      const res = await fetch('http://localhost:3000/api/subscriber', {
+      const res = await fetch(`${API_URL}/api/subscriber`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({email})

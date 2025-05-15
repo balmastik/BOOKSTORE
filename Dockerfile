@@ -30,20 +30,16 @@ FROM node:18-slim
 WORKDIR /app
 
 # Copy only needed files from the build stage
-COPY --from=build /app/dist /app/dist
-COPY --from=build /app/build /app/build
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/build ./build
 COPY --from=build /app/package*.json ./
 
 # Install only production dependencies
 RUN npm install --only=production
 
-# Expose the backend port
+# Expose the port
 EXPOSE 3000
-EXPOSE 3001
 
-# Install concurrently for both development and production environments
-RUN npm install concurrently --save-dev
-
-# Start both the React and server
-CMD ["npx", "concurrently", "npm run server", "npm run startReact"]
+# Start the server
+CMD ["node", "dist/server.js"]
 

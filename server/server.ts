@@ -1,4 +1,5 @@
 import express, {Request, Response} from 'express';
+import path from 'path';
 import dotenv from 'dotenv';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
@@ -767,9 +768,15 @@ app.post('/api/subscriber', (req: Request, res: Response) => {
   }
 })
 
+app.use(express.static(path.join(__dirname, '../build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
+
 app.listen(port, () => {
   books.forEach(storeBook => store.addBook(storeBook));
   saveCatalogue();
   saveCustomerData();
-  console.log('The server is running on ${port}');
+  console.log(`Server is running on http://localhost:${port}`);
 })

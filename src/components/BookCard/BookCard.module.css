@@ -2,13 +2,12 @@
   @apply relative w-[370px] p-5 text-center border border-[#ccc] rounded-[5px] shadow-[0_2px_5px_rgba(0,0,0,0.1)] bg-white overflow-hidden;
 }
 
-.image,
-.video {
-  @apply w-full h-[350px] object-cover rounded-[5px];
+.image {
+  @apply w-full h-[350px] object-cover object-center rounded-[5px];
 }
 
 .video {
-  @apply max-h-[350px] object-top;
+  @apply w-full max-h-[350px] object-cover object-top rounded-[5px];
 }
 
 .title {

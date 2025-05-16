@@ -19,13 +19,13 @@
 }
 
 .popupContainer {
-  @apply flex justify-evenly gap-[10px] mb-[10px];
+  @apply flex justify-between gap-[10px] mb-[10px];
 }
 
 .denyPopup {
-  @apply flex-1 h-[42px] sm:h-auto py-[10px] px-[5px] text-center text-[12px] sm:text-[14px] font-[500] tracking-[1px] uppercase text-white border-none rounded-[5px] cursor-pointer transition-all bg-[#999] hover:bg-[#ccc];
+  @apply flex-1 min-w-[130px] h-[42px] sm:h-auto py-[10px] px-[5px] text-center text-[12px] sm:text-[14px] font-[500] tracking-[1px] uppercase text-white whitespace-nowrap border-none rounded-[5px] cursor-pointer transition-all bg-[#999] hover:bg-[#ccc];
 }
 
 .confirmPopup {
-  @apply flex-1 h-[42px] sm:h-auto py-[10px] px-[5px] text-center text-[12px] sm:text-[14px] font-[500] tracking-[1px] uppercase text-white border-none rounded-[5px] cursor-pointer transition-all bg-[#f99462] hover:bg-[#ED6019];
+  @apply flex-1 min-w-[130px] h-[42px] sm:h-auto py-[10px] px-[5px] text-center text-[12px] sm:text-[14px] font-[500] tracking-[1px] uppercase text-white whitespace-nowrap border-none rounded-[5px] cursor-pointer transition-all bg-[#f99462] hover:bg-[#ED6019];
 }

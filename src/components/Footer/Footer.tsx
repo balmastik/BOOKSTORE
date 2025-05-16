@@ -47,12 +47,15 @@ const Footer: React.FC<FooterProps> = ({onSubscribe, message}) => {
             onChange={(e) => setSubscribeEmail(e.target.value)}
           />
           <button type="submit" className={styles.newsletterButton}>Subscribe</button>
+          <div className={styles.messageWrapper}>
+            {(message || errorMessage) && (
+              <p className={styles.newsletterMessage}>
+                {errorMessage || message}
+              </p>
+            )}
+          </div>
         </form>
       </div>
-
-      {message && <p className={styles.newsletterMessage}>{message}</p>}
-      {errorMessage && <p className={styles.newsletterMessage}>{errorMessage}</p>}
-
       <nav>
         <ul className={styles.navList}>
           <li><Link to="/" className={styles.navListLink}>PAYMENT</Link></li>

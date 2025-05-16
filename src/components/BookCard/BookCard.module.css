@@ -1,5 +1,9 @@
 .card {
-  @apply relative w-[370px] p-5 text-center border border-[#ccc] rounded-[5px] shadow-[0_2px_5px_rgba(0,0,0,0.1)] bg-white overflow-hidden;
+  @apply
+  relative w-[370px] p-5
+  text-center
+  border border-[#ccc] rounded-[5px]
+  shadow-[0_2px_5px_rgba(0,0,0,0.1)] bg-white overflow-hidden;
 }
 
 .image {
@@ -32,5 +36,9 @@
 }
 
 .bookButton {
-  @apply py-[8px] px-[18px] text-center text-[14px] font-[500] tracking-[1px] uppercase text-white border-none rounded-[5px] cursor-pointer transition-all bg-[#f99462] hover:bg-[#ED6019];
+  @apply
+  py-[8px] px-[18px]
+  text-center text-[14px] font-[500] tracking-[1px] uppercase
+  text-white border-none rounded-[5px] cursor-pointer
+  transition-all bg-[#f99462] hover:bg-[#ED6019];
 }

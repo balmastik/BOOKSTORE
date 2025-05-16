@@ -19,7 +19,7 @@
 }
 
 .newsletterForm {
-  @apply mb-[80px] flex w-full justify-center items-center flex-wrap gap-[10px];
+  @apply flex flex-wrap w-full justify-center items-center mb-[60px] gap-x-[10px] gap-y-[20px];
 }
 
 .newsletterInput {
@@ -34,8 +34,12 @@
   @apply py-[10px] px-[20px] text-center text-[14px] font-[500] tracking-[1px] uppercase text-white border-none rounded-[5px] cursor-pointer transition-all bg-[#f99462] hover:bg-[#ED6019];
 }
 
+.messageWrapper {
+  @apply w-full h-[20px] flex justify-center items-center;
+}
+
 .newsletterMessage {
-  @apply absolute mt-[-55px] text-[16px] text-[#666] text-center left-1/2 transform -translate-x-1/2;
+  @apply text-[16px] text-[#666] text-center;
 }
 
 .navList {

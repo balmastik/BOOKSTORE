@@ -10,7 +10,7 @@ interface BookCardProps {
 
 const BookCard: React.FC<BookCardProps> = ({storeBook, onSale, onRemove}) => {
   const bookMedia = storeBook.book.image.endsWith('.mp4') ? (
-    <video className={styles.video} autoPlay muted loop>
+    <video className={styles.video} autoPlay muted loop playsInline>
       <source src={storeBook.book.image} type="video/mp4"/>
       Your browser does not support video.
     </video>

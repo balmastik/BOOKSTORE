@@ -1,5 +1,7 @@
 .popup {
-  @apply hidden fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.5)] justify-center items-center z-[9999];
+  @apply
+  hidden fixed top-0 left-0 w-full h-full
+  bg-[rgba(0,0,0,0.5)] justify-center items-center z-[9999];
 }
 
 .popupContent {
@@ -7,7 +9,9 @@
 }
 
 .popupTitle {
-  @apply mb-[-5px] no-underline text-[36px] sm:text-[56px] font-[700] tracking-[2px] text-[#333] uppercase;
+  @apply
+  mb-[-5px] no-underline
+  text-[36px] sm:text-[56px] font-[700] tracking-[2px] text-[#333] uppercase;
 }
 
 .popupTagline {
@@ -23,9 +27,17 @@
 }
 
 .denyPopup {
-  @apply flex-1 h-[42px] sm:h-auto py-[10px] px-[10px] text-center text-[14px] font-[500] tracking-[1px] uppercase text-white border-none rounded-[5px] cursor-pointer transition-all bg-[#999] hover:bg-[#ccc];
+  @apply
+  flex-1 h-[42px] sm:h-auto py-[10px] px-[10px]
+  text-center text-[14px] font-[500] tracking-[1px] uppercase
+  text-white border-none rounded-[5px] cursor-pointer
+  transition-all bg-[#999] hover:bg-[#ccc];
 }
 
 .confirmPopup {
-  @apply flex-1 h-[42px] sm:h-auto py-[10px] px-[10px] text-center text-[14px] font-[500] tracking-[1px] uppercase text-white border-none rounded-[5px] cursor-pointer transition-all bg-[#f99462] hover:bg-[#ED6019];
+  @apply
+  flex-1 h-[42px] sm:h-auto py-[10px] px-[10px]
+  text-center text-[14px] font-[500] tracking-[1px] uppercase
+  text-white border-none rounded-[5px] cursor-pointer
+  transition-all bg-[#f99462] hover:bg-[#ED6019];
 }

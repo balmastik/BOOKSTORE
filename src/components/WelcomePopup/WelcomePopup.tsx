@@ -14,7 +14,7 @@ const WelcomePopup: React.FC<WelcomePopupProps> = ({ onDeny, onConfirm }) => {
         <p className={styles.popupTagline}>THE CORNER STORE</p>
         <p className={styles.popupText}>Book and cup of coffee is always a great combo, right?</p>
         <div className={styles.popupContainer}>
-          <button className={styles.denyPopup} onClick={onDeny}>Tea, please</button>
+          <button className={styles.denyPopup} onClick={onDeny}>Tea, please!</button>
           <button className={styles.confirmPopup} onClick={onConfirm}>I agree</button>
         </div>
       </div>

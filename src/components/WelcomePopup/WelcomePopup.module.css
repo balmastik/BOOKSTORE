@@ -3,23 +3,23 @@
 }
 
 .popupContent {
-  @apply w-[580px] h-[320px] py-[20px] px-[50px] text-center rounded-[5px] bg-[#f8f8f8];
+  @apply w-[85%] max-w-[580px] h-auto py-[20px] px-[50px] text-center rounded-[5px] bg-[#f8f8f8];
 }
 
 .popupTitle {
-  @apply mb-[-5px] no-underline text-[56px] font-[700] tracking-[2px] text-[#333] uppercase;
+  @apply mb-[-5px] no-underline text-[36px] sm:text-[56px] font-[700] tracking-[2px] text-[#333] uppercase;
 }
 
 .popupTagline {
-  @apply mb-[60px] text-[16px] font-[400] tracking-[1px] text-[#666] uppercase;
+  @apply mb-[30px] text-[14px] sm:text-[16px] font-[400] tracking-[1px] text-[#666] uppercase;
 }
 
 .popupText {
-  @apply mb-[30px] text-[16px] font-[500] text-[#666];
+  @apply mb-[30px] text-[14px] sm:text-[16px] font-[500] text-[#666];
 }
 
 .popupContainer {
-  @apply flex justify-between gap-[15px];
+  @apply flex justify-between gap-[15px] mb-[10px];
 }
 
 .denyPopup {

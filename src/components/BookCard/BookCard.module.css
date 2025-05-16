@@ -7,7 +7,8 @@
 }
 
 .image {
-  @apply w-full h-[350px] object-cover object-center rounded-[5px];
+  @apply w-full h-[350px] object-cover rounded-[5px];
+  object-position: center center;
 }
 
 .video {

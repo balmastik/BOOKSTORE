@@ -39,7 +39,7 @@
 }
 
 .newsletterMessage {
-  @apply text-[16px] text-[#666] text-center;
+  @apply text-[16px] text-[#666] text-center mt-[10px] sm:mt-0;
 }
 
 .navList {

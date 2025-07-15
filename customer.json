@@ -1,6 +1,18 @@
 {
   "name": "John Doe",
-  "balance": 40,
+  "balance": 22.5,
   "image": "/img/first_customer.jpeg",
-  "purchasedBooks": []
+  "purchasedBooks": [
+    {
+      "book": {
+        "title": "Lost Horizon",
+        "author": "James Hilton",
+        "genre": "Adventure",
+        "year": 1933,
+        "image": "/img/lost_horizon.jpeg",
+        "price": 17.5,
+        "quantity": 1
+      }
+    }
+  ]
 }

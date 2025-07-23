@@ -25,4 +25,4 @@ To set up the project locally, follow these steps:
 
 1. Clone the repository: https://github.com/balmastik/BOOKSTORE.git
 2. Install dependencies for both backend and frontend: npm install
-3. Run the application: npm run build, rpm run server
+3. Run the application: npm run build, npm run server

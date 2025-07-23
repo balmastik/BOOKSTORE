@@ -1,4 +1,6 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -80,9 +82,27 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'public/index.html',
+      inject: 'body',
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: 'public/img', to: 'img' },
+        { from: 'public/video', to: 'video' },
+        { from: 'public/icon', to: 'icon' },
+        { from: 'public/favicon.ico', to: 'favicon.ico' },
+        { from: 'public/robots.txt', to: 'robots.txt' },
+        { from: 'public/icon.png', to: 'icon.png' },
+        { from: 'public/404.html', to: '404.html' },
+        { from: 'public/site.webmanifest', to: 'site.webmanifest' },
+      ],
+    }),
+  ],
   optimization: {
     splitChunks: {
       chunks: 'all',
     }
-  }
+  },
 }

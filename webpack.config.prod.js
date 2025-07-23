@@ -1,5 +1,6 @@
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
+const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
@@ -10,23 +11,10 @@ module.exports = merge(common, {
     index: './src/pages/CataloguePage.tsx',
     customer: './src/pages/CustomerPage.tsx',
   },
-  resolve: {
-    fallback: {
-      "zlib": require.resolve("browserify-zlib"),
-      "http": require.resolve("stream-http"),
-      "crypto": require.resolve("crypto-browserify"),
-      "path": require.resolve("path-browserify"),
-      "stream": require.resolve("stream-browserify"),
-      "buffer": require.resolve("buffer/"),
-      "fs": false,
-      "querystring": require.resolve("querystring-es3"),
-      "util": require.resolve("util/"),
-      "url": require.resolve("url/"),
-      "assert": require.resolve("assert/"),
-      "net": false,
-      "async_hooks": false,
-      "vm": require.resolve("vm-browserify"),
-    }
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+    splitChunks: common.optimization.splitChunks,
   },
   plugins: [
     new HtmlWebpackPlugin({

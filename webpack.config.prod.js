@@ -35,12 +35,6 @@ module.exports = merge(common, {
       inject: 'body',
       chunks: ['index'],
     }),
-    new HtmlWebpackPlugin({
-      template: 'public/customer.html',
-      filename: 'customer.html',
-      inject: 'body',
-      chunks: ['customer'],
-    }),
     new CopyPlugin({
       patterns: [
         { from: 'public/img', to: 'img' },

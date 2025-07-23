@@ -18,7 +18,7 @@ const AddBook: React.FC<AddBookProps> = ({onAddBook}) => {
     const file = event.target.files?.[0];
     if (file) {
       setBookImage(file);
-      setImageName(file.name); // Обновляем имя файла
+      setImageName(file.name);
     }
   };
 

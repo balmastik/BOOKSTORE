@@ -1,16 +1,27 @@
 {
   "name": "John Doe",
-  "balance": 22.5,
+  "balance": 47.010000000000005,
   "image": "/img/first_customer.jpeg",
   "purchasedBooks": [
     {
       "book": {
-        "title": "Lost Horizon",
-        "author": "James Hilton",
-        "genre": "Adventure",
-        "year": 1933,
-        "image": "/img/lost_horizon.jpeg",
-        "price": 17.5,
+        "title": "The Forsyte Saga",
+        "author": "John Galsworthy",
+        "genre": "Novel",
+        "year": 1906,
+        "image": "/img/the_forsyte_saga.jpeg",
+        "price": 22.99,
+        "quantity": 1
+      }
+    },
+    {
+      "book": {
+        "title": "Gone with the wind",
+        "author": "Margaret Mitchell",
+        "genre": "not specified",
+        "year": 0,
+        "image": "/uploads/17ae90266b0441cea3ab1ca3fe8a50fc",
+        "price": 0,
         "quantity": 1
       }
     }

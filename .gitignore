@@ -5,4 +5,7 @@ node_modules
 dist
 .idea
 .cache
+uploads
+catalogue.json
+customer.json
 

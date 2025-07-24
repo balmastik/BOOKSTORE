@@ -7,10 +7,10 @@ module.exports = merge(common, {
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
-    port: 63342,
+    port: 3001,
     hot: true,
     open: true,
-    static: path.resolve(__dirname, 'dist'),
+    static: path.resolve(__dirname, 'public'),
     proxy: [
       {
         context: ['/api'],
@@ -19,6 +19,11 @@ module.exports = merge(common, {
         changeOrigin: true,
       }
     ],
+  },
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].js',
+    publicPath: '/',
   },
   plugins: [
     new HtmlWebpackPlugin({

@@ -10,3 +10,6 @@ uploads
 catalogue.json
 customer.json
 subscriber.json
+webpack.common.js
+webpack.config.dev.js
+webpack.config.prod.js

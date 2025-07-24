@@ -1,20 +1,13 @@
-const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: {
-    index: './src/index.tsx',
-  },
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    clean: true,
-    filename: '[name].js',
-    publicPath: '/',
-  },
+  entry: './src/index.tsx',
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     fallback: {
+      "process": require.resolve("process/browser"),
       "zlib": require.resolve("browserify-zlib"),
       "http": require.resolve("stream-http"),
       "crypto": require.resolve("crypto-browserify"),
@@ -86,6 +79,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'public/index.html',
       inject: 'body',
+    }),
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(process.env),
     }),
     new CopyPlugin({
       patterns: [

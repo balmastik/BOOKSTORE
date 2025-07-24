@@ -89,5 +89,3 @@ export class Store {
       .join('\n\n');
   }
 }
-
-

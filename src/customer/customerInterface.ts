@@ -25,4 +25,3 @@ export interface CustomerApiResponse {
   customer: Customer;
   error?: string;
 }
-

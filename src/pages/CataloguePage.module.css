@@ -13,4 +13,3 @@
 .catalogueMessage, .loadingMessage {
   @apply text-[16px] text-[#666] text-center;
 }
-

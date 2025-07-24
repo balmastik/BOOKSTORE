@@ -110,4 +110,3 @@ const catalogueSlice = createSlice({
 export const {setMessage, clearSearch} = catalogueSlice.actions;
 
 export default catalogueSlice.reducer;
-

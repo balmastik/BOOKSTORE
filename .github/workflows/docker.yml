@@ -37,5 +37,3 @@ jobs:
         run: |
           docker build -t balmastik/knigboom:latest .
           docker push balmastik/knigboom:latest
-
-

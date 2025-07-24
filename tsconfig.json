@@ -26,4 +26,3 @@
   "include": ["src/**/*", "server/**/*",],
   "exclude": ["node_modules"]
 }
-

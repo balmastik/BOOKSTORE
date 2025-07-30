@@ -1,17 +1,26 @@
-import express, {Request, Response} from 'express';
-import path from 'path';
-import dotenv from 'dotenv';
-import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
+import path from 'path';
+
+import dotenv from 'dotenv';
+
+import express, {Request, Response} from 'express';
 import cors from 'cors';
 import multer from 'multer';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
 import {StoreBook} from './storeBook/storeBook';
 import {Store} from './store/store';
 import {Newsletter} from './mail/emails';
 import {books} from './storeBook/storeBooksData';
 import {customer} from './customer/customerData';
+
+dotenv.config();
+const port = process.env.PORT || 3000;
+
+const app = express();
+const store = new Store();
+const newsletter = new Newsletter();
 
 const swaggerOptions = {
   definition: {
@@ -27,22 +36,23 @@ const swaggerOptions = {
   },
   apis: ['./server/server.ts'],
 };
-
-const app = express();
-dotenv.config();
-const port = process.env.PORT || 3000;
 const swaggerDocs = swaggerJSDoc(swaggerOptions);
+
+const corsOptions = {
+  origin: 'http://localhost:3001',
+  methods: ['GET', 'POST', 'DELETE'],
+  allowedHeaders: ['Content-Type']
+};
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use('/uploads', express.static('uploads'));
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 const upload = multer({
   dest: 'uploads/',
   limits: {fileSize: 10 * 1024 * 1024}
 });
-const store = new Store();
-const newsletter = new Newsletter();
-
-app.use(cors());
-app.use(express.json());
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-app.use('/uploads', express.static('uploads'));
 
 function saveCatalogue() {
   const catalogue = Array.from(store.catalogue.values());

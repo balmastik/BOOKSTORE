@@ -11,7 +11,7 @@ const Search: React.FC<SearchProps> = ({onSearch, onClearSearch, onOpenFilter}) 
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = () => {
-    const query = searchTerm.toLowerCase().trim();
+    const query = searchTerm;
     if (query === '') {
       onClearSearch();
     } else {

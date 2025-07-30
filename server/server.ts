@@ -155,7 +155,7 @@ app.get('/api/books', (req: Request, res: Response) => {
  */
 app.post('/api/books/search', (req: Request, res: Response) => {
   try {
-    const query: string = req.body.query;
+    const query: string = req.body.query.toLowerCase().trim();
 
     if (query == null) {
       return res.status(400).json({

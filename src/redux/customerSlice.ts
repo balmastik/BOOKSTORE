@@ -19,39 +19,41 @@ const initialState: CustomerState = {
   isLoading: false,
 };
 
-export const loadCustomer = createAsyncThunk('customer/loadCustomer', async () => {
-  const customer = await customerServiceImpl.displayCustomer();
-  return customer;
-});
+export const loadCustomer = createAsyncThunk(
+  'customer/loadCustomer',
+  async () => {
+    return await customerServiceImpl.displayCustomer();
+  });
 
-export const increaseBalance = createAsyncThunk('customer/increaseBalance', async (amount: number) => {
-  const customer = await customerServiceImpl.increase(amount);
-  return customer;
-});
+export const increaseBalance = createAsyncThunk(
+  'customer/increaseBalance',
+  async (amount: number) => {
+    return await customerServiceImpl.increase(amount);
+  });
 
-export const loadLibrary = createAsyncThunk('customer/loadLibrary', async () => {
-  const books = await customerServiceImpl.displayLibrary();
-  return books;
-});
+export const loadLibrary = createAsyncThunk(
+  'customer/loadLibrary',
+  async () => {
+    return await customerServiceImpl.displayLibrary();
+  });
 
-export const removeBook = createAsyncThunk('customer/removeBook', async (storeBook: StoreBook) => {
-  const books = await customerServiceImpl.remove(storeBook);
-  return books;
-});
+export const removeBook = createAsyncThunk(
+  'customer/removeBook',
+  async (storeBook: StoreBook) => {
+    return await customerServiceImpl.remove(storeBook);
+  });
 
-export const searchBooks = createAsyncThunk('customer/searchBooks', async (query: string) => {
-  const books = await customerServiceImpl.search(query);
-  return books;
-});
+export const searchBooks = createAsyncThunk(
+  'customer/searchBooks',
+  async (query: string) => {
+    return await customerServiceImpl.search(query);
+  });
 
-export const addBook = createAsyncThunk('customer/addBook', async (bookData: {
-  title: string,
-  author: string,
-  image: File
-}) => {
-  const books = await customerServiceImpl.add(bookData.title, bookData.author, bookData.image);
-  return books;
-});
+export const addBook = createAsyncThunk(
+  'customer/addBook',
+  async (bookData: { title: string, author: string, image: File }) => {
+    return await customerServiceImpl.add(bookData.title, bookData.author, bookData.image);
+  });
 
 const customerSlice = createSlice({
   name: 'customer',
@@ -75,7 +77,7 @@ const customerSlice = createSlice({
       })
       .addCase(loadCustomer.rejected, (state, action) => {
         state.isLoading = false;
-        state.message = (action.error.message as string)  || 'Error loading customer data';
+        state.message = action.error?.message?.trim() || 'Error loading customer data';
       })
       .addCase(increaseBalance.pending, (state) => {
         state.isLoading = true;
@@ -87,7 +89,7 @@ const customerSlice = createSlice({
       })
       .addCase(increaseBalance.rejected, (state, action) => {
         state.isLoading = false;
-        state.message = (action.error.message as string) || 'Error increasing balance';
+        state.message = action.error?.message?.trim() || 'Error increasing balance';
       })
       .addCase(loadLibrary.pending, (state) => {
         state.isLoading = true;
@@ -99,7 +101,7 @@ const customerSlice = createSlice({
       })
       .addCase(loadLibrary.rejected, (state, action) => {
         state.isLoading = false;
-        state.message = (action.error.message as string)  || 'Error loading library';
+        state.message = action.error?.message?.trim() || 'Error loading library';
       })
       .addCase(removeBook.pending, (state) => {
         state.isLoading = true;
@@ -110,7 +112,7 @@ const customerSlice = createSlice({
       })
       .addCase(removeBook.rejected, (state, action) => {
         state.isLoading = false;
-        state.message = (action.error.message as string) || 'Error removing book';
+        state.message = action.error?.message?.trim() || 'Error removing book';
       })
       .addCase(searchBooks.pending, (state) => {
         state.isLoading = true;
@@ -121,7 +123,7 @@ const customerSlice = createSlice({
       })
       .addCase(searchBooks.rejected, (state, action) => {
         state.isLoading = false;
-        state.message = (action.error.message as string)  || 'Error searching books';
+        state.message = action.error?.message?.trim() || 'Error searching books';
       })
       .addCase(addBook.pending, (state) => {
         state.isLoading = true;
@@ -133,7 +135,7 @@ const customerSlice = createSlice({
       })
       .addCase(addBook.rejected, (state, action) => {
         state.isLoading = false;
-        state.message = (action.error.message as string)  || 'Error adding book';
+        state.message = action.error?.message?.trim() || 'Error adding book';
       })
   },
 });

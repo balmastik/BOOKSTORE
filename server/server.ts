@@ -113,13 +113,10 @@ app.get('/api/books', (req: Request, res: Response) => {
   try {
     const data = fs.readFileSync('catalogue.json', 'utf8');
     const books: StoreBook[] = JSON.parse(data);
-    res.json({
-      success: true,
-      books: books,
-    });
+    return res.status(200).json({success: true, books: books});
   } catch (error) {
     console.error("Error loading books:", error);
-    res.status(500).json({error: "Error loading books"});
+    return res.status(500).json({success: false, error: "Error loading books"});
   }
 })
 
@@ -167,27 +164,22 @@ app.post('/api/books/search', (req: Request, res: Response) => {
   try {
     const query: string = req.body.query.toLowerCase().trim();
 
-    if (query == null) {
-      return res.status(400).json({
-        success: false,
-        error: "Missing required search parameters"
-      });
+    if (!query) {
+      return res.status(400).json({success: false, error: "Missing required search parameters"});
     }
 
     const book = {
       title: query,
       author: query,
       genre: query
-    }
+    };
 
     const foundBooks = store.searchBook(book);
-    res.status(200).json({
-      success: true,
-      books: foundBooks
-    });
+    return res.status(200).json({success: true, books: foundBooks});
+
   } catch (error) {
     console.error("Searching book error:", error);
-    res.status(500).json({error: "Searching book error"});
+    return res.status(500).json({success: false, error: "Searching book error"});
   }
 })
 
@@ -249,20 +241,15 @@ app.post('/api/books/filter', (req: Request, res: Response) => {
     const {priceMin, priceMax, yearMin, yearMax} = req.body;
 
     if (priceMin == null || priceMax == null || yearMin == null || yearMax == null) {
-      return res.status(400).json({
-        success: false,
-        error: "Missing required filter parameters"
-      });
+      return res.status(400).json({success: false, error: "Missing required filter parameters"});
     }
 
     const foundBooks = store.filterBooks(priceMin, priceMax, yearMin, yearMax);
-    res.status(200).json({
-      success: true,
-      books: foundBooks
-    });
+    return res.status(200).json({success: true, books: foundBooks});
+
   } catch (error) {
     console.error("Error filtering books:", error);
-    res.status(500).json({error: "Error filtering books"});
+    return res.status(500).json({success: false, error: "Error filtering books"});
   }
 })
 
@@ -294,13 +281,11 @@ app.get('/api/customer', (req: Request, res: Response) => {
   try {
     const customerData = fs.readFileSync('customer.json', 'utf8');
     const customer = JSON.parse(customerData);
-    res.json({
-      success: true,
-      customer: customer
-    });
+    return res.status(200).json({success: true, customer: customer});
+
   } catch (error) {
     console.error('Error loading customer data:', error);
-    res.status(500).json({error: 'Error loading customer data'});
+    return res.status(500).json({success: false, error: 'Error loading customer data'});
   }
 })
 
@@ -349,30 +334,21 @@ app.get('/api/customer', (req: Request, res: Response) => {
 app.post('/api/customer/balance/increase', (req: Request, res: Response) => {
   try {
     const amount: number = req.body.amount;
-
     if (amount == null) {
-      return res.status(400).json({
-        success: false,
-        error: "Please enter a valid positive number"
-      });
+      return res.status(400).json({success: false, error: "Please enter a valid positive number"});
     }
 
     const success = customer.addFunds(amount);
-
     if (success) {
       saveCustomerData();
-
       const customerData = fs.readFileSync('customer.json', 'utf8');
       const updatedCustomer = JSON.parse(customerData);
-
-      res.json({
-        success: true,
-        customer: updatedCustomer
-      });
+      return res.status(200).json({success: true, customer: updatedCustomer});
     }
+
   } catch (error) {
     console.error("Error increasing customer balance:", error);
-    res.status(500).json({error: 'Error increasing customer balance'});
+    return res.status(500).json({success: false, error: 'Error increasing customer balance'});
   }
 })
 
@@ -408,14 +384,10 @@ app.get('/api/customer/books', (req: Request, res: Response) => {
     const data = fs.readFileSync('customer.json', 'utf8');
     const customerData = JSON.parse(data);
     const books = customerData.purchasedBooks;
-
-    res.json({
-      success: true,
-      books: books
-    });
+    return res.status(200).json({success: true, books: books});
   } catch (error) {
     console.error("Error loading customer books:", error);
-    res.status(500).json({error: 'Error loading customer books'});
+    return res.status(500).json({success: false, error: 'Error loading customer books'});
   }
 })
 
@@ -464,27 +436,22 @@ app.post('/api/customer/books/search', (req: Request, res: Response) => {
   try {
     const query: string = req.body.query;
 
-    if (query == null) {
-      return res.status(400).json({
-        success: false,
-        error: "Missing required search parameters"
-      });
+    if (!query) {
+      return res.status(400).json({success: false, error: "Missing required search parameters"});
     }
 
     const book = {
       title: query,
       author: query,
       genre: query
-    }
+    };
 
     const foundBooks = customer.searchBook(book);
-    res.status(200).json({
-      success: true,
-      books: foundBooks
-    });
+    return res.status(200).json({success: true, books: foundBooks});
+
   } catch (error) {
     console.error("Searching book error:", error);
-    res.status(500).json({error: "Searching book error"});
+    return res.status(500).json({success: false, error: "Searching book error"});
   }
 })
 
@@ -541,10 +508,7 @@ app.post('/api/customer/books/add', upload.single('image'), (req: Request, res: 
     const imageUrl = `/uploads/${req.file?.filename}`;
 
     if (title == null || author == null || imageUrl == null) {
-      return res.status(400).json({
-        success: false,
-        error: "Missing required book parameters"
-      });
+      return res.status(400).json({success: false, error: "Missing required book parameters"});
     }
 
     let storeBook = new StoreBook({
@@ -562,15 +526,12 @@ app.post('/api/customer/books/add', upload.single('image'), (req: Request, res: 
       const libraryData = fs.readFileSync('customer.json', 'utf8');
       const customerData = JSON.parse(libraryData);
       const updatedBooks = customerData.purchasedBooks;
-
-      res.json({
-        success: true,
-        books: updatedBooks,
-      });
+      return res.status(200).json({success: true, books: updatedBooks});
     }
+
   } catch (error) {
     console.error('Error adding book:', error);
-    res.status(500).json({error: 'Error adding book'});
+    return res.status(500).json({success: false, error: 'Error adding book'});
   }
 })
 
@@ -616,24 +577,17 @@ app.delete('/api/customer/books', (req: Request, res: Response) => {
 
     if (success) {
       saveCustomerData();
-
       const libraryData = fs.readFileSync('customer.json', 'utf8');
       const customerData = JSON.parse(libraryData);
       const updatedBooks = customerData.purchasedBooks;
-
-      res.json({
-        success: true,
-        books: updatedBooks,
-      });
+      return res.status(200).json({success: true, books: updatedBooks});
     } else {
-      res.status(400).json({
-        success: false,
-        error: "Book has not been found in the library"
-      });
+      return res.status(400).json({success: false, error: "Book has not been found in the library"});
     }
+
   } catch (error) {
     console.error('Error removing book:', error);
-    res.status(500).json({error: 'Error removing book'});
+    return res.status(500).json({success: false, error: 'Error removing book'});
   }
 });
 
@@ -687,26 +641,16 @@ app.post('/api/purchase', (req: Request, res: Response) => {
 
         const data = fs.readFileSync('catalogue.json', 'utf8');
         const updatedBooks: StoreBook[] = JSON.parse(data);
-
-        res.json({
-          success: true,
-          books: updatedBooks,
-        });
+        return res.status(200).json({success: true, books: updatedBooks});
       } else {
-        return res.status(400).json({
-          success: false,
-          error: "Please increase the balance to purchase the book",
-        });
+        return res.status(400).json({success: false, error: "Please increase the balance to purchase the book",});
       }
     } else {
-      return res.status(400).json({
-        success: false,
-        error: "Book is not available in the store",
-      });
+      return res.status(400).json({success: false, error: "Book is not available in the store"});
     }
   } catch (error) {
     console.error("Error loading purchase:", error);
-    res.status(500).json({error: "Error loading purchase"});
+    return res.status(500).json({success: false, error: "Error loading purchase"});
   }
 })
 
@@ -760,21 +704,16 @@ app.post('/api/subscriber', (req: Request, res: Response) => {
     const email: string = req.body.email;
 
     if (newsletter.subscribers.includes(email)) {
-      return res.status(400).json({
-        success: false,
-        error: 'You have already been subscribed to our newsletter'
-      });
+      return res.status(400).json({success: false, error: 'You have already been subscribed to our newsletter'});
     }
 
     newsletter.subscribers.push(email);
     saveSubscriberData();
-    return res.json({
-      success: true,
-      message: 'You have successfully subscribed to our newsletter'
-    });
+    return res.status(200).json({success: true, message: 'You have successfully subscribed to our newsletter'});
+
   } catch (error) {
     console.error('Subscribing email error:', error);
-    res.status(500).json({error: "Subscribing email error"});
+    return res.status(500).json({success: false, error: "Subscribing email error"});
   }
 })
 

@@ -16,33 +16,34 @@ const initialState: CatalogueState = {
   isLoading: false,
 };
 
-export const loadBooks = createAsyncThunk('catalogue/loadBooks', async () => {
-  const books = await catalogueServiceImpl.display();
-  return books;
-});
+export const loadBooks = createAsyncThunk(
+  'catalogue/loadBooks',
+  async () => {
+    return await catalogueServiceImpl.display();
+  });
 
-export const searchBooks = createAsyncThunk('catalogue/searchBooks', async (query: string) => {
-  const books = await catalogueServiceImpl.search(query);
-  return books;
-});
+export const searchBooks = createAsyncThunk(
+  'catalogue/searchBooks',
+  async (query: string) => {
+    return await catalogueServiceImpl.search(query);
+  });
 
 export const filterBooks = createAsyncThunk(
   'catalogue/filterBooks',
   async (filters: { priceMin: number; priceMax: number; yearMin: number; yearMax: number }) => {
-    const books = await catalogueServiceImpl.filter(
+    return await catalogueServiceImpl.filter(
       filters.priceMin,
       filters.priceMax,
       filters.yearMin,
       filters.yearMax
     );
-    return books;
-  }
-);
+  });
 
-export const saleBook = createAsyncThunk('catalogue/saleBook', async (storeBook: StoreBook) => {
-  const books = await catalogueServiceImpl.sale(storeBook);
-  return books;
-});
+export const saleBook = createAsyncThunk(
+  'catalogue/saleBook',
+  async (storeBook: StoreBook) => {
+    return await catalogueServiceImpl.sale(storeBook);
+  });
 
 const catalogueSlice = createSlice({
   name: 'catalogue',
@@ -67,7 +68,7 @@ const catalogueSlice = createSlice({
       })
       .addCase(loadBooks.rejected, (state, action) => {
         state.isLoading = false;
-        state.message = (action.error.message as string) || 'Error loading books';
+        state.message = action.error?.message?.trim() || 'Error loading books';
       })
 
       .addCase(searchBooks.pending, (state) => {
@@ -79,7 +80,7 @@ const catalogueSlice = createSlice({
       })
       .addCase(searchBooks.rejected, (state, action) => {
         state.isLoading = false;
-        state.message = (action.error.message as string) || 'Error searching books';
+        state.message = action.error?.message?.trim() || 'Error searching books';
       })
       .addCase(filterBooks.pending, (state) => {
         state.isLoading = true;
@@ -90,7 +91,7 @@ const catalogueSlice = createSlice({
       })
       .addCase(filterBooks.rejected, (state, action) => {
         state.isLoading = false;
-        state.message = (action.error.message as string) || 'Error filtering books';
+        state.message = action.error?.message?.trim() || 'Error filtering books';
       })
       .addCase(saleBook.pending, (state) => {
         state.isLoading = true;
@@ -102,7 +103,7 @@ const catalogueSlice = createSlice({
       })
       .addCase(saleBook.rejected, (state, action) => {
         state.isLoading = false;
-        state.message = (action.error.message as string) || 'Error selling book';
+        state.message = action.error?.message?.trim() || 'Error selling book';
       });
   },
 });

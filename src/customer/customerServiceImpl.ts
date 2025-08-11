@@ -5,19 +5,29 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 class CustomerServiceImpl implements CustomerApi {
 
+  private async parseCustomerResponse(res: Response): Promise<Customer> {
+    const data: CustomerApiResponse = await res.json();
+    if (!data.success) {
+      throw new Error(data.error || 'Unknown error from server response.');
+    }
+    return data.customer;
+  }
+
+  private async parseCatalogueResponse(res: Response): Promise<StoreBook[]> {
+    const data: CatalogueApiResponse = await res.json();
+    if (!data.success) {
+      throw new Error(data.error || 'Unknown error from server response.');
+    }
+    return data.books;
+  }
+
   public async displayCustomer(): Promise<Customer> {
     try {
       const res = await fetch(`${API_URL}/api/customer`);
-
-      const data: CustomerApiResponse = await res.json();
-      if (data.success) {
-        return data.customer;
-      } else {
-        throw new Error(data.error || 'Unknown error');
-      }
+      return await this.parseCustomerResponse(res);
     } catch (error) {
-      console.error('Error while customer display:', error);
-      throw new Error(error as string || 'Server error while loading customer. Please try again later');
+      console.error('Error while customer display:', (error as Error).message);
+      throw new Error((error as Error).message || 'Server error while loading customer. Please try again later');
     }
   }
 
@@ -28,32 +38,20 @@ class CustomerServiceImpl implements CustomerApi {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({amount})
       });
-
-      const data: CustomerApiResponse = await res.json();
-      if (data.success) {
-        return data.customer;
-      } else {
-        throw new Error(data.error || 'Unknown error');
-      }
+      return await this.parseCustomerResponse(res);
     } catch (error) {
-      console.error('Error while balance increase:', error);
-      throw new Error(error as string || 'Server error while increasing balance. Please try again later');
+      console.error('Error while balance increase:', (error as Error).message);
+      throw new Error((error as Error).message || 'Server error while increasing balance. Please try again later');
     }
   }
 
   public async displayLibrary(): Promise<StoreBook[]> {
     try {
       const res = await fetch(`${API_URL}/api/customer/books`);
-
-      const data: CatalogueApiResponse = await res.json();
-      if (data.success) {
-        return data.books;
-      } else {
-        throw new Error(data.error || 'Unknown error');
-      }
+      return await this.parseCatalogueResponse(res);
     } catch (error) {
-      console.error('Error while books display:', error);
-      throw new Error(error as string || 'Server error while loading books. Please try again later');
+      console.error('Error while books display:', (error as Error).message);
+      throw new Error((error as Error).message || 'Server error while loading books. Please try again later');
     }
   }
 
@@ -64,16 +62,10 @@ class CustomerServiceImpl implements CustomerApi {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(storeBook)
       });
-
-      const data: CatalogueApiResponse = await res.json();
-      if (data.success) {
-        return data.books;
-      } else {
-        throw new Error(data.error || 'Unknown error');
-      }
+      return await this.parseCatalogueResponse(res);
     } catch (error) {
-      console.error('Error while book remove:', error);
-      throw new Error(error as string || 'Server error while removing book. Please try again later');
+      console.error('Error while book remove:', (error as Error).message);
+      throw new Error((error as Error).message || 'Server error while removing book. Please try again later');
     }
   }
 
@@ -84,16 +76,10 @@ class CustomerServiceImpl implements CustomerApi {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({query})
       });
-
-      const data: CatalogueApiResponse = await res.json();
-      if (data.success) {
-        return data.books;
-      } else {
-        throw new Error(data.error || 'Unknown error');
-      }
+      return await this.parseCatalogueResponse(res);
     } catch (error) {
-      console.error('Error while books search:', error);
-      throw new Error(error as string || 'Server error while searching books. Please try again later');
+      console.error('Error while books search:', (error as Error).message);
+      throw new Error((error as Error).message || 'Server error while searching books. Please try again later');
     }
   }
 
@@ -108,16 +94,10 @@ class CustomerServiceImpl implements CustomerApi {
         method: 'POST',
         body: formData,
       });
-
-      const data: CatalogueApiResponse = await res.json();
-      if (data.success) {
-        return data.books;
-      } else {
-        throw new Error(data.error || 'Unknown error');
-      }
+      return await this.parseCatalogueResponse(res);
     } catch (error) {
-      console.error('Error while book add:', error);
-      throw new Error(error as string || 'Server error while adding book. Please try again later');
+      console.error('Error while book add:', (error as Error).message);
+      throw new Error((error as Error).message || 'Server error while adding book. Please try again later');
     }
   }
 }

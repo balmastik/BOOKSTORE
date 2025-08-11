@@ -11,10 +11,11 @@ const initialState: AppState = {
   isLoading: false,
 };
 
-export const subscribeEmail = createAsyncThunk<string, string>('app/subscribeEmail', async (email: string) => {
-  const message = await subscriberServiceImpl.subscribe(email);
-  return message;
-});
+export const subscribeEmail = createAsyncThunk<string, string>(
+  'app/subscribeEmail',
+  async (email: string) => {
+    return await subscriberServiceImpl.subscribe(email);
+  });
 
 const appSlice = createSlice({
   name: 'app',
@@ -35,7 +36,7 @@ const appSlice = createSlice({
       })
       .addCase(subscribeEmail.rejected, (state, action) => {
         state.isLoading = false;
-        state.message = (action.error.message as string)  || 'Error subscribing Email';
+        state.message = action.error?.message?.trim() || 'Error subscribing Email';
       })
   },
 });

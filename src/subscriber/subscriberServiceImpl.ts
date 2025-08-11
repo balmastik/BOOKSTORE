@@ -8,19 +8,20 @@ class SubscriberServiceImpl implements SubscriberApi {
     try {
       const res = await fetch(`${API_URL}/api/subscriber`, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({email})
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
       });
 
       const data: SubscriberApiResponse = await res.json();
-      if (data.success) {
-        return data.message;
-      } else {
-        return data.error || 'Unknown error while email subscribing';
+      if (!data.success) {
+        throw new Error(data.error || 'Unknown error while email subscribing');
       }
+
+      return data.message;
+
     } catch (error) {
-      console.error('Error while email subscribing:', error);
-      return 'Server error. Please try again later';
+      console.error('Error while email subscribing:', (error as Error).message);
+      throw new Error((error as Error).message || 'Server error. Please try again later');
     }
   }
 }
